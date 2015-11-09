@@ -13,7 +13,7 @@ Window {
         anchors.fill: parent
         color: "darkgreen"
         Rectangle{
-            id: activArea
+            id: activeArea
             anchors.centerIn: parent
             width: 600
             height: 400
@@ -21,18 +21,23 @@ Window {
 
             Rectangle{
                 id: mainMenu
+                enabled: !loaderArea.visible
                 anchors.fill: parent
                 Grid{
                     anchors.fill: parent
-                    Button{
+                    MinigamesButton{
                         text: "Snake"
                         onClicked: rootLoader.source = "Snake.qml"
                     }
-                    Button{
+                    MinigamesButton{
                         text: "2048"
                         onClicked: rootLoader.source = "Numbers.qml"
                     }
-                    Button{
+                    MinigamesButton{
+                        text: "Tetris"
+                        onClicked: rootLoader.source = "Tetris.qml"
+                    }
+                    MinigamesButton{
                         text: "Quit"
                         onClicked: Qt.quit()
                     }
@@ -40,6 +45,7 @@ Window {
             }
 
             Rectangle{
+                id:loaderArea
                 visible: rootLoader.status === Loader.Ready
                 anchors.fill: parent
                 border.width: 1

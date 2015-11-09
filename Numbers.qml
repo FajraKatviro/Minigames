@@ -1,5 +1,4 @@
 import QtQuick 2.4
-import QtQuick.Controls 1.3
 
 Rectangle{
     anchors.fill: parent
@@ -20,7 +19,7 @@ Rectangle{
         }
         Column{
             anchors.fill: parent
-            Button{
+            MinigamesButton{
                 text: "Back to menu"
                 onClicked: quitRequested()
             }

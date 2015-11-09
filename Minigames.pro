@@ -9,7 +9,10 @@ SOURCES += main.cpp
 
 DESTDIR = $$PWD
 
-OTHER_FILES += main.qml Snake.qml Numbers.qml
+OTHER_FILES += main.qml MinigamesButton.qml \
+                Snake.qml \
+                Numbers.qml \
+                Tetris.qml TetrisBlock.qml
 
 INCLUDEPATH += tmp/moc/release_shared
 

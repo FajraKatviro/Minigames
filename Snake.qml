@@ -1,6 +1,4 @@
 import QtQuick 2.5
-import QtQuick.Window 2.2
-import QtQuick.Controls 1.4
 
 Rectangle{
     id: rootComponent
@@ -260,21 +258,15 @@ Rectangle{
             Row{
                 anchors.centerIn: parent
                 spacing: 25
-                Button{
-                    height: 50
-                    width: 100
+                MinigamesButton{
                     text: "Long mode"
                     onClicked: newGame(true)
                 }
-                Button{
-                    height: 50
-                    width: 100
+                MinigamesButton{
                     text: "Fast mode"
                     onClicked: newGame(false)
                 }
-                Button{
-                    height: 50
-                    width: 100
+                MinigamesButton{
                     text: "Back to menu"
                     onClicked: rootComponent.quitRequested()
                 }
