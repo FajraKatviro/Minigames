@@ -9,7 +9,7 @@ SOURCES += main.cpp
 
 DESTDIR = $$PWD
 
-OTHER_FILES += main.qml MinigamesButton.qml \
+OTHER_FILES += main.qml MinigamesButton.qml MinigamesTouchArea.qml \
                 Snake.qml \
                 Numbers.qml \
                 Tetris.qml TetrisBlock.qml

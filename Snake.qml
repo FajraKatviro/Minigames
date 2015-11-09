@@ -71,7 +71,7 @@ Rectangle{
             width: pointSize
             height: pointSize
             border.width: 1
-            radius: pointSize/2
+            radius: strictMode ? 0 : pointSize/2
 
             x: objX
             y: objY
@@ -197,33 +197,13 @@ Rectangle{
         }
     }
 
-    MouseArea{
+    MinigamesTouchArea{
         anchors.fill: parent
-        property int swipeLen: 20
-        property int oldX
-        property int oldY
-        onPressed:{
-            oldX=mouse.x
-            oldY=mouse.y
-        }
-        onReleased:{
-            var deltaX=mouse.x-oldX
-            var deltaY=mouse.y-oldY
-            if(Math.abs(deltaX)<swipeLen)deltaX=0
-            if(Math.abs(deltaY)<swipeLen)deltaY=0
-            if(Math.abs(deltaY)>=Math.abs(deltaX))
-                deltaX=0
-            else
-                deltaY=0
-            deltaX = deltaX>0 ? 1 : deltaX<0 ? -1 : 0
-            deltaY = deltaY>0 ? 1 : deltaY<0 ? -1 : 0
-            swapDirection(deltaY,deltaX)
-        }
-        focus: true
-        Keys.onLeftPressed: swapDirection(0,-1)
-        Keys.onRightPressed: swapDirection(0,1)
-        Keys.onUpPressed: swapDirection(-1,0)
-        Keys.onDownPressed: swapDirection(1,0)
+
+        onLeftRequested: swapDirection(0,-1)
+        onRightRequested: swapDirection(0,1)
+        onUpRequested: swapDirection(-1,0)
+        onDownRequested: swapDirection(1,0)
     }
 
     Rectangle{

@@ -8,14 +8,9 @@ Rectangle{
     property int blockSize: mainArea.width / 10
     property int frameDuration: 500
 
+    property int nextSource: 0
     property int currentSource: 0
     property var blockTemplates: [line,tBlock,leftLBlock,rightLBlock,rightSBlock,leftSBlock,block]
-
-    focus: true
-    Keys.onLeftPressed: leftShift()
-    Keys.onRightPressed: rightShift()
-    Keys.onUpPressed: rotateDetail()
-    Keys.onDownPressed: dropDetail(true)
 
     MinigamesButton{
         text: "Back to menu"
@@ -31,10 +26,11 @@ Rectangle{
         height: width*2
         border.width: 1
         anchors{
-            //top:parent.top
+            top:parent.top
             right:parent.right
             bottom:parent.bottom
         }
+
         Loader{
             id: detail
             sourceComponent: blockTemplates[currentSource]
@@ -43,6 +39,13 @@ Rectangle{
             id: durtyArea
             delegate: filledDot
             model: filledDots
+        }
+        MinigamesTouchArea{
+            anchors.fill: parent
+            onLeftRequested: leftShift()
+            onUpRequested: rotateDetail()
+            onRightRequested: rightShift()
+            onDownRequested: dropDetail()
         }
     }
 
@@ -62,7 +65,42 @@ Rectangle{
             for(var i=0;i<4;++i){
                 filledDots.addPoint(newDots[i])
             }
-            ++currentSource
+            checkLines()
+            currentSource=-1
+            currentSource=nextSource
+            nextSource=Math.floor(Math.random()*7)
+        }
+    }
+
+    function checkLines(){
+        var linesMap = {}
+        for(var i=0;i<filledDots.count;++i){
+            var dot=durtyArea.itemAt(i)
+            if(linesMap[dot.yPos]===undefined)
+                linesMap[dot.yPos]=[]
+            linesMap[dot.yPos].push(i)
+        }
+        var deleteList = []
+        var deletedRows = []
+        for(i in linesMap){
+            var row=linesMap[i]
+            if(row.length===10){
+                deletedRows.push(i)
+                deleteList=deleteList.concat(row)
+            }
+        }
+        if(deleteList.length){
+            deleteList.sort(function(a,b){return a-b})
+            for(i=deleteList.length-1;i>=0;--i){
+                filledDots.remove(deleteList[i])
+            }
+            for(var d=0;d<filledDots.count;++d){
+                dot=durtyArea.itemAt(d)
+                for(i=0;i<deletedRows.length;++i){
+                    if(dot.yPos<deletedRows[i])
+                        dot.yPos+=blockSize
+                }
+            }
         }
     }
 
@@ -93,7 +131,7 @@ Rectangle{
             detail.item.rotate(-1)
     }
 
-    function dropDetail(a){
+    function dropDetail(){
         move(0,blockSize)
     }
 
@@ -117,6 +155,21 @@ Rectangle{
            rect1.y+rect1.height>=rect2.y+rect2.height)
             return true
         return false
+    }
+    function isInEmptyArea(rX,rY,rWidth,rHeight){
+        rX = Math.floor(rX / blockSize) * blockSize
+        rY = Math.floor(rY / blockSize) * blockSize
+        var myRect = detail.item.mapToItem(mainArea, rX, rY, rWidth, rHeight)
+        if(!contained(mainArea.mainRect,myRect)){
+            return false
+        }
+        for(var i=0;i<filledDots.count;++i){
+            var dot = durtyArea.itemAt(i)
+            if(intersected(Qt.rect(dot.x,dot.y,dot.width,dot.height),myRect)){
+                return false
+            }
+        }
+        return true
     }
 
     Component{
@@ -262,10 +315,12 @@ Rectangle{
                 rotationAngle = rotationAngle === 0 ? 270 : 0
             }
             function intersects(){
-                if(!isInEmptyArea(block1.x,block1.y,block1.width,block1.height))
+                if(!isInEmptyArea(block1.x,block1.y,block1.width,block1.height)){
                     return true
-                if(!isInEmptyArea(block2.x,block2.y,block2.width,block2.height))
+                }
+                if(!isInEmptyArea(block2.x,block2.y,block2.width,block2.height)){
                     return true
+                }
                 return false
             }
             function getFreezePoints(){
@@ -358,11 +413,15 @@ Rectangle{
     Component{
         id:filledDot
         Rectangle{
+            property real yPos:dotY
             x:dotX
-            y:dotY
+            y:yPos
             color:"darkgrey"
             width:blockSize
             height:blockSize
+            Behavior on y{
+                NumberAnimation{duration: frameDuration}
+            }
         }
     }
 }
