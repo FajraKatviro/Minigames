@@ -7,6 +7,7 @@ MouseArea{
     signal upRequested
     signal rightRequested
     signal downRequested
+    signal taped
 
     property int oldX
     property int oldY
@@ -33,6 +34,9 @@ MouseArea{
             upRequested()
         else if(deltaY>0)
             downRequested()
+
+        if(deltaX===0 && deltaY===0)
+            taped()
     }
     focus: true
     Keys.onLeftPressed: leftRequested()

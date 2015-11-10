@@ -1,38 +1,102 @@
 import QtQuick 2.5
 
 Rectangle{
+    clip:true
+    color: "lightgrey"
 
-    color:"lightgray"
+    property int score:0
+
     signal quitRequested
 
-    property int blockSize: mainArea.width / 10
+    property int blockSize: 20 * sizeSet
     property int frameDuration: 500
 
     property int nextSource: 0
     property int currentSource: 0
     property var blockTemplates: [line,tBlock,leftLBlock,rightLBlock,rightSBlock,leftSBlock,block]
 
-    MinigamesButton{
-        text: "Back to menu"
-        onClicked: quitRequested()
-        anchors.left: parent.left
-        anchors.top: parent.top
+    property bool paused: pauseBtn.checked
+
+    Item{
+        anchors{
+            top:parent.top
+            left:parent.left
+            bottom:parent.bottom
+            right:mainArea.left
+        }
+        Column{
+            anchors.centerIn: parent
+            spacing: 40 * sizeSet
+            MinigamesButton{
+                text: "Menu"
+                color: "red"
+                onClicked: quitRequested()
+            }
+            MinigamesButton{
+                text: "Restart"
+                color: "yellow"
+                onClicked: newGame()
+            }
+            MinigamesButton{
+                id:pauseBtn
+                text: "Pause"
+                color: "green"
+                checkable: true
+            }
+        }
+    }
+
+    Text{
+        anchors{
+            top:parent.top
+            left:mainArea.right
+            bottom:parent.verticalCenter
+            right:parent.right
+        }
+        color:"darkgrey"
+        text:"Score: " + score
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+        font.pointSize: 20 * sizeSet
+    }
+    Rectangle{
+        anchors{
+            bottom:parent.bottom
+            left:mainArea.right
+            top:parent.verticalCenter
+            right:parent.right
+            margins:25 * sizeSet
+        }
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "grey" }
+            GradientStop { position: 1.0; color: Qt.rgba(1,1,1,1) }
+        }
+        Loader{
+            x:(parent.width-item.childrenRect.width)/2
+            y:(parent.height-item.childrenRect.height)/2
+            sourceComponent: blockTemplates[nextSource]
+        }
     }
 
     Rectangle{
         id: mainArea
+        //color: "lightgrey"
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "grey" }
+            GradientStop { position: 1.0; color: Qt.rgba(1,1,1,1) }
+        }
         property rect mainRect: Qt.rect(0,0,width,height)
-        width: 200
+        width: blockSize*10
         height: width*2
-        border.width: 1
         anchors{
-            top:parent.top
-            right:parent.right
+            //top:parent.top
+            horizontalCenter: parent.horizontalCenter
             bottom:parent.bottom
         }
 
         Loader{
             id: detail
+            x: blockSize*4
             sourceComponent: blockTemplates[currentSource]
         }
         Repeater{
@@ -40,35 +104,48 @@ Rectangle{
             delegate: filledDot
             model: filledDots
         }
-        MinigamesTouchArea{
-            anchors.fill: parent
-            onLeftRequested: leftShift()
-            onUpRequested: rotateDetail()
-            onRightRequested: rightShift()
-            onDownRequested: dropDetail()
+    }
+
+    Connections{
+        target: mainControl
+        onLeftRequested: leftShift()
+        onUpRequested: rotateDetail()
+        onRightRequested: rightShift()
+        onDownRequested: {
+            for(var i=0;i<10;++i)
+                dropDetail()
         }
+        onTaped: rotateDetail()
     }
 
     ListModel{
         id:filledDots
-        function addPoint(p){
+        function addPoint(p,color){
             var x = Math.floor(p.x / blockSize) * blockSize
             var y = Math.floor(p.y / blockSize) * blockSize
-            append({"dotX":x,"dotY":y})
+            append({"dotX":x,"dotY":y,"dotColor":color})
         }
     }
 
     Connections{
         target: detail.item
         onFreeze: {
-            var newDots = detail.item.getFreezePoints()
-            for(var i=0;i<4;++i){
-                filledDots.addPoint(newDots[i])
-            }
+            freezeBlock()
             checkLines()
             currentSource=-1
             currentSource=nextSource
             nextSource=Math.floor(Math.random()*7)
+            if(detail.item.intersects()){
+                freezeBlock()
+                gameOver()
+            }
+        }
+    }
+
+    function freezeBlock(){
+        var newDots = detail.item.getFreezePoints()
+        for(var i=0;i<4;++i){
+            filledDots.addPoint(newDots[i],detail.item.color)
         }
     }
 
@@ -101,10 +178,25 @@ Rectangle{
                         dot.yPos+=blockSize
                 }
             }
+            var bonusScore = [10,22,38,80]
+            score+=bonusScore[deletedRows.length-1]
         }
     }
 
+    function newGame(){
+        filledDots.clear()
+        currentSource=-1
+        nextSource=Math.floor(Math.random()*7)
+        currentSource=Math.floor(Math.random()*7)
+        gameTimer.start()
+    }
+
+    function gameOver(){
+        gameTimer.stop()
+    }
+
     Timer{
+        id:gameTimer
         interval: frameDuration
         repeat: true
         running: true
@@ -112,6 +204,8 @@ Rectangle{
     }
 
     function rightShift(){
+        if(paused)
+            return
         move(blockSize,0)
         if(detail.item.intersects()){
             move(-blockSize,0)
@@ -119,6 +213,8 @@ Rectangle{
     }
 
     function leftShift(){
+        if(paused)
+            return
         move(-blockSize,0)
         if(detail.item.intersects()){
             move(blockSize,0)
@@ -126,12 +222,16 @@ Rectangle{
     }
 
     function rotateDetail(){
+        if(paused)
+            return
         detail.item.rotate(1)
         if(detail.item.intersects())
             detail.item.rotate(-1)
     }
 
     function dropDetail(){
+        if(paused)
+            return
         move(0,blockSize)
     }
 
@@ -141,11 +241,12 @@ Rectangle{
     }
 
     function intersected(rect1,rect2){
-        if(rect1.x+rect1.width<=rect2.x ||
-           rect2.x+rect2.width<=rect1.x ||
-           rect1.y+rect1.height<=rect2.y ||
-           rect2.y+rect2.height<=rect1.y)
+        if(rect1.x+rect1.width-rect2.x<0.1 ||
+           rect2.x+rect2.width-rect1.x<0.1 ||
+           rect1.y+rect1.height-rect2.y<0.1 ||
+           rect2.y+rect2.height-rect1.y<0.1){
             return false
+        }
         return true
     }
     function contained(rect1,rect2){
@@ -175,6 +276,7 @@ Rectangle{
     Component{
         id: line
         TetrisBlock{
+            color: "red"
             transform: [
                 Rotation{ origin.x: blockSize * 0.5; origin.y: blockSize * 1.5; angle: rotationAngle }
             ]
@@ -196,14 +298,14 @@ Rectangle{
                 id:block1
                 width: blockSize
                 height: blockSize * 4
-                color: "red"
+                color: colorValue
             }
         }
     }
-
     Component{
         id: tBlock
         TetrisBlock{
+            color: "yellow"
             transform: [
                 Rotation{ origin.x: blockSize * 1.5; origin.y: blockSize * 0.5; angle: rotationAngle }
             ]
@@ -224,14 +326,14 @@ Rectangle{
                 id: block1
                 width: blockSize * 3
                 height: blockSize
-                color: "yellow"
+                color: colorValue
             }
             Rectangle{
                 id: block2
                 x: blockSize
                 width: blockSize
                 height: blockSize * 2
-                color: "yellow"
+                color: colorValue
             }
         }
     }
@@ -239,6 +341,7 @@ Rectangle{
     Component{
         id: leftLBlock
         TetrisBlock{
+            color: "lightgreen"
             transform: [
                 Rotation{ origin.x: blockSize * 1.5; origin.y: blockSize * 1.5; angle: rotationAngle }
             ]
@@ -259,13 +362,13 @@ Rectangle{
                 id:block1
                 width: blockSize * 3
                 height: blockSize
-                color: "lightgreen"
+                color: colorValue
             }
             Rectangle{
                 id:block2
                 width: blockSize
                 height: blockSize * 2
-                color: "lightgreen"
+                color: colorValue
             }
         }
     }
@@ -273,6 +376,7 @@ Rectangle{
     Component{
         id: rightLBlock
         TetrisBlock{
+            color: "pink"
             transform: [
                 Rotation{ origin.x: blockSize * 1.5; origin.y: blockSize * 1.5; angle: rotationAngle }
             ]
@@ -293,14 +397,14 @@ Rectangle{
                 id:block1
                 width: blockSize * 3
                 height: blockSize
-                color: "pink"
+                color: colorValue
             }
             Rectangle{
                 id:block2
                 x: blockSize * 2
                 width: blockSize
                 height: blockSize * 2
-                color: "pink"
+                color: colorValue
             }
         }
     }
@@ -308,6 +412,7 @@ Rectangle{
     Component{
         id: rightSBlock
         TetrisBlock{
+            color: "green"
             transform: [
                 Rotation{ origin.x: blockSize * 0.5; origin.y: blockSize * 1.5; angle: rotationAngle }
             ]
@@ -333,7 +438,7 @@ Rectangle{
                 id:block1
                 width: blockSize
                 height: blockSize * 2
-                color: "green"
+                color: colorValue
             }
             Rectangle{
                 id:block2
@@ -341,7 +446,7 @@ Rectangle{
                 y: blockSize
                 width: blockSize
                 height: blockSize * 2
-                color: "green"
+                color: colorValue
             }
         }
     }
@@ -349,6 +454,7 @@ Rectangle{
     Component{
         id: leftSBlock
         TetrisBlock{
+            color: "brown"
             transform: [
                 Rotation{ origin.x: blockSize * 0.5; origin.y: blockSize * 1.5; angle: rotationAngle }
             ]
@@ -373,14 +479,14 @@ Rectangle{
                 y: blockSize
                 width: blockSize
                 height: blockSize * 2
-                color: "brown"
+                color: colorValue
             }
             Rectangle{
                 id:block2
                 x: blockSize
                 width: blockSize
                 height: blockSize * 2
-                color: "brown"
+                color: colorValue
             }
         }
     }
@@ -388,6 +494,7 @@ Rectangle{
     Component{
         id: block
         TetrisBlock{
+            color: "blue"
             transform: []
             function rotate(){ }
             function intersects(){
@@ -405,7 +512,7 @@ Rectangle{
                 id:block1
                 width: blockSize * 2
                 height: blockSize * 2
-                color: "blue"
+                color: colorValue
             }
         }
     }
@@ -413,10 +520,16 @@ Rectangle{
     Component{
         id:filledDot
         Rectangle{
+            property var initialColor:dotColor
             property real yPos:dotY
             x:dotX
             y:yPos
-            color:"darkgrey"
+            ColorAnimation on color{
+                running: true
+                from:initialColor
+                to:Qt.rgba(0.25,0.26,0.25,1)
+                duration: 2000
+            }
             width:blockSize
             height:blockSize
             Behavior on y{
@@ -424,4 +537,6 @@ Rectangle{
             }
         }
     }
+
+    Component.onCompleted: newGame()
 }
