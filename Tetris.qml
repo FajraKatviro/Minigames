@@ -200,7 +200,7 @@ Rectangle{
         interval: frameDuration
         repeat: true
         running: true
-        onTriggered: dropDetail(false)
+        onTriggered: dropDetail()
     }
 
     function rightShift(){
@@ -250,10 +250,10 @@ Rectangle{
         return true
     }
     function contained(rect1,rect2){
-        if(rect1.x<=rect2.x &&
-           rect1.y<=rect2.y &&
-           rect1.x+rect1.width>=rect2.x+rect2.width &&
-           rect1.y+rect1.height>=rect2.y+rect2.height)
+        if(rect1.x-rect2.x<0.1 &&
+           rect1.y-rect2.y<0.1 &&
+           rect1.x+rect1.width-(rect2.x+rect2.width)>-0.1 &&
+           rect1.y+rect1.height-(rect2.y+rect2.height)>-0.1)
             return true
         return false
     }

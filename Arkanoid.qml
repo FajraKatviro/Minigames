@@ -45,11 +45,13 @@ Rectangle{
         Item{
             id:ball
             property real posX: ballSize * 2
-            property real posY: ballSize * 0.5
+            property real posY: ballSize * 0.5 + 1
             property real direction: Math.PI * 0.75
             property var collisionPoints: []
             x: posX
             y: posY
+            onXChanged: checkCollisions()
+            onYChanged: checkCollisions()
             Rectangle{
                 x:-ballSize*0.5
                 y:-ballSize*0.5
@@ -61,6 +63,9 @@ Rectangle{
             function move(){
                 posX+=speed*Math.sin(direction)
                 posY-=speed*Math.cos(direction)
+            }
+
+            function checkCollisions(){
                 var items=[leftWall,topWall,rightWall]
                 collide(items)
             }
@@ -68,13 +73,18 @@ Rectangle{
             function collide(items){
                 var collisionCount=0
                 var cumulativeNormal=0.0
+                console.log("collision")
                 for(var i in items){
                     for(var j in collisionPoints){
                         var collisionPoin=collisionPoints[j]
                         var point=ball.mapToItem(items[i],collisionPoin.x,collisionPoin.y)
                         if(items[i].contains(point)){
+                            console.log(point)
+                            console.log(collisionPoin.x)
+                            console.log(collisionPoin.y)
                             ++collisionCount;
                             cumulativeNormal+=collisionPoin.normal
+                            console.log(cumulativeNormal)
                         }
                     }
                 }
