@@ -60,9 +60,15 @@ Window {
                     }
                     MinigamesButton{
                         Layout.fillWidth: true
-                        color: "gold"
+                        color: "yellow"
                         text: "Tetris"
                         onClicked: rootLoader.source = "Tetris.qml"
+                    }
+                    MinigamesButton{
+                        Layout.fillWidth: true
+                        color: "blue"
+                        text: "Arkanoid"
+                        onClicked: rootLoader.source = "Arkanoid.qml"
                     }
                     MinigamesButton{
                         Layout.fillWidth: true

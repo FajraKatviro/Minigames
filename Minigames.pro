@@ -12,7 +12,8 @@ DESTDIR = $$PWD
 OTHER_FILES += main.qml MinigamesButton.qml MinigamesTouchArea.qml \
                 Snake.qml \
                 Numbers.qml \
-                Tetris.qml TetrisBlock.qml
+                Tetris.qml TetrisBlock.qml \
+                Arkanoid.qml
 
 INCLUDEPATH += tmp/moc/release_shared
 

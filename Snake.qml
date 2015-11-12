@@ -1,40 +1,36 @@
 import QtQuick 2.5
 
 Rectangle{
-    id: rootComponent
-    color: "lightgreen"
+    id: gameArea
+    color: "lightgrey"//Qt.rgba(0.8,0.8,0.8,1)
 
-    property int pointSize: 20
+    property int pointSize: 20 * sizeSet
+    property int baseOffset: 5 * sizeSet
     property int frameDuration
     property var pointColors: ["yellow","red","grey"]
     property int directionX
     property int directionY
-    property int speed: 20
+    property int speed: pointSize
     property var head
     property int tailIndex
     property int score
     property bool strictMode: true
-    clip: true
+    property bool paused: pauseBtn.checked
 
     signal quitRequested
     signal requestCollect
 
-    function getRandomNumber(from,upTo){
-        return from + Math.floor(Math.random() * (upTo - from + 1) )
-    }
-
     function newGame(longMode){
         strictMode = longMode
-        frameDuration = 250
-        gameOverPopup.visible = false
+        frameDuration = 400
         score = 0
         directionX=1
         directionY=0
         objectModel.clear()
-        objectModel.initHead(5,25)
+        objectModel.initHead(baseOffset,pointSize+baseOffset)
         tailIndex = 3
         for(var i=1;i<=tailIndex;++i)
-            objectModel.initBody(5,i,25)
+            objectModel.initBody(baseOffset,i,pointSize+baseOffset)
         objectModel.addRandom()
         objectModel.addRandom()
         objectModel.addRandom()
@@ -42,151 +38,11 @@ Rectangle{
     }
 
     function gameOver(){
-        gameOverPopup.visible = true
         gameTimer.stop()
     }
 
-    Timer{
-        id: gameTimer
-        interval: frameDuration
-        repeat: true
-        running: true
-        onTriggered: {
-            objects.itemAt(tailIndex).recalculate()
-            rootComponent.requestCollect()
-        }
-    }
-
-    Repeater{
-        id: objects
-        delegate: Rectangle{
-            property int rank: objectRank
-            property int objectIndex: index
-            property int prevSegment: previousSegment
-            property real objX: objectX
-            property real objY: objectY
-
-            onRankChanged: if(rank==1)head=this
-
-            width: pointSize
-            height: pointSize
-            border.width: 1
-            radius: strictMode ? 0 : pointSize/2
-
-            x: objX
-            y: objY
-            color: pointColors[rank]
-
-            Behavior on x{
-                NumberAnimation{ duration: frameDuration }
-            }
-            Behavior on y{
-                NumberAnimation{ duration: frameDuration }
-            }
-
-            function recalculate(){
-                if(rank==1){
-                    objX+=speed*directionX
-                    objY+=speed*directionY
-                    if(objX<=0 || objY<=0 ||
-                       objX>=rootComponent.width-pointSize ||
-                       objY>=rootComponent.height-pointSize)
-                            gameOver()
-                }else if(rank==2){
-                    var prev = objects.itemAt(prevSegment)
-                    if(!strictMode){
-                        prev.recalculate()
-                        var prevX = prev.objX
-                        var prevY = prev.objY
-                        var deltaX = prevX - objX
-                        var deltaY = prevY - objY
-                        var k = 1 - pointSize / (Math.abs(deltaX) + Math.abs(deltaY))
-                        if(k>0){
-                            objX += deltaX*k
-                            objY += deltaY*k
-                        }
-                    }else{
-                        objX = prev.objX
-                        objY = prev.objY
-                        prev.recalculate()
-                    }
-
-                    deltaX = head.objX - objX
-                    deltaY = head.objY - objY
-                    k = pointSize / (Math.abs(deltaX) + Math.abs(deltaY))
-                    if(k>=1.1){
-                        gameOver()
-                    }
-                }
-            }
-
-            function updateDots(){
-                if(rank==0){
-                    var deltaX = head.objX - objX
-                    var deltaY = head.objY - objY
-                    var k = pointSize / (Math.abs(deltaX) + Math.abs(deltaY))
-                    if(k>=1.1){
-                        var prev = objects.itemAt(prevSegment)
-                        prevSegment = tailIndex
-                        objX = prev.objX
-                        objY = prev.objY
-                        tailIndex = objectIndex
-                        rank = 2
-                        ++score
-                        if(!strictMode)
-                            frameDuration*=0.95
-                        objectModel.addRandom()
-                    }
-                }
-            }
-
-            Connections{
-                target: rootComponent
-                onRequestCollect:updateDots()
-            }
-        }
-        model: objectModel
-    }
-
-    ListModel{
-        id:objectModel
-
-        function addRandom(){
-            var offsetX = 5 + pointSize
-            var offsetY = 5 + pointSize
-            append({"objectX": offsetX + speed * getRandomNumber(0,Math.floor((rootComponent.width-pointSize*2)/speed)),
-                    "objectY": offsetY + speed * getRandomNumber(0,Math.floor((rootComponent.height-pointSize*2)/speed)),
-                    "objectRank":0,
-                    "previousSegment":0})
-        }
-        function initHead(baseX,y){
-            append({"objectX": baseX,
-                    "objectY": y,
-                    "objectRank":1,
-                    "previousSegment":0})
-        }
-        function initBody(baseX,idx,y){
-            append({"objectX": baseX - idx * pointSize,
-                    "objectY": y,
-                    "objectRank":2,
-                    "previousSegment":idx-1})
-            ++score
-        }
-    }
-
-    Rectangle{
-        anchors.right: parent.right
-        anchors.top: parent.top
-        border.width: 1
-        width: 100
-        height: 30
-        Text{
-            anchors.fill: parent
-            anchors.margins: 3
-            color: "red"
-            font.pointSize: 16
-            text: "Score:" + score
-        }
+    function getRandomNumber(from,upTo){
+        return from + Math.floor(Math.random() * (upTo - from + 1) )
     }
 
     function swapDirection(ver,hor){
@@ -197,64 +53,208 @@ Rectangle{
         }
     }
 
-    MinigamesTouchArea{
-        anchors.fill: parent
-
-        onLeftRequested: swapDirection(0,-1)
-        onRightRequested: swapDirection(0,1)
-        onUpRequested: swapDirection(-1,0)
-        onDownRequested: swapDirection(1,0)
+    Connections{
+        target: mainControl
+        onLeftSwipe: swapDirection(0,-1)
+        onRightSwipe: swapDirection(0,1)
+        onUpSwipe: swapDirection(-1,0)
+        onDownSwipe: swapDirection(1,0)
     }
 
     Rectangle{
-        id: gameOverPopup
-        anchors.centerIn: parent
-        height: 300
-        width: 400
-        border.width: 1
-        Text{
-            id:gameOverText
-            anchors{
-                top:parent.top
-                left:parent.left
-                right:parent.right
-            }
-            height: 200
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            text: "Snake"
-            font.pointSize: 40
-            color: "red"
-            style: Text.Outline
+        id:activeArea
+        anchors{
+            top:parent.top
+            left:menuLine.right
+            right:parent.right
+            bottom:parent.bottom
         }
-        Item{
-            anchors{
-                top:gameOverText.bottom
-                left:parent.left
-                right:parent.right
-                bottom:parent.bottom
-                bottomMargin: 80
+        color: Qt.rgba(0.9,0.9,0.9,1)
+
+        clip: true
+
+        Timer{
+            id: gameTimer
+            interval: frameDuration
+            repeat: true
+            running: true
+            onTriggered: {
+                if(!gameArea.paused){
+                    objects.itemAt(tailIndex).recalculate()
+                    gameArea.requestCollect()
+                }
             }
-            Row{
-                anchors.centerIn: parent
-                spacing: 25
-                MinigamesButton{
-                    text: "Long mode"
-                    onClicked: newGame(true)
+        }
+
+        Repeater{
+            id: objects
+            delegate: Rectangle{
+                property int rank: objectRank
+                property int objectIndex: index
+                property int prevSegment: previousSegment
+                property real objX: objectX
+                property real objY: objectY
+
+                onRankChanged: {
+                    if(rank==1)head=this
+                    else if(rank==2)greyAnimation.start()
                 }
-                MinigamesButton{
-                    text: "Fast mode"
-                    onClicked: newGame(false)
+
+                width: pointSize
+                height: pointSize
+                //border.width: 1
+                radius: strictMode ? 0 : pointSize/2
+
+                x: objX
+                y: objY
+                color: pointColors[rank]
+
+                Behavior on x{
+                    NumberAnimation{ duration: frameDuration }
                 }
-                MinigamesButton{
-                    text: "Back to menu"
-                    onClicked: rootComponent.quitRequested()
+                Behavior on y{
+                    NumberAnimation{ duration: frameDuration }
                 }
+                ColorAnimation on color{
+                    id: greyAnimation
+                    running: false
+                    to: "grey"
+                    duration: 1000
+                }
+
+                function recalculate(){
+                    if(rank==1){
+                        objX+=speed*directionX
+                        objY+=speed*directionY
+                        if(objX<=0 || objY<=0 ||
+                           objX>=activeArea.width-pointSize ||
+                           objY>=activeArea.height-pointSize)
+                                gameOver()
+                    }else if(rank==2){
+                        var prev = objects.itemAt(prevSegment)
+                        if(!strictMode){
+                            prev.recalculate()
+                            var prevX = prev.objX
+                            var prevY = prev.objY
+                            var deltaX = prevX - objX
+                            var deltaY = prevY - objY
+                            var k = 1 - pointSize / (Math.abs(deltaX) + Math.abs(deltaY))
+                            if(k>0){
+                                objX += deltaX*k
+                                objY += deltaY*k
+                            }
+                        }else{
+                            objX = prev.objX
+                            objY = prev.objY
+                            prev.recalculate()
+                        }
+
+                        deltaX = head.objX - objX
+                        deltaY = head.objY - objY
+                        k = pointSize / (Math.abs(deltaX) + Math.abs(deltaY))
+                        if(k>=1.1){
+                            gameOver()
+                        }
+                    }
+                }
+
+                function updateDots(){
+                    if(rank==0){
+                        var deltaX = head.objX - objX
+                        var deltaY = head.objY - objY
+                        var k = pointSize / (Math.abs(deltaX) + Math.abs(deltaY))
+                        if(k>=1.1){
+                            var prev = objects.itemAt(prevSegment)
+                            prevSegment = tailIndex
+                            objX = prev.objX
+                            objY = prev.objY
+                            tailIndex = objectIndex
+                            rank = 2
+                            ++score
+                            if(!strictMode)
+                                frameDuration*=0.95
+                            objectModel.addRandom()
+                        }
+                    }
+                }
+
+                Connections{
+                    target: gameArea
+                    onRequestCollect:updateDots()
+                }
+            }
+            model: objectModel
+        }
+
+        ListModel{
+            id:objectModel
+
+            function addRandom(){
+                var offsetX = baseOffset + pointSize
+                var offsetY = baseOffset + pointSize
+                append({"objectX": offsetX + speed * getRandomNumber(0,Math.floor((activeArea.width-pointSize*2-offsetX)/speed)),
+                        "objectY": offsetY + speed * getRandomNumber(0,Math.floor((activeArea.height-pointSize*2-offsetY)/speed)),
+                        "objectRank":0,
+                        "previousSegment":0})
+            }
+            function initHead(baseX,y){
+                append({"objectX": baseX,
+                        "objectY": y,
+                        "objectRank":1,
+                        "previousSegment":0})
+            }
+            function initBody(baseX,idx,y){
+                append({"objectX": baseX - idx * pointSize,
+                        "objectY": y,
+                        "objectRank":2,
+                        "previousSegment":idx-1})
+                ++score
+            }
+        }
+
+    }
+
+    Item{
+        id: menuLine
+        width: 200 * sizeSet
+        anchors{
+            left:parent.left
+            top:parent.top
+            bottom:parent.bottom
+        }
+        Column{
+            anchors.centerIn: parent
+            spacing: 20 * sizeSet
+            MinigamesButton{
+                color:"green"
+                text: "Menu"
+                onClicked: gameArea.quitRequested()
+            }
+            MinigamesButton{
+                id:pauseBtn
+                color:"green"
+                text: "Pause"
+                checkable: true
+            }
+            Text{
+                color:"darkgrey"
+                font.pointSize: 20 * sizeSet
+                text: "Score:" + score
+            }
+            MinigamesButton{
+                color:"green"
+                text: "Long mode"
+                onClicked: newGame(true)
+            }
+            MinigamesButton{
+                color:"green"
+                text: "Fast mode"
+                onClicked: newGame(false)
             }
         }
     }
 
     Component.onCompleted: {
-        //newGame()
+        newGame(true)
     }
 }

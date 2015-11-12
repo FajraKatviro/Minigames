@@ -8,7 +8,14 @@ Rectangle{
     property int cellSpacing: 5
     property int areaSize: 4
 
+    property var colors: {2:"red",4:"blue",8:"green",16:"yellow",
+                          32:"violet", 64:"navy",128:"gold",
+                          256:"pink",512:"orange",1024:"haki",
+                          2048:"",4096:""}
+
     signal quitRequested
+
+    property int score
 
     Item{
         anchors{
@@ -18,10 +25,24 @@ Rectangle{
             right: game.left
         }
         Column{
-            anchors.fill: parent
+            anchors.centerIn: parent
+            spacing: 40*sizeSet
             MinigamesButton{
-                text: "Back to menu"
+                color:"red"
+                text: "Menu"
                 onClicked: quitRequested()
+            }
+            MinigamesButton{
+                color:"red"
+                text: "Restart"
+                onClicked: newGame()
+            }
+            Text{
+                color:"darkgrey"
+                text:"Score: " + score
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                font.pointSize: 20 * sizeSet
             }
         }
     }
@@ -43,7 +64,7 @@ Rectangle{
         width: mainGrid.implicitHeight
         height: mainGrid.implicitHeight
 
-        onActiveChanged: if(active && turnSuccess)createRandom()
+        onActiveChanged: if(active && turnSuccess){createRandom(); score+=2;}
 
         function createRandom(){
             var free=[]
@@ -234,6 +255,14 @@ Rectangle{
                     property bool summarized: false
                     onPlaceQuadChanged: placeQuad.occupiedBy=this
 
+                    onScoreChanged: animateColors()
+
+                    function animateColors(){
+                        colorAnimation.stop()
+                        colorAnimation.targetColor=colors[score]
+                        colorAnimation.start()
+                    }
+
                     Connections{
                         target: game
                         onStateRefresh:{
@@ -258,7 +287,7 @@ Rectangle{
                             fill:parent
                             margins: 5
                         }
-                        color: Qt.rgba(1,0,0,1)
+                        //color: colors[score]
                         radius: 4
                         border.width: 2
                         clip: true
@@ -267,12 +296,20 @@ Rectangle{
                             text: score
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
-                            font.pixelSize: 40
+                            font.pixelSize: 40 * sizeSet
+                        }
+                        ColorAnimation on color{
+                            id: colorAnimation
+                            property var targetColor
+                            from:targetColor
+                            to:"grey"
+                            duration: 750
+                            //easing.type: Easing.Linear
                         }
                     }
 
-                    Behavior on x{ NumberAnimation{ duration: 500} }
-                    Behavior on y{ NumberAnimation{ duration: 500} }
+                    Behavior on x{ NumberAnimation{ duration: 250} }
+                    Behavior on y{ NumberAnimation{ duration: 250} }
 
                     NumberAnimation on width{id:createAnimation;from:0;to:cellSize;duration:500}
                     NumberAnimation on height{id:createAnimationHeight;from:0;to:cellSize;duration:500}
@@ -286,38 +323,34 @@ Rectangle{
                 }
             }
         }
-        MouseArea{
-            property int swipeLen: 100
-            property int oldX
-            property int oldY
-            anchors.fill: parent
-            enabled: game.active
-            onPressed:{
-                oldX=mouse.x
-                oldY=mouse.y
-            }
-            onReleased:{
-                var deltaX=mouse.x-oldX;
-                var deltaY=mouse.y-oldY;
-                if(Math.abs(deltaX)<swipeLen)deltaX=0;
-                if(Math.abs(deltaY)<swipeLen)deltaY=0;
-                if(Math.abs(deltaY)>=Math.abs(deltaX))
-                    deltaX=0;
-                else
-                    deltaY=0;
-                deltaX = deltaX>0 ? 1 : deltaX<0 ? -1 : 0;
-                deltaY = deltaY>0 ? 1 : deltaY<0 ? -1 : 0;
-                game.vDirection=deltaY
-                game.hDirection=deltaX
-                game.needSummarize=true
-                game.turnSuccess=false
-                game.requestRefresh()
-            }
+    }
+
+    function setDirection(v,h){
+        if(game.active){
+            game.vDirection=v
+            game.hDirection=h
+            game.needSummarize=true
+            game.turnSuccess=false
+            game.requestRefresh()
         }
     }
+
+    Connections{
+        target: mainControl
+        onLeftSwipe: setDirection(0,-1)
+        onUpSwipe: setDirection(-1,0)
+        onRightSwipe: setDirection(0,1)
+        onDownSwipe: setDirection(1,0)
+    }
+
+    function newGame(){
+        activeModel.clear()
+        game.createRandom()
+        game.createRandom()
+        game.createRandom()
+    }
+
     Component.onCompleted:{
-        game.createRandom()
-        game.createRandom()
-        game.createRandom()
+        newGame()
     }
 }

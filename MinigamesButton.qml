@@ -8,6 +8,13 @@ Button{
     //width: 175
     //height: 50
     style: ButtonStyle{
+        label: Text{
+            anchors.fill: parent
+            text: control.text
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            font.pointSize: 14 * sizeSet
+        }
         background: Item{
             implicitWidth: 175*sizeSet
             implicitHeight: 50*sizeSet

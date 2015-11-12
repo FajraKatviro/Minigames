@@ -29,7 +29,7 @@ Rectangle{
             spacing: 40 * sizeSet
             MinigamesButton{
                 text: "Menu"
-                color: "red"
+                color: "yellow"
                 onClicked: quitRequested()
             }
             MinigamesButton{
@@ -40,7 +40,7 @@ Rectangle{
             MinigamesButton{
                 id:pauseBtn
                 text: "Pause"
-                color: "green"
+                color: "yellow"
                 checkable: true
             }
         }
@@ -108,10 +108,10 @@ Rectangle{
 
     Connections{
         target: mainControl
-        onLeftRequested: leftShift()
-        onUpRequested: rotateDetail()
-        onRightRequested: rightShift()
-        onDownRequested: {
+        onLeftMove: leftShift()
+        onUpSwipe: rotateDetail()
+        onRightMove: rightShift()
+        onDownSwipe: {
             for(var i=0;i<10;++i)
                 dropDetail()
         }
