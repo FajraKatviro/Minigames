@@ -7,7 +7,7 @@ Rectangle{
     property int pointSize: 20 * sizeSet
     property int baseOffset: 5 * sizeSet
     property int frameDuration
-    property var pointColors: ["yellow","red","grey"]
+    property var pointColors: ["yellow","green","grey"]
     property int directionX
     property int directionY
     property int speed: pointSize
@@ -39,10 +39,6 @@ Rectangle{
 
     function gameOver(){
         gameTimer.stop()
-    }
-
-    function getRandomNumber(from,upTo){
-        return from + Math.floor(Math.random() * (upTo - from + 1) )
     }
 
     function swapDirection(ver,hor){

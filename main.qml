@@ -11,6 +11,10 @@ Window {
     height: 400
     property real sizeSet: 2
 
+    function getRandomNumber(from,upTo){
+        return from + Math.floor(Math.random() * (upTo - from + 1) )
+    }
+
     Rectangle{
         anchors.fill: parent
         color: "black"
