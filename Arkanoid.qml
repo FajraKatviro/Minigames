@@ -35,7 +35,7 @@ Rectangle{
 
     function gameOver(){
         platform.opacity=0
-        running=false
+        //running=false
     }
 
     Timer{
@@ -81,24 +81,24 @@ Rectangle{
                 var k=1.0
                 var distance=speed*dt/frameDuration
 
-//                if(collide([bottomWall],k)<k){
-//                    gameOver()
-//                    return
-//                }
+                if(collide([bottomWall],distance,k,true)===-1){
+                    gameOver()
+                    return
+                }
 
                 var items=[leftWall,topWall,rightWall,platform]
                 for(var i=0;i<garbage.count;++i)
                     items.push(garbage.itemAt(i))
 
                 while(true){
-                    k=collide(items,distance,k)
+                    k=collide(items,distance,k,false)
                     if(k<0.01){
                         return
                     }
                 }
             }
 
-            function collide(items,distance,k){
+            function collide(items,distance,k,interrupt){
                 var x2=x+distance*Math.sin(direction)*k
                 var y2=y-distance*Math.cos(direction)*k
 
@@ -110,10 +110,18 @@ Rectangle{
                     nearestCollision=item.checkCollision({"x1":x,"y1":y,"x2":x2,"y2":y2},nearestCollision)
                 }
                 if(nearestCollision===undefined){
+                    if(interrupt){
+                        return 1
+                    }
                     x=x2
                     y=y2
                     return 0
                 }else{
+                    if(interrupt){
+                        x=x2
+                        y=y2
+                        return -1
+                    }
                     x+=distance*Math.sin(direction)*nearestCollision.k
                     y-=distance*Math.cos(direction)*nearestCollision.k
                     direction=2*(nearestCollision.d*Math.PI/180)+Math.PI-direction
@@ -171,8 +179,8 @@ Rectangle{
             Behavior on opacity{NumberAnimation{duration:1000}}
             Connections{
                 target:mainControl
-                onRightMove: platform.move(10)
-                onLeftMove: platform.move(-10)
+                onRightMove: platform.move(2*sizeSet)
+                onLeftMove: platform.move(-2*sizeSet)
             }
 
 
@@ -189,7 +197,7 @@ Rectangle{
             id:bottomWall
             height:ballSize * 0.15
             anchors{
-                bottom:parent.bottom
+                top:parent.bottom
                 left:parent.left
                 right:parent.right
             }
@@ -209,7 +217,7 @@ Rectangle{
                 y: mY
                 property var color: mColor
                 function collided(){
-                    speed+=initialSpeed*0.05
+                    speed+=initialSpeed*0.01
                     score+=1
                     collidable=false
                     colAnimation.start()
@@ -269,7 +277,7 @@ Rectangle{
                 color:"blue"
                 text: "Pause"
                 checkable: true
-                onClicked: {speed=20}
+                onClicked: {lastTime=Date.now()}
             }
             MinigamesButton{
                 color:"blue"

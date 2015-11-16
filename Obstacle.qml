@@ -9,15 +9,16 @@ Item{
 
         function checkEdge(m1,m2,d){
             var dist=m2-m1
-            var distBefore=d-m1
+            var direction=dist>=0 ? 1 : -1
+            var distBefore=d-m1-ballSize*0.5*direction
             return distBefore/dist
         }
 
         var edgeCollisions=[
-                    {"k":checkEdge(from.y,to.y,0),      "m1":0,"m2":width, "from":from.x,"to":to.x,"item":this,"d":rotation},
-                    {"k":checkEdge(from.x,to.x,width),  "m1":0,"m2":height,"from":from.y,"to":to.y,"item":this,"d":rotation+90},
-                    {"k":checkEdge(from.y,to.y,height), "m1":0,"m2":width, "from":from.x,"to":to.x,"item":this,"d":rotation+180},
-                    {"k":checkEdge(from.x,to.x,0),      "m1":0,"m2":height,"from":from.y,"to":to.y,"item":this,"d":rotation+270}
+                    {"k":checkEdge(from.y,to.y,0),      "m1":-ballSize*0.5,"m2":width +ballSize*0.5, "from":from.x,"to":to.x,"item":this,"d":rotation},
+                    {"k":checkEdge(from.x,to.x,width),  "m1":-ballSize*0.5,"m2":height+ballSize*0.5,"from":from.y,"to":to.y,"item":this,"d":rotation+90},
+                    {"k":checkEdge(from.y,to.y,height), "m1":-ballSize*0.5,"m2":width +ballSize*0.5, "from":from.x,"to":to.x,"item":this,"d":rotation+180},
+                    {"k":checkEdge(from.x,to.x,0),      "m1":-ballSize*0.5,"m2":height+ballSize*0.5,"from":from.y,"to":to.y,"item":this,"d":rotation+270}
                 ]
 
         for(var i in edgeCollisions){
@@ -34,8 +35,6 @@ Item{
 
         return nearestCollision
     }
-    property var pointFrom
-    property var pointTo
     function collided(){
         addRandom()
     }

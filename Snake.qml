@@ -6,7 +6,8 @@ Rectangle{
 
     property int pointSize: 20 * sizeSet
     property int baseOffset: 5 * sizeSet
-    property int frameDuration
+    property int frameDuration: initialFrameDuration
+    property int initialFrameDuration: 400
     property var pointColors: ["yellow","green","grey"]
     property int directionX
     property int directionY
@@ -22,7 +23,7 @@ Rectangle{
 
     function newGame(longMode){
         strictMode = longMode
-        frameDuration = 400
+        frameDuration = initialFrameDuration
         score = 0
         directionX=1
         directionY=0
@@ -168,7 +169,7 @@ Rectangle{
                             rank = 2
                             ++score
                             if(!strictMode)
-                                frameDuration*=0.95
+                                frameDuration*=0.99
                             objectModel.addRandom()
                         }
                     }
