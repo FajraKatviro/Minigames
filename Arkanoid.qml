@@ -6,24 +6,27 @@ Rectangle{
 
     property int ballSize: 20 * sizeSet
     property real garbageElementWidth: 100 * sizeSet
-    property int frameDuration: 400
-    property real speed: ballSize
+    property int frameDuration: 16
+    property real speed: initialSpeed
     property int score
     property bool paused: pauseBtn.checked
     property bool running: true
+    property real lastTime: Date.now()
 
     property real initialBallX: ballSize * 10
     property real initialBallY: ballSize * 0.5 + 1
     property real initialBallDirection: Math.PI * 0.75
+    property real initialSpeed: 5
     property var colorsPool:["green","yellow","red","pink","gold"]
 
     signal quitRequested
 
     function newGame(){
         running=false
+        speed=initialSpeed
         platform.opacity=1
-        ball.posX=initialBallX
-        ball.posY=initialBallY
+        ball.x=initialBallX
+        ball.y=initialBallY
         ball.direction=initialBallDirection
         garbageSource.clear()
         addRandom()
@@ -55,14 +58,9 @@ Rectangle{
         clip: true
         Item{
             id:ball
-            property real posX: initialBallX
-            property real posY: initialBallY
             property real direction: initialBallDirection
-            property var collisionPoints: []
-            x: posX
-            y: posY
-            onXChanged: checkCollisions()
-            onYChanged: checkCollisions()
+            x: initialBallX
+            y: initialBallY
             Rectangle{
                 x:-ballSize*0.5
                 y:-ballSize*0.5
@@ -72,71 +70,55 @@ Rectangle{
                 color:"blue"
             }
 
-            function move(elapsed){
-                posX=x+speed*Math.sin(direction)*elapsed
-                posY=y-speed*Math.cos(direction)*elapsed
-            }
-
-            function checkCollisions(){
+            function move(){
+                var time=Date.now()
+                var dt=time-lastTime
+                lastTime=time
                 if(!running){
                     return
                 }
-                if(collide([bottomWall])){
-                    gameOver()
-                    return
-                }
+
+                var k=1.0
+                var distance=speed*dt/frameDuration
+
+//                if(collide([bottomWall],k)<k){
+//                    gameOver()
+//                    return
+//                }
+
                 var items=[leftWall,topWall,rightWall,platform]
                 for(var i=0;i<garbage.count;++i)
                     items.push(garbage.itemAt(i))
-                var collisionNormal=collide(items)
-                if(collisionNormal!==undefined){
-                    direction=2*(collisionNormal)+Math.PI-direction
-                    move()
+
+                while(true){
+                    k=collide(items,distance,k)
+                    if(k<0.01){
+                        return
+                    }
                 }
             }
 
-            function collide(items){
-                var collisionCount=0
-                var cumulativeNormal=0.0
+            function collide(items,distance,k){
+                var x2=x+distance*Math.sin(direction)*k
+                var y2=y-distance*Math.cos(direction)*k
+
+                var nearestCollision
                 for(var i in items){
                     var item=items[i]
                     if(!item.collidable)
                         continue
-                    var collided=false
-                    for(var j in collisionPoints){
-                        var collisionPoin=collisionPoints[j]
-                        var point=ball.mapToItem(item,collisionPoin.x,collisionPoin.y)
-                        if(item.contains(point)){
-                            if(!item.justCollided){
-                                ++collisionCount;
-                                cumulativeNormal+=collisionPoin.normal
-                            }
-                            collided=true
-                        }
-                    }
-                    if(collided && !item.justCollided){
-                        item.collided()
-                    }
-                    item.justCollided=collided
+                    nearestCollision=item.checkCollision({"x1":x,"y1":y,"x2":x2,"y2":y2},nearestCollision)
                 }
-                if(collisionCount>0){
-                    return cumulativeNormal/collisionCount
-                }
-            }
-
-            Behavior on x{enabled: gameArea.running; NumberAnimation{duration: frameDuration}}
-            Behavior on y{enabled: gameArea.running; NumberAnimation{duration: frameDuration}}
-            Component.onCompleted: {
-                var segmentCount=14
-                var segmentAngle=Math.PI*2/segmentCount
-                var r=ballSize*0.5
-                for(var i=0;i<segmentCount;++i){
-                    var angle=segmentAngle*i
-                    var point={"x":r*Math.sin(angle),
-                               "y":r*(-Math.cos(angle)),
-                               "normal":angle+Math.PI,
-                               "ind":i}
-                    collisionPoints.push(point)
+                if(nearestCollision===undefined){
+                    x=x2
+                    y=y2
+                    return 0
+                }else{
+                    x+=distance*Math.sin(direction)*nearestCollision.k
+                    y-=distance*Math.cos(direction)*nearestCollision.k
+                    direction=2*(nearestCollision.d*Math.PI/180)+Math.PI-direction
+                    nearestCollision.item.collided()
+                    return k-nearestCollision.k
                 }
             }
         }
@@ -189,13 +171,13 @@ Rectangle{
             Behavior on opacity{NumberAnimation{duration:1000}}
             Connections{
                 target:mainControl
-                onRightMove: platform.move(1)
-                onLeftMove: platform.move(-1)
+                onRightMove: platform.move(10)
+                onLeftMove: platform.move(-10)
             }
 
 
             function move(direction){
-                xPos=Math.min(Math.max(xPos+speed*2*direction,0),activeArea.width-width)
+                xPos=Math.min(Math.max(xPos+10*2*direction,0),activeArea.width-width)
             }
 
             function collided(){
@@ -227,8 +209,7 @@ Rectangle{
                 y: mY
                 property var color: mColor
                 function collided(){
-                    //speed*=1.5
-                    frameDuration*=0.95
+                    speed+=initialSpeed*0.05
                     score+=1
                     collidable=false
                     colAnimation.start()
@@ -288,6 +269,7 @@ Rectangle{
                 color:"blue"
                 text: "Pause"
                 checkable: true
+                onClicked: {speed=20}
             }
             MinigamesButton{
                 color:"blue"

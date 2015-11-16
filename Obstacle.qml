@@ -14,17 +14,17 @@ Item{
         }
 
         var edgeCollisions=[
-                    {"k":checkEdge(from.y,to.y,0),      "m1":0,"m2":width, "from":from.x,"to":to.x},
-                    {"k":checkEdge(from.x,to.x,width),  "m1":0,"m2":height,"from":from.y,"to":to.y},
-                    {"k":checkEdge(from.y,to.y,height), "m1":0,"m2":width, "from":from.x,"to":to.x},
-                    {"k":checkEdge(from.x,to.x,0),      "m1":0,"m2":height,"from":from.y,"to":to.y}
+                    {"k":checkEdge(from.y,to.y,0),      "m1":0,"m2":width, "from":from.x,"to":to.x,"item":this,"d":rotation},
+                    {"k":checkEdge(from.x,to.x,width),  "m1":0,"m2":height,"from":from.y,"to":to.y,"item":this,"d":rotation+90},
+                    {"k":checkEdge(from.y,to.y,height), "m1":0,"m2":width, "from":from.x,"to":to.x,"item":this,"d":rotation+180},
+                    {"k":checkEdge(from.x,to.x,0),      "m1":0,"m2":height,"from":from.y,"to":to.y,"item":this,"d":rotation+270}
                 ]
 
         for(var i in edgeCollisions){
             var edgeCollision=edgeCollisions[i]
             if(edgeCollision.k<=1 && edgeCollision.k>0){
                 if(nearestCollision===undefined || nearestCollision.k>edgeCollision.k){
-                    var cross=edgeCollision.from+(edgeCollision.to-edgeCollision.from)*k
+                    var cross=edgeCollision.from+(edgeCollision.to-edgeCollision.from)*edgeCollision.k
                     if(cross>=edgeCollision.m1 && cross<=edgeCollision.m2){
                         nearestCollision=edgeCollision
                     }
