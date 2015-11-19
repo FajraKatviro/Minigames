@@ -76,6 +76,12 @@ Window {
                     }
                     MinigamesButton{
                         Layout.fillWidth: true
+                        color: "pink"
+                        text: "Color lines"
+                        onClicked: rootLoader.source = "ColorLines.qml"
+                    }
+                    MinigamesButton{
+                        Layout.fillWidth: true
                         text: "Quit"
                         onClicked: Qt.quit()
                     }

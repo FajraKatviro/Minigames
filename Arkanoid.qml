@@ -25,6 +25,7 @@ Rectangle{
         running=false
         speed=initialSpeed
         platform.opacity=1
+        platform.collidable=true
         ball.x=initialBallX
         ball.y=initialBallY
         ball.direction=initialBallDirection
@@ -35,6 +36,7 @@ Rectangle{
 
     function gameOver(){
         platform.opacity=0
+        platform.collidable=false
         //running=false
     }
 
