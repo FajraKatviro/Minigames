@@ -82,6 +82,12 @@ Window {
                     }
                     MinigamesButton{
                         Layout.fillWidth: true
+                        color: "indigo"
+                        text: "Flappy quad"
+                        onClicked: rootLoader.source = "Flappy.qml"
+                    }
+                    MinigamesButton{
+                        Layout.fillWidth: true
                         text: "Quit"
                         onClicked: Qt.quit()
                     }
