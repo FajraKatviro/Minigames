@@ -14,6 +14,9 @@ Window {
     function getRandomNumber(from,upTo){
         return from + Math.floor(Math.random() * (upTo - from + 1) )
     }
+    function getRandomFloat(from,upTo){
+        return Math.random() * (upTo - from) + from
+    }
 
     Rectangle{
         anchors.fill: parent
