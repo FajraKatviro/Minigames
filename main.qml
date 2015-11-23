@@ -56,25 +56,25 @@ Window {
                     MinigamesButton{
                         Layout.fillWidth: true
                         color: "green"
-                        text: "Snake"
+                        text: "Caterpillar"
                         onClicked: rootLoader.source = "Snake.qml"
                     }
                     MinigamesButton{
                         Layout.fillWidth: true
                         color: "red"
-                        text: "2048"
+                        text: "Numbers"
                         onClicked: rootLoader.source = "Numbers.qml"
                     }
                     MinigamesButton{
                         Layout.fillWidth: true
                         color: "yellow"
-                        text: "Tetris"
+                        text: "Block puzzle"
                         onClicked: rootLoader.source = "Tetris.qml"
                     }
                     MinigamesButton{
                         Layout.fillWidth: true
                         color: "blue"
-                        text: "Arkanoid"
+                        text: "Reflection"
                         onClicked: rootLoader.source = "Arkanoid.qml"
                     }
                     MinigamesButton{
@@ -91,6 +91,19 @@ Window {
                     }
                     MinigamesButton{
                         Layout.fillWidth: true
+                        color: "orange"
+                        text: "Path finder"
+                        onClicked: rootLoader.source = "Labirinth.qml"
+                    }
+                    MinigamesButton{
+                        Layout.fillWidth: true
+                        //color: "orange"
+                        //text: "Path finder"
+                        //onClicked: rootLoader.source = "Labirinth.qml"
+                    }
+                    MinigamesButton{
+                        Layout.fillWidth: true
+                        Layout.columnSpan: 2
                         text: "Quit"
                         onClicked: Qt.quit()
                     }

@@ -35,7 +35,7 @@ Rectangle{
             return
         started=false
         gameOverPlaceholder.source=""
-        activeArea.grabToImage(function(result){gameOverPlaceholder.source=result.url;});
+        activeArea.grabToImage(function(result){gameOverPlaceholder.source=result.url;})
         gameOverPlaceholder.visible=true
     }
 

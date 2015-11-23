@@ -16,6 +16,7 @@ OTHER_FILES += main.qml MinigamesButton.qml MinigamesTouchArea.qml \
                 Arkanoid.qml Obstacle.qml \
                 ColorLines.qml LinesQuad.qml LinesCircle.qml \
                 Flappy.qml \
+                Labirinth.qml \
                 Defence.qml
 
 INCLUDEPATH += tmp/moc/release_shared

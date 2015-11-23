@@ -240,12 +240,12 @@ Rectangle{
             }
             MinigamesButton{
                 color:"green"
-                text: "Long mode"
+                text: "Restart"
                 onClicked: newGame(true)
             }
             MinigamesButton{
                 color:"green"
-                text: "Fast mode"
+                text: "Another restart"
                 onClicked: newGame(false)
             }
         }
