@@ -17,6 +17,9 @@ Rectangle{
 
     property bool paused: pauseBtn.checked
 
+    function completeLoading(){
+    }
+
     Item{
         anchors{
             top:parent.top

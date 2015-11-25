@@ -21,6 +21,9 @@ Rectangle{
     signal quitRequested
     signal requestCollect
 
+    function completeLoading(){
+    }
+
     function newGame(longMode){
         strictMode = longMode
         frameDuration = initialFrameDuration

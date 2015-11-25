@@ -30,47 +30,7 @@ Rectangle{
 
     }
 
-    function generateLabirinth(){
-        var wallFactor=0.7
-        var factor=0
-        var curRow=0
-        var curCol=0
-        var targetRow=areaSize-1
-        var targetCol=areaSize-1
-
-        var quads=[]
-        var i=0
-        for(var y=0;y<areaSize;++y){
-            var row=[]
-            for(var x=0;x<areaSize;++x){
-                row.push({"index":i,"visited":false,"filled":false})
-                ++i;
-            }
-            quads.push(row)
-        }
-
-        function visitQuad(row,col){
-            if(row===targetRow && col===targetCol){
-                factor=wallFactor
-                return true
-            }
-            if(row<0 || col<0 || row>=areaSize || col>=areaSize)
-                return false
-            var curQuad=quads[row][col]
-
-            var directions=[{"x":0,"y":-1},
-                            {"x":1,"y":0},
-                            {"x":0,"y":1},
-                            {"x":-1,"y":0}]
-            while(directions.length>0){
-                var randIndex=getRandomNumber(0,directions.length-1)
-                var d=directions[randIndex]
-                directions.splice(randIndex,1)
-                visitQuad(row+d.y,col+d.x)
-            }
-        }
-
-        visitQuad(curRow,curCol,0)
+    function completeLoading(){
     }
 
     ListModel{

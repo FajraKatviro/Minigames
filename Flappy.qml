@@ -21,6 +21,9 @@ Rectangle{
 
     signal quitRequested
 
+    function completeLoading(){
+    }
+
     function newGame(){
         activeQuad.resetPosition()
         objects.model=undefined
@@ -58,7 +61,7 @@ Rectangle{
         interval: subFrameDuration
         onTriggered: moveDown()
         repeat: true
-        running: !paused && started
+        running: !gameArea.paused && gameArea.started
     }
 
     Rectangle{
@@ -210,7 +213,7 @@ Rectangle{
                     from: 0;
                     to: 360;
                     duration: frameDuration*0.1
-                    loops: Animator.Infinite
+                    loops: Animation.Infinite
                     paused: gameArea.paused || !gameArea.started
                 }
                 Behavior on y{id:moveBahavior;NumberAnimation{duration: frameDuration*0.15}}

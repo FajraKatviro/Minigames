@@ -107,6 +107,7 @@ Window {
                         text: "Quit"
                         onClicked: Qt.quit()
                     }
+                    enabled: rootLoader.status === Loader.Null
                 }
             }
 
@@ -120,11 +121,24 @@ Window {
                     anchors.fill: parent
                     anchors.margins: 2
                     focus: true
+                    asynchronous: true
+                    onLoaded: item.completeLoading()
                 }
                 Connections{
                     target: rootLoader.item
                     onQuitRequested: rootLoader.source = ""
                 }
+            }
+            Text{
+                anchors.fill: parent
+                visible:rootLoader.status === Loader.Loading
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                text: "Loading..."
+                color:"darkgrey"
+                style: Text.Outline
+                font.italic: true
+                font.pointSize: 40 * sizeSet
             }
         }
     }

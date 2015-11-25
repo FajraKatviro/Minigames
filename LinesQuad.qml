@@ -24,6 +24,10 @@ Rectangle{
             }
         }
     }
+    Connections{
+        target:linesGame
+        onRefreshPositions:updateCachedPos()
+    }
 }
 
 

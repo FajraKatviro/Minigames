@@ -17,6 +17,10 @@ Rectangle{
 
     property int score
 
+    function completeLoading(){
+        newGame()
+    }
+
     Item{
         anchors{
             left:parent.left
@@ -351,6 +355,6 @@ Rectangle{
     }
 
     Component.onCompleted:{
-        newGame()
+        //newGame()
     }
 }

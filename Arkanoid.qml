@@ -21,6 +21,9 @@ Rectangle{
 
     signal quitRequested
 
+    function completeLoading(){
+    }
+
     function newGame(){
         running=false
         speed=initialSpeed

@@ -16,6 +16,13 @@ Rectangle{
     property int score: 0
 
     signal quitRequested
+    signal refreshPositions
+
+    function completeLoading(){
+        refreshPositions()
+        createPreserved()
+        newGame()
+    }
 
     Item{
         id:mainArea
@@ -43,16 +50,6 @@ Rectangle{
                         delegate: LinesQuad{}
                     }
                 }
-                onYChanged: {
-                    for(var i=0;i<preservedQuads.count;++i){
-                        preservedQuads.itemAt(i).updateCachedPos()
-                    }
-                }
-                onXChanged: {
-                    for(var i=0;i<preservedQuads.count;++i){
-                        preservedQuads.itemAt(i).updateCachedPos()
-                    }
-                }
             }
             Item{
                 height:mainGrid.implicitHeight
@@ -70,16 +67,6 @@ Rectangle{
                         function getQuad(row,col){
                             return itemAt(row*quadCount+col)
                         }
-                    }
-                }
-                onYChanged: {
-                    for(var i=0;i<quads.count;++i){
-                        quads.itemAt(i).updateCachedPos()
-                    }
-                }
-                onXChanged: {
-                    for(var i=0;i<quads.count;++i){
-                        quads.itemAt(i).updateCachedPos()
                     }
                 }
             }
@@ -339,8 +326,6 @@ Rectangle{
     }
 
     Component.onCompleted: {
-        createPreserved()
-        newGame()
     }
 }
 
