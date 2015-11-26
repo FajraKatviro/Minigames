@@ -11,8 +11,9 @@ Rectangle{
     property int slideTime: moveTime*4
     property int score: 0
     property int timeCapacity: initialTimeCapacity
-    property int initialTimeCapacity: 60
+    property int initialTimeCapacity: 120
     property int timeLapsed: 0
+    property bool gameStarted:true
 
     property var colorPool:["orange",Qt.rgba(0,0,0,0),"black","green"]
 
@@ -26,10 +27,13 @@ Rectangle{
         timeCapacity=initialTimeCapacity
         score=0
         loadLevel()
+        gameStarted=true
     }
 
     function gameOver(){
         mainTimer.stop()
+        gameStarted=false
+        timeOutAnimation.start()
     }
 
     function nextLevel(){
@@ -40,7 +44,6 @@ Rectangle{
 
     function loadLevel(){
         mainTimer.stop()
-        activeQuad.direction=undefined
         animationPlaceholder.source=""
         labirinthArea.grabToImage(function(result){
             animationPlaceholder.source=result.url
@@ -48,6 +51,8 @@ Rectangle{
             generateLabirinth(activeQuad.row,activeQuad.col,getRandomNumber(0,areaSize-1),areaSize-1)
             newLevelAnimation.start()
             placeholderMove.start()
+            timeAnimation.stop()
+            timeAnimation.start()
             timeLapsed=0
             mainTimer.start()
             activeQuad.visible=true
@@ -204,7 +209,7 @@ Rectangle{
             }
         }
 
-        Rectangle{
+        Item{
             id:labirinthArea
             anchors{
                 top:timeoutIndicator.bottom
@@ -247,6 +252,20 @@ Rectangle{
                     height: quadSize*areaSize*zoomFactor
                     x: Math.max(labirinthArea.width-width,Math.min(0,-activeQuad.x+labirinthArea.width*0.5))
                     y: Math.max(labirinthArea.height-height,Math.min(0,-activeQuad.y+labirinthArea.height*0.5))
+                    ColorAnimation on color{
+                        id:timeAnimation
+                        from:"white"
+                        to:"#555"
+                        duration:timeCapacity*1000
+                        running: false
+                    }
+                    ColorAnimation on color{
+                        id:timeOutAnimation
+                        from:"#555"
+                        to:"black"
+                        duration:1000
+                        running:false
+                    }
                     Rectangle{
                         id:activeQuad
                         width:quadSize*zoomFactor
@@ -255,8 +274,9 @@ Rectangle{
                         color:colorPool[0]
                         property int row:0
                         property int col:0
-                        property var direction
-                        onDirectionChanged: moveTimer.restart()
+                        //property var direction
+                        property var prevDirection:{"x":1,"y":0}
+                        //onDirectionChanged: moveTimer.restart()
                         x:col*width
                         y:row*height
                         Behavior on x{id:xb; NumberAnimation{duration:moveTime;alwaysRunToEnd:true}}
@@ -267,6 +287,8 @@ Rectangle{
                             xb.enabled=true
                         }
                         function move(dx,dy){
+                            if(!gameStarted)
+                                return
                             if(labirinthSource.getQuadInfo(row,col).objStatus===3){
                                 nextLevel()
                                 return true
@@ -277,21 +299,42 @@ Rectangle{
                             if(quadInfo!==undefined&&quadInfo.objStatus!==2){
                                 col=newCol
                                 row=newRow
+                                prevDirection={"x":dx,"y":dy}
+                                return true
+                            }
+                            newRow=row+prevDirection.y
+                            newCol=col+prevDirection.x
+                            quadInfo=labirinthSource.getQuadInfo(newRow,newCol)
+                            if(quadInfo!==undefined&&quadInfo.objStatus!==2){
+                                col=newCol
+                                row=newRow
                                 return true
                             }
                             return false
                         }
-                        Timer{
-                            id:moveTimer
-                            interval: moveTime
-                            running: true
-                            repeat: true
-                            triggeredOnStart: true
-                            onTriggered:{
-                                if(parent.direction!==undefined){
-                                    activeQuad.move(parent.direction.x,parent.direction.y)
-                                }
-                            }
+//                        function swapDirection(ver,hor){
+//                            if(direction===undefined||hor!==direction.x||ver!==direction.y){
+//                                direction={"x":hor,"y":ver}
+//                            }
+//                        }
+//                        Timer{
+//                            id:moveTimer
+//                            interval: moveTime
+//                            running: true
+//                            repeat: true
+//                            triggeredOnStart: true
+//                            onTriggered:{
+//                                if(parent.direction!==undefined){
+//                                    activeQuad.move(parent.direction.x,parent.direction.y)
+//                                }
+//                            }
+//                        }
+                        Connections{
+                            target:mainControl
+                            onLeftGesture: activeQuad.move(-1,0)
+                            onRightGesture: activeQuad.move(1,0)
+                            onUpGesture: activeQuad.move(0,-1)
+                            onDownGesture: activeQuad.move(0,1)
                         }
                     }
                     Repeater{
