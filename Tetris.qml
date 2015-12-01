@@ -20,6 +20,17 @@ Rectangle{
     function completeLoading(){
     }
 
+    Binding{
+        target:mainControl
+        property:"moveFrequency"
+        value:16
+    }
+    Binding{
+        target:mainControl
+        property:"gestureTime"
+        value:16
+    }
+
     Item{
         anchors{
             top:parent.top
@@ -45,6 +56,14 @@ Rectangle{
                 text: "Pause"
                 color: "yellow"
                 checkable: true
+            }
+            Text{
+                color:Qt.hsla(0.0,0.0,0.4,1.0)
+                font.pointSize: 14 * sizeSet
+                text: "Tip: use tap to rotate block"
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                horizontalAlignment: Text.AlignHCenter
+                width:pauseBtn.width
             }
         }
     }

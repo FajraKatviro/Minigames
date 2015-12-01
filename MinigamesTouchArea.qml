@@ -3,7 +3,7 @@ import QtQuick 2.5
 MouseArea{
     property int swipeLen: 20 * sizeSet
     property int longSwipe: swipeLen
-    property int geastureTime: 400
+    property int gestureTime: 400
     property int moveFrequency: 400
     //property int moveLen: 30 * sizeSet
 
@@ -17,19 +17,24 @@ MouseArea{
     signal rightSwipe
     signal downSwipe
 
-    onLeftMove: leftGesture()
-    onLeftSwipe: leftGesture()
-    onRightMove: rightGesture()
-    onRightSwipe: rightGesture()
-    onUpMove: upGesture()
-    onUpSwipe: upGesture()
-    onDownMove: downGesture()
-    onDownSwipe: downGesture()
+    signal leftTick
+    signal upTick
+    signal rightTick
+    signal downTick
 
-    signal leftGesture
-    signal upGesture
-    signal rightGesture
-    signal downGesture
+//    onLeftMove: leftGesture()
+//    onLeftSwipe: leftGesture()
+//    onRightMove: rightGesture()
+//    onRightSwipe: rightGesture()
+//    onUpMove: upGesture()
+//    onUpSwipe: upGesture()
+//    onDownMove: downGesture()
+//    onDownSwipe: downGesture()
+
+//    signal leftGesture
+//    signal upGesture
+//    signal rightGesture
+//    signal downGesture
 
     signal taped
 
@@ -48,13 +53,13 @@ MouseArea{
         running: true
         onTriggered:{
             if(direction.x>0)
-                rightMove()
+                rightTick()
             else if(direction.x<0)
-                leftMove()
+                leftTick()
             else if(direction.y>0)
-                downMove()
+                downTick()
             else if(direction.y<0)
-                upMove()
+                upTick()
         }
     }
     onPressed:{
@@ -67,7 +72,7 @@ MouseArea{
     }
     onPositionChanged:{
         var dt=Date.now()-touchTime
-        if(dt<geastureTime)
+        if(dt<gestureTime)
             return
         dt=Date.now()-lastMove
         if(dt<moveFrequency)
@@ -87,18 +92,18 @@ MouseArea{
             oldHoverY=mouse.y
             lastMove=Date.now()
             if(deltaX>0)
-                rightSwipe()
+                rightMove()
             else if(deltaX<0)
-                leftSwipe()
+                leftMove()
             else if(deltaY<0)
-                upSwipe()
+                upMove()
             else if(deltaY>0)
-                downSwipe()
+                downMove()
         }
     }
     onReleased:{
 //        var dt=Date.now()-touchTime
-//        if(dt>geastureTime)
+//        if(dt>gestureTime)
 //            return
         var deltaX=mouse.x-oldX
         var deltaY=mouse.y-oldY
@@ -114,6 +119,14 @@ MouseArea{
 
         if(deltaX!==0||deltaY!==0){
             if(direction.x!==deltaX||direction.y!==deltaY){
+                if(deltaX>0)
+                    rightSwipe()
+                else if(deltaX<0)
+                    leftSwipe()
+                else if(deltaY<0)
+                    upSwipe()
+                else if(deltaY>0)
+                    downSwipe()
                 direction={"x":deltaX,"y":deltaY}
                 moveTimer.restart()
             }

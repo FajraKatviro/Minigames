@@ -372,6 +372,14 @@ Rectangle{
                 text: "Restart"
                 onClicked: newGame()
             }
+            Text{
+                color:Qt.hsla(0.0,0.0,0.4,1.0)
+                font.pointSize: 14 * sizeSet
+                text: "Tip: use tap to move up"
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                horizontalAlignment: Text.AlignHCenter
+                width:pauseBtn.width
+            }
         }
     }
 

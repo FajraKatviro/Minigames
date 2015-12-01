@@ -12,7 +12,8 @@ Window {
     property real sizeSet: 2
 
     function getRandomNumber(from,upTo){
-        return from + Math.floor(Math.random() * (upTo - from + 1) )
+        var result = from + Math.floor(Math.random() * (upTo - from + 1) )
+        return result>upTo ? upTo : result<from ? from : result
     }
     function getRandomFloat(from,upTo){
         return Math.random() * (upTo - from) + from
@@ -97,15 +98,25 @@ Window {
                     }
                     MinigamesButton{
                         Layout.fillWidth: true
-                        //color: "orange"
-                        //text: "Path finder"
-                        //onClicked: rootLoader.source = "Labirinth.qml"
+                        color: "brown"
+                        text: "Tap defence"
+                        onClicked: rootLoader.source = "Defence.qml"
                     }
                     MinigamesButton{
+                        id:quitBtn
                         Layout.fillWidth: true
-                        Layout.columnSpan: 2
+                        //Layout.columnSpan: 2
                         text: "Quit"
                         onClicked: Qt.quit()
+                    }
+                    Rectangle{
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: quitBtn.height
+                        color:"yellow"
+                        Text{
+                            anchors.fill: parent
+                            text:"Banner here"
+                        }
                     }
                     enabled: rootLoader.status === Loader.Null
                 }

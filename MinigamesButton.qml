@@ -4,7 +4,7 @@ import QtQuick.Controls.Styles 1.4
 
 Button{
     id: btn
-    property var color: "#999"
+    property color color: "#999"
     //width: 175
     //height: 50
     style: ButtonStyle{

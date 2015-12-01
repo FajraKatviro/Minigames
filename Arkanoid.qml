@@ -51,6 +51,17 @@ Rectangle{
         onTriggered: ball.move()
     }
 
+    Binding{
+        target:mainControl
+        property:"moveFrequency"
+        value:400
+    }
+    Binding{
+        target:mainControl
+        property:"gestureTime"
+        value:400
+    }
+
     Rectangle{
         id:activeArea
         anchors{
@@ -184,8 +195,8 @@ Rectangle{
             Behavior on opacity{NumberAnimation{duration:1000}}
             Connections{
                 target:mainControl
-                onRightMove: platform.move(2*sizeSet)
-                onLeftMove: platform.move(-2*sizeSet)
+                onRightTick: platform.move(2*sizeSet)
+                onLeftTick: platform.move(-2*sizeSet)
             }
 
 
@@ -288,6 +299,14 @@ Rectangle{
                 color:"blue"
                 text: "Restart"
                 onClicked: newGame()
+            }
+            Text{
+                color:Qt.hsla(0.0,0.0,0.4,1.0)
+                font.pointSize: 14 * sizeSet
+                text: "Tip: use swipe to move platform"
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                horizontalAlignment: Text.AlignHCenter
+                width:pauseBtn.width
             }
         }
     }

@@ -224,7 +224,7 @@ Rectangle{
         }
         Column{
             anchors.centerIn: parent
-            spacing: 20 * sizeSet
+            spacing: 15 * sizeSet
             MinigamesButton{
                 color:"green"
                 text: "Menu"
@@ -250,6 +250,14 @@ Rectangle{
                 color:"green"
                 text: "Another restart"
                 onClicked: newGame(false)
+            }
+            Text{
+                color:Qt.hsla(0.0,0.0,0.4,1.0)
+                font.pointSize: 14 * sizeSet
+                text: "Tip: use swipe to turn"
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                horizontalAlignment: Text.AlignHCenter
+                width:pauseBtn.width
             }
         }
     }

@@ -23,6 +23,17 @@ Rectangle{
         newGame()
     }
 
+    Binding{
+        target:mainControl
+        property:"moveFrequency"
+        value:moveTime
+    }
+    Binding{
+        target:mainControl
+        property:"gestureTime"
+        value:moveTime
+    }
+
     function newGame(){
         timeCapacity=initialTimeCapacity
         score=0
@@ -68,14 +79,12 @@ Rectangle{
     }
 
     function generateLabirinth(fromRow,fromCol,toRow,toCol){
-        console.log("labirinth generated")
         var factor=0.04
         var directionFactor=0.5
         var curRow=fromRow
         var curCol=fromCol
         var targetRow=toRow
         var targetCol=toCol
-        var lastDirection=1
 
         var quads=[]
         for(var y=0;y<areaSize;++y){
@@ -86,7 +95,7 @@ Rectangle{
             quads.push(row)
         }
 
-        function visitQuad(row,col){
+        function visitQuad(row,col,lastDirection){
             if(row===targetRow && col===targetCol){
                 quads[row][col].filled=false
                 return true
@@ -101,6 +110,7 @@ Rectangle{
                             {"x":1,"y":0},
                             {"x":0,"y":1},
                             {"x":-1,"y":0}]
+            var directionIndexes=[0,1,2,3]
             var neibourSpace=0
             for(var n in directions){
                 var neibourRow=row+directions[n].y
@@ -124,18 +134,18 @@ Rectangle{
             if(Math.random()<directionFactor){
                 lastDirection=getRandomNumber(0,directions.length-1)
             }
-            var randIndex=lastDirection
-            while(directions.length>0){
-                var d=directions[randIndex]
-                directions.splice(randIndex,1)
-                lastDirection=randIndex
-                randIndex=getRandomNumber(0,directions.length-1)
-                result=visitQuad(row+d.y,col+d.x) || result
+            var randIndex=directionIndexes.indexOf(lastDirection)
+            while(directionIndexes.length>0){
+                lastDirection=directionIndexes[randIndex]
+                var d=directions[lastDirection]
+                directionIndexes.splice(randIndex,1)
+                randIndex=getRandomNumber(0,directionIndexes.length-1)
+                result=visitQuad(row+d.y,col+d.x,lastDirection) || result
             }
             return result
         }
 
-        if(!visitQuad(curRow,curCol)){
+        if(!visitQuad(curRow,curCol,1)){
             console.log("Unable build labirinth")
             return
         }
@@ -151,7 +161,6 @@ Rectangle{
             }
         }
         labirinthSource.getQuadInfo(toRow,toCol).objStatus=3
-        //console.log(f)
     }
 
     Timer{
@@ -274,7 +283,7 @@ Rectangle{
                         color:colorPool[0]
                         property int row:0
                         property int col:0
-                        //property var direction
+                        property var direction:{"x":1,"y":0}
                         property var prevDirection:{"x":1,"y":0}
                         //onDirectionChanged: moveTimer.restart()
                         x:col*width
@@ -286,13 +295,18 @@ Rectangle{
                             col=0
                             xb.enabled=true
                         }
-                        function move(dx,dy){
+                        function turn(dx,dy){
+                            direction={"x":dx,"y":dy}
+                        }
+                        function move(){
                             if(!gameStarted)
                                 return
                             if(labirinthSource.getQuadInfo(row,col).objStatus===3){
                                 nextLevel()
                                 return true
                             }
+                            var dx=direction.x
+                            var dy=direction.y
                             var newRow=row+dy
                             var newCol=col+dx
                             var quadInfo=labirinthSource.getQuadInfo(newRow,newCol)
@@ -308,6 +322,32 @@ Rectangle{
                             if(quadInfo!==undefined&&quadInfo.objStatus!==2){
                                 col=newCol
                                 row=newRow
+                                return true
+                            }
+                            var suggestedDirections=[]
+                            if(dx===0){
+                                suggestedDirections.push({"x":1,"y":0})
+                                suggestedDirections.push({"x":-1,"y":0})
+                            }else{
+                                suggestedDirections.push({"x":0,"y":-1})
+                                suggestedDirections.push({"x":0,"y":1})
+                            }
+                            var autoDirection
+                            for(var i=0;i<2;++i){
+                                newRow=row+suggestedDirections[i].y
+                                newCol=col+suggestedDirections[i].x
+                                quadInfo=labirinthSource.getQuadInfo(newRow,newCol)
+                                if(quadInfo!==undefined&&quadInfo.objStatus!==2){
+                                    if(autoDirection!==undefined)
+                                        return false
+                                    autoDirection={"x":suggestedDirections[i].x,"y":suggestedDirections[i].y}
+                                }
+                            }
+                            if(autoDirection!==undefined){
+                                col+=autoDirection.x
+                                row+=autoDirection.y
+                                direction=autoDirection
+                                prevDirection=autoDirection
                                 return true
                             }
                             return false
@@ -331,10 +371,14 @@ Rectangle{
 //                        }
                         Connections{
                             target:mainControl
-                            onLeftGesture: activeQuad.move(-1,0)
-                            onRightGesture: activeQuad.move(1,0)
-                            onUpGesture: activeQuad.move(0,-1)
-                            onDownGesture: activeQuad.move(0,1)
+                            onLeftSwipe: activeQuad.turn(-1,0)
+                            onRightSwipe: activeQuad.turn(1,0)
+                            onUpSwipe: activeQuad.turn(0,-1)
+                            onDownSwipe: activeQuad.turn(0,1)
+                            onLeftTick: activeQuad.move()
+                            onRightTick: activeQuad.move()
+                            onUpTick: activeQuad.move()
+                            onDownTick: activeQuad.move()
                         }
                     }
                     Repeater{
@@ -379,9 +423,18 @@ Rectangle{
                 onClicked: gameArea.quitRequested()
             }
             MinigamesButton{
+                id:restartBtn
                 color:"orange"
                 text: "Restart"
                 onClicked: newGame()
+            }
+            Text{
+                color:Qt.hsla(0.0,0.0,0.4,1.0)
+                font.pointSize: 14 * sizeSet
+                text: "Tip: go to East. Use swipe to turn and tap to stop"
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                horizontalAlignment: Text.AlignHCenter
+                width:restartBtn.width
             }
         }
     }
