@@ -320,6 +320,7 @@ Rectangle{
     }
 
     function newGame(){
+        score=0
         activeModel.clear()
         preserveSpawn()
         spawnRandom()

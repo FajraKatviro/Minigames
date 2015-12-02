@@ -279,7 +279,7 @@ Rectangle{
                     SequentialAnimation{
                         id:blackholeAnimation
                         running: false
-                        paused: !gameArea.paused
+                        paused: hint.blackHoleEnabled && gameArea.paused
                         ScriptAction{script:hint.blackHoleEnabled=true}
                         PauseAnimation{duration:6000}
                         ScriptAction{script:hint.blackHoleEnabled=false}

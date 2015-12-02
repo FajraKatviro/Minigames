@@ -4,7 +4,7 @@ Rectangle{
     anchors.fill: parent
     color:"lightgray"
 
-    property int cellSize: (parent.height - cellSpacing * (areaSize+1)) / areaSize
+    property int cellSize: (parent===null?0:parent.height - cellSpacing * (areaSize+1)) / areaSize
     property int cellSpacing: 5
     property int areaSize: 4
 
@@ -357,6 +357,7 @@ Rectangle{
     }
 
     function newGame(){
+        score=0
         activeModel.clear()
         game.createRandom()
         game.createRandom()

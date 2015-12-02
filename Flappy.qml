@@ -22,6 +22,7 @@ Rectangle{
     signal quitRequested
 
     function completeLoading(){
+        newGame()
     }
 
     function newGame(){
@@ -384,6 +385,6 @@ Rectangle{
     }
 
     Component.onCompleted: {
-        newGame()
+        //newGame()
     }
 }

@@ -6,6 +6,8 @@ Item{
     property real yPos: 0
     x: xPos
     y: yPos
+    width:childrenRect.width
+    height:childrenRect.height
 
     signal freeze
 

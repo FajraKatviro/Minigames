@@ -25,6 +25,7 @@ Rectangle{
     }
 
     function newGame(){
+        score=0
         running=false
         speed=initialSpeed
         platform.opacity=1

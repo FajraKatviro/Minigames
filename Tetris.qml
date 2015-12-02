@@ -94,8 +94,8 @@ Rectangle{
             GradientStop { position: 1.0; color: Qt.rgba(1,1,1,1) }
         }
         Loader{
-            x:(parent.width-item.childrenRect.width)/2
-            y:(parent.height-item.childrenRect.height)/2
+            id:blockLoader
+            anchors.centerIn: parent
             sourceComponent: blockTemplates[nextSource]
         }
     }
@@ -206,6 +206,7 @@ Rectangle{
     }
 
     function newGame(){
+        score=0
         filledDots.clear()
         currentSource=-1
         nextSource=Math.floor(Math.random()*7)
