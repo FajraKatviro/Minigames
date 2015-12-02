@@ -58,7 +58,7 @@ Window {
                         Layout.fillWidth: true
                         color: "green"
                         text: "Caterpillar"
-                        onClicked: rootLoader.source = "Snake.qml"
+                        onClicked: rootLoader.source = "Caterpillar.qml"
                     }
                     MinigamesButton{
                         Layout.fillWidth: true
@@ -70,13 +70,13 @@ Window {
                         Layout.fillWidth: true
                         color: "yellow"
                         text: "Block puzzle"
-                        onClicked: rootLoader.source = "Tetris.qml"
+                        onClicked: rootLoader.source = "BlockPuzzle.qml"
                     }
                     MinigamesButton{
                         Layout.fillWidth: true
                         color: "blue"
                         text: "Reflection"
-                        onClicked: rootLoader.source = "Arkanoid.qml"
+                        onClicked: rootLoader.source = "Reflector.qml"
                     }
                     MinigamesButton{
                         Layout.fillWidth: true

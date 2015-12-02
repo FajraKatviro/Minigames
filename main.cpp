@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     AE engine;
-    //engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    engine.load(QStringLiteral("main.qml"));
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    //engine.load(QStringLiteral("main.qml"));
     engine.rootContext()->setContextProperty("engine",&engine);
     return app.exec();
 }

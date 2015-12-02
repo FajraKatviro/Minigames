@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ColorLines.qml</file>
+        <file>Defence.qml</file>
+        <file>Flappy.qml</file>
+        <file>Labirinth.qml</file>
+        <file>LinesCircle.qml</file>
+        <file>LinesQuad.qml</file>
+        <file>main.qml</file>
+        <file>MinigamesButton.qml</file>
+        <file>MinigamesTouchArea.qml</file>
+        <file>Numbers.qml</file>
+        <file>Obstacle.qml</file>
+        <file>BlockPuzzle.qml</file>
+        <file>Caterpillar.qml</file>
+        <file>PuzzleBlock.qml</file>
+        <file>Reflector.qml</file>
+    </qresource>
+</RCC>

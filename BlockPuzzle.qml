@@ -298,7 +298,7 @@ Rectangle{
 
     Component{
         id: line
-        TetrisBlock{
+        PuzzleBlock{
             color: "red"
             transform: [
                 Rotation{ origin.x: blockSize * 0.5; origin.y: blockSize * 1.5; angle: rotationAngle }
@@ -327,7 +327,7 @@ Rectangle{
     }
     Component{
         id: tBlock
-        TetrisBlock{
+        PuzzleBlock{
             color: "yellow"
             transform: [
                 Rotation{ origin.x: blockSize * 1.5; origin.y: blockSize * 0.5; angle: rotationAngle }
@@ -363,7 +363,7 @@ Rectangle{
 
     Component{
         id: leftLBlock
-        TetrisBlock{
+        PuzzleBlock{
             color: "lightgreen"
             transform: [
                 Rotation{ origin.x: blockSize * 1.5; origin.y: blockSize * 1.5; angle: rotationAngle }
@@ -398,7 +398,7 @@ Rectangle{
 
     Component{
         id: rightLBlock
-        TetrisBlock{
+        PuzzleBlock{
             color: "pink"
             transform: [
                 Rotation{ origin.x: blockSize * 1.5; origin.y: blockSize * 1.5; angle: rotationAngle }
@@ -434,7 +434,7 @@ Rectangle{
 
     Component{
         id: rightSBlock
-        TetrisBlock{
+        PuzzleBlock{
             color: "green"
             transform: [
                 Rotation{ origin.x: blockSize * 0.5; origin.y: blockSize * 1.5; angle: rotationAngle }
@@ -476,7 +476,7 @@ Rectangle{
 
     Component{
         id: leftSBlock
-        TetrisBlock{
+        PuzzleBlock{
             color: "brown"
             transform: [
                 Rotation{ origin.x: blockSize * 0.5; origin.y: blockSize * 1.5; angle: rotationAngle }
@@ -516,7 +516,7 @@ Rectangle{
 
     Component{
         id: block
-        TetrisBlock{
+        PuzzleBlock{
             color: "blue"
             transform: []
             function rotate(){ }
