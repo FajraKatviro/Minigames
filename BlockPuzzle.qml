@@ -1,12 +1,21 @@
 import QtQuick 2.5
+import Qt.labs.settings 1.0
 
 Rectangle{
+    id:game
     clip:true
     color: "lightgrey"
 
     property int score:0
+    onScoreChanged: if(score>highScore)highScore=score
+    property int highScore:0
+    Settings{
+        category: "BlockPuzzle"
+        property alias highScore:game.highScore
+    }
 
     signal quitRequested
+    property bool isGameOver:false
 
     property int blockSize: 20 * sizeSet
     property int frameDuration: 500
@@ -68,18 +77,31 @@ Rectangle{
         }
     }
 
-    Text{
+    Item{
         anchors{
             top:parent.top
             left:mainArea.right
             bottom:parent.verticalCenter
             right:parent.right
         }
-        color:"darkgrey"
-        text:"Score: " + score
-        verticalAlignment: Text.AlignVCenter
-        horizontalAlignment: Text.AlignHCenter
-        font.pointSize: 20 * sizeSet
+        Column{
+            anchors.centerIn: parent
+            spacing: 20 * sizeSet
+            Text{
+                color:"darkgrey"
+                text:"Highscore: " + highScore
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                font.pointSize: 16 * sizeSet
+            }
+            Text{
+                color:"darkgrey"
+                text:"Score: " + score
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                font.pointSize: 16 * sizeSet
+            }
+        }
     }
     Rectangle{
         anchors{
@@ -206,6 +228,7 @@ Rectangle{
     }
 
     function newGame(){
+        isGameOver=false
         score=0
         filledDots.clear()
         currentSource=-1
@@ -215,6 +238,7 @@ Rectangle{
     }
 
     function gameOver(){
+        isGameOver=true
         gameTimer.stop()
     }
 
@@ -227,7 +251,7 @@ Rectangle{
     }
 
     function rightShift(){
-        if(paused)
+        if(paused || isGameOver)
             return
         move(blockSize,0)
         if(detail.item.intersects()){
@@ -236,7 +260,7 @@ Rectangle{
     }
 
     function leftShift(){
-        if(paused)
+        if(paused || isGameOver)
             return
         move(-blockSize,0)
         if(detail.item.intersects()){
@@ -245,7 +269,7 @@ Rectangle{
     }
 
     function rotateDetail(){
-        if(paused)
+        if(paused || isGameOver)
             return
         detail.item.rotate(1)
         if(detail.item.intersects())
@@ -253,7 +277,7 @@ Rectangle{
     }
 
     function dropDetail(){
-        if(paused)
+        if(paused || isGameOver)
             return
         move(0,blockSize)
     }

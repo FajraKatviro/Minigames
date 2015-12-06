@@ -1,4 +1,5 @@
 import QtQuick 2.5
+import Qt.labs.settings 1.0
 
 Rectangle{
     id: gameArea
@@ -15,16 +16,24 @@ Rectangle{
     property var head
     property int tailIndex
     property int score
+    onScoreChanged: if(score>highScore)highScore=score
+    property int highScore:0
+    Settings{
+        category: "Caterpillar"
+        property alias highScore:gameArea.highScore
+    }
     property bool strictMode: true
     property bool paused: pauseBtn.checked
 
     signal quitRequested
     signal requestCollect
+    property bool isGameOver:false
 
     function completeLoading(){
     }
 
     function newGame(longMode){
+        isGameOver=false
         strictMode = longMode
         frameDuration = initialFrameDuration
         score = 0
@@ -38,10 +47,12 @@ Rectangle{
         objectModel.addRandom()
         objectModel.addRandom()
         objectModel.addRandom()
+        score = 0
         gameTimer.start()
     }
 
     function gameOver(){
+        isGameOver=true
         gameTimer.stop()
     }
 
@@ -224,7 +235,7 @@ Rectangle{
         }
         Column{
             anchors.centerIn: parent
-            spacing: 15 * sizeSet
+            spacing: 10 * sizeSet
             MinigamesButton{
                 color:"green"
                 text: "Menu"
@@ -238,7 +249,12 @@ Rectangle{
             }
             Text{
                 color:"darkgrey"
-                font.pointSize: 20 * sizeSet
+                font.pointSize: 14 * sizeSet
+                text: "Highscore:" + highScore
+            }
+            Text{
+                color:"darkgrey"
+                font.pointSize: 14 * sizeSet
                 text: "Score:" + score
             }
             MinigamesButton{

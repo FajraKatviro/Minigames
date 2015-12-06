@@ -1,4 +1,5 @@
 import QtQuick 2.5
+import Qt.labs.settings 1.0
 
 Rectangle{
     id: gameArea
@@ -13,6 +14,12 @@ Rectangle{
     property int subFrameDuration: 16
     property real quadSize: 40 * sizeSet
     property int score: 0
+    onScoreChanged: if(score>highScore)highScore=score
+    property int highScore:0
+    Settings{
+        category: "FlappyQuad"
+        property alias highScore:gameArea.highScore
+    }
     property bool paused: pauseBtn.checked
     property bool started: false
     onPausedChanged: if(paused)activeQuad.targetY=activeQuad.y
@@ -20,12 +27,14 @@ Rectangle{
     property var colorPool:["red","blue","yellow","green","magenta"]
 
     signal quitRequested
+    property bool isGameOver:false
 
     function completeLoading(){
         newGame()
     }
 
     function newGame(){
+        isGameOver=false
         activeQuad.resetPosition()
         objects.model=undefined
         objects.model=obstacleSource
@@ -37,6 +46,7 @@ Rectangle{
     function gameOver(){
         if(!started)
             return
+        isGameOver=true
         started=false
         gameOverPlaceholder.source=""
         activeArea.grabToImage(function(result){gameOverPlaceholder.source=result.url;})
@@ -351,10 +361,15 @@ Rectangle{
         }
         Column{
             anchors.centerIn: parent
-            spacing: 20 * sizeSet
+            spacing: 15 * sizeSet
             Text{
                 color:"darkgrey"
-                font.pointSize: 20 * sizeSet
+                font.pointSize: 16 * sizeSet
+                text: "Highscore:" + highScore
+            }
+            Text{
+                color:"darkgrey"
+                font.pointSize: 16 * sizeSet
                 text: "Score:" + score
             }
             MinigamesButton{

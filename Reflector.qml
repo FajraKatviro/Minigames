@@ -1,4 +1,5 @@
 import QtQuick 2.5
+import Qt.labs.settings 1.0
 
 Rectangle{
     id: gameArea
@@ -9,6 +10,12 @@ Rectangle{
     property int frameDuration: 16
     property real speed: initialSpeed
     property int score
+    onScoreChanged: if(score>highScore)highScore=score
+    property int highScore:0
+    Settings{
+        category: "Reflector"
+        property alias highScore:gameArea.highScore
+    }
     property bool paused: pauseBtn.checked
     property bool running: true
     property real lastTime: Date.now()
@@ -20,11 +27,13 @@ Rectangle{
     property var colorsPool:["green","yellow","red","pink","gold"]
 
     signal quitRequested
+    property bool isGameOver:false
 
     function completeLoading(){
     }
 
     function newGame(){
+        isGameOver=false
         score=0
         running=false
         speed=initialSpeed
@@ -39,6 +48,7 @@ Rectangle{
     }
 
     function gameOver(){
+        isGameOver=true
         platform.opacity=0
         platform.collidable=false
         //running=false
@@ -278,10 +288,15 @@ Rectangle{
         }
         Column{
             anchors.centerIn: parent
-            spacing: 20 * sizeSet
+            spacing: 10 * sizeSet
             Text{
                 color:"darkgrey"
-                font.pointSize: 20 * sizeSet
+                font.pointSize: 16 * sizeSet
+                text: "Highscore:" + highScore
+            }
+            Text{
+                color:"darkgrey"
+                font.pointSize: 16 * sizeSet
                 text: "Score:" + score
             }
             MinigamesButton{

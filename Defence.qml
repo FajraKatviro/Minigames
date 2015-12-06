@@ -1,4 +1,5 @@
 import QtQuick 2.5
+import Qt.labs.settings 1.0
 
 Rectangle{
     id: gameArea
@@ -12,6 +13,13 @@ Rectangle{
     property int initialFrameDuration: 1500
     property int framePenalty: score/50
     property int score: 0
+    onScoreChanged: if(score>highScore)highScore=score
+    property int highScore:0
+    property bool isGameOver:false
+    Settings{
+        category: "Defence"
+        property alias highScore:gameArea.highScore
+    }
     property bool paused: pauseBtn.checked
     property bool started: false
     property bool inProgress: started && !paused
@@ -27,6 +35,7 @@ Rectangle{
     signal quitRequested
 
     function newGame(){
+        isGameOver=false
         score=0
         cripperSource.clear()
         for(var i=0;i<areaSize;++i)
@@ -37,6 +46,7 @@ Rectangle{
     function gameOver(){
         if(!started)
             return
+        isGameOver=true
         started=false
     }
 
@@ -335,10 +345,15 @@ Rectangle{
         }
         Column{
             anchors.centerIn: parent
-            spacing: 20 * sizeSet
+            spacing: 15 * sizeSet
             Text{
                 color:"darkgrey"
-                font.pointSize: 20 * sizeSet
+                font.pointSize: 16 * sizeSet
+                text: "Highscore:" + highScore
+            }
+            Text{
+                color:"darkgrey"
+                font.pointSize: 16 * sizeSet
                 text: "Score:" + score
             }
             MinigamesButton{

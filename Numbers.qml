@@ -1,6 +1,8 @@
 import QtQuick 2.4
+import Qt.labs.settings 1.0
 
 Rectangle{
+    id:gameArea
     anchors.fill: parent
     color:"lightgray"
 
@@ -11,14 +13,25 @@ Rectangle{
     property var colors: {2:"red",4:"blue",8:"green",16:"yellow",
                           32:"violet", 64:"navy",128:"gold",
                           256:"pink",512:"orange",1024:"haki",
-                          2048:"",4096:""}
+                          2048:"magenta",4096:"cyan"}
 
     signal quitRequested
+    property bool isGameOver:false
 
     property int score
+    onScoreChanged: if(score>highScore)highScore=score
+    property int highScore:0
+    Settings{
+        category: "Numbers"
+        property alias highScore:gameArea.highScore
+    }
 
     function completeLoading(){
         newGame()
+    }
+
+    function gameOver(){
+        isGameOver=true
     }
 
     Item{
@@ -30,7 +43,7 @@ Rectangle{
         }
         Column{
             anchors.centerIn: parent
-            spacing: 40*sizeSet
+            spacing: 20*sizeSet
             MinigamesButton{
                 color:"red"
                 text: "Menu"
@@ -44,10 +57,15 @@ Rectangle{
             }
             Text{
                 color:"darkgrey"
-                text:"Score: " + score
+                font.pointSize: 16 * sizeSet
+                text: "Highscore:" + highScore
+            }
+            Text{
+                color:"darkgrey"
+                text:"Score:" + score
                 verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                font.pointSize: 20 * sizeSet
+                //horizontalAlignment: Text.AlignHCenter
+                font.pointSize: 16 * sizeSet
             }
             Text{
                 color:Qt.hsla(0.0,0.0,0.4,1.0)
@@ -92,6 +110,8 @@ Rectangle{
                 var r=Math.floor(ind / areaSize)
                 var c=ind % areaSize
                 activeModel.addQuad(r,c,2)
+            }else{
+                gameOver()
             }
         }
 
@@ -290,7 +310,6 @@ Rectangle{
                         }
                     }
 
-
                     x: placeQuad.x
                     y: placeQuad.y
                     width: cellSize
@@ -357,6 +376,7 @@ Rectangle{
     }
 
     function newGame(){
+        isGameOver=false
         score=0
         activeModel.clear()
         game.createRandom()

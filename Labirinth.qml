@@ -1,4 +1,5 @@
 import QtQuick 2.5
+import Qt.labs.settings 1.0
 
 Rectangle{
     id: gameArea
@@ -10,6 +11,12 @@ Rectangle{
     property int moveTime: 400
     property int slideTime: moveTime*4
     property int score: 0
+    onScoreChanged: if(score>highScore)highScore=score
+    property int highScore:0
+    Settings{
+        category: "Labirinth"
+        property alias highScore:gameArea.highScore
+    }
     property int timeCapacity: initialTimeCapacity
     property int initialTimeCapacity: 120
     property int timeLapsed: 0
@@ -18,6 +25,7 @@ Rectangle{
     property var colorPool:["orange",Qt.rgba(0,0,0,0),"black","green"]
 
     signal quitRequested
+    property bool isGameOver:false
 
     function completeLoading(){
         newGame()
@@ -35,6 +43,7 @@ Rectangle{
     }
 
     function newGame(){
+        isGameOver=false
         timeCapacity=initialTimeCapacity
         score=0
         loadLevel()
@@ -42,6 +51,7 @@ Rectangle{
     }
 
     function gameOver(){
+        isGameOver=true
         mainTimer.stop()
         gameStarted=false
         timeOutAnimation.start()
@@ -411,10 +421,15 @@ Rectangle{
         }
         Column{
             anchors.centerIn: parent
-            spacing: 20 * sizeSet
+            spacing: 15 * sizeSet
             Text{
                 color:"darkgrey"
-                font.pointSize: 20 * sizeSet
+                font.pointSize: 18 * sizeSet
+                text: "Highscore:" + highScore
+            }
+            Text{
+                color:"darkgrey"
+                font.pointSize: 18 * sizeSet
                 text: "Score:" + score
             }
             MinigamesButton{

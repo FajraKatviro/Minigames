@@ -1,4 +1,5 @@
 import QtQuick 2.5
+import Qt.labs.settings 1.0
 
 Rectangle{
     id:linesGame
@@ -14,9 +15,16 @@ Rectangle{
     property Item activeCircle
 
     property int score: 0
+    onScoreChanged: if(score>highScore)highScore=score
+    property int highScore:0
+    Settings{
+        category: "ColorLines"
+        property alias highScore:linesGame.highScore
+    }
 
     signal quitRequested
     signal refreshPositions
+    property bool isGameOver:false
 
     function completeLoading(){
         refreshPositions()
@@ -104,10 +112,15 @@ Rectangle{
         }
         Column{
             anchors.centerIn: parent
-            spacing: 20 * sizeSet
+            spacing: 15 * sizeSet
             Text{
                 color:"darkgrey"
-                font.pointSize: 20 * sizeSet
+                font.pointSize: 16 * sizeSet
+                text: "Highscore:" + highScore
+            }
+            Text{
+                color:"darkgrey"
+                font.pointSize: 16 * sizeSet
                 text: "Score:" + score
             }
             MinigamesButton{
@@ -320,6 +333,7 @@ Rectangle{
     }
 
     function newGame(){
+        isGameOver=false
         score=0
         activeModel.clear()
         preserveSpawn()
@@ -327,6 +341,7 @@ Rectangle{
     }
 
     function gameOver(){
+        isGameOver=true
         for(var i=0;i<preservedCircles.count;++i){
             preservedCircles.itemAt(i).freeze()
         }
