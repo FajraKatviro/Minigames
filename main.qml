@@ -3,6 +3,7 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
+import "adctl/qml"
 
 Window {
     id:rootWindow
@@ -11,6 +12,9 @@ Window {
     width: 600
     height: 400
     property real sizeSet: 2
+
+    AdCtlLayer{
+    }
 
     function getRandomNumber(from,upTo){
         var result = from + Math.floor(Math.random() * (upTo - from + 1) )

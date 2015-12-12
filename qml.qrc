@@ -15,5 +15,6 @@
         <file>Caterpillar.qml</file>
         <file>PuzzleBlock.qml</file>
         <file>Reflector.qml</file>
+        <file>MinigamesAds.qml</file>
     </qresource>
 </RCC>

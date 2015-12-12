@@ -27,3 +27,6 @@ QML_IMPORT_PATH =
 # Default rules for deployment.
 include(deployment.pri)
 
+# Adctl
+include(thirdparty/adctl/AdCtl.pri)
+
