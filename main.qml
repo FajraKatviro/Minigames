@@ -14,6 +14,10 @@ Window {
     property real sizeSet: 2
 
     AdCtlLayer{
+        startAdId:"566c750ca114525a008b4569"
+        startAdBanner:AdCtlBanner{
+            item:startAdBanner
+        }
     }
 
     function getRandomNumber(from,upTo){
@@ -212,14 +216,15 @@ Window {
                         text: "Quit"
                         onClicked: Qt.quit()
                     }
-                    Rectangle{
+                    Item{
+                        id:startAdBanner
                         Layout.fillWidth: true
                         Layout.preferredHeight: quitBtn.height
-                        color:"yellow"
-                        Text{
-                            anchors.fill: parent
-                            text:"Banner here"
-                        }
+//                        color:"yellow"
+//                        Text{
+//                            anchors.fill: parent
+//                            text:"Banner here"
+//                        }
                     }
                     enabled: rootLoader.status === Loader.Null
                 }
