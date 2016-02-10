@@ -34,11 +34,12 @@ Rectangle{
     }
 
     function newGame(){
+        score=0 //reset here to have right highscore value
         isGameOver=false
         activeQuad.resetPosition()
         objects.model=undefined
         objects.model=obstacleSource
-        score=0
+        score=0 //reset here once more due to reset position animation gives +3 points
         gameOverPlaceholder.visible=false
         started=true
     }
