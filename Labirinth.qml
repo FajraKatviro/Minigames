@@ -105,6 +105,8 @@ Rectangle{
             quads.push(row)
         }
 
+        var pendingChecks = []
+
         function visitQuad(row,col,lastDirection){
             if(row===targetRow && col===targetCol){
                 quads[row][col].filled=false
@@ -145,17 +147,34 @@ Rectangle{
                 lastDirection=getRandomNumber(0,directions.length-1)
             }
             var randIndex=directionIndexes.indexOf(lastDirection)
+            var revArray = []
             while(directionIndexes.length>0){
                 lastDirection=directionIndexes[randIndex]
                 var d=directions[lastDirection]
                 directionIndexes.splice(randIndex,1)
                 randIndex=getRandomNumber(0,directionIndexes.length-1)
-                result=visitQuad(row+d.y,col+d.x,lastDirection) || result
+                //result=visitQuad(row+d.y,col+d.x,lastDirection) || result
+                //avoid recursion:
+                revArray.push({"row":row+d.y,"col":col+d.x,"dir":lastDirection})
             }
+            revArray.reverse()
+            pendingChecks = pendingChecks.concat(revArray)
+
             return result
         }
 
-        if(!visitQuad(curRow,curCol,1)){
+        /*if(!visitQuad(curRow,curCol,1)){
+            console.log("Unable build labirinth")
+            return
+        }*/ //avoid recursion
+
+        var finalResult = visitQuad(curRow,curCol,1)
+        while(pendingChecks.length>0){
+            var nextCheck=pendingChecks.pop()
+            finalResult = visitQuad(nextCheck.row,nextCheck.col,nextCheck.dir) || finalResult
+        }
+
+        if(!finalResult){
             console.log("Unable build labirinth")
             return
         }
