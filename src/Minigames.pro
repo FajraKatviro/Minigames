@@ -7,7 +7,7 @@ SOURCES += main.cpp
 
 RESOURCES += qml.qrc
 
-DESTDIR = $$PWD/bin
+DESTDIR = $$PWD/../bin
 
 #OTHER_FILES += main.qml MinigamesButton.qml MinigamesTouchArea.qml \
 #                Snake.qml \
