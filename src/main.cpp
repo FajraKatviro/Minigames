@@ -2,6 +2,9 @@
 #include <QQmlApplicationEngine>
 //#include <QQmlContext>
 
+#include <QScreen>
+#include "FKUtility/loadImageset.h"
+
 #include "thirdparty/adctl/adctl.h"
 
 //class AE:public QQmlApplicationEngine{
@@ -15,9 +18,14 @@
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+
     app.setOrganizationName("Fajra Katviro");
     app.setApplicationName("Colors");
     app.setApplicationVersion("1.0");
+
+    if(!FKUtility::loadImageset("images",app.primaryScreen()->size())){
+        qDebug("unable load imageset");
+    }
 
     REGISTER_ADCTL;
     QQmlApplicationEngine engine;

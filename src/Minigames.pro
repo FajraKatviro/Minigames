@@ -31,15 +31,16 @@ include(deployment.pri)
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/mobile/android
 include(thirdparty/adctl/AdCtl.pri)
 android {
-  OTHER_FILES += \
-    $$PWD/mobile/android/AndroidManifest.xml
+    OTHER_FILES += \
+        $$PWD/mobile/android/AndroidManifest.xml
+    DISTFILES += \
+        mobile/android/gradle/wrapper/gradle-wrapper.jar \
+        mobile/android/gradlew \
+        mobile/android/res/values/libs.xml \
+        mobile/android/build.gradle \
+        mobile/android/gradle/wrapper/gradle-wrapper.properties \
+        mobile/android/gradlew.bat \
 }
 
-DISTFILES += \
-    mobile/android/gradle/wrapper/gradle-wrapper.jar \
-    mobile/android/gradlew \
-    mobile/android/res/values/libs.xml \
-    mobile/android/build.gradle \
-    mobile/android/gradle/wrapper/gradle-wrapper.properties \
-    mobile/android/gradlew.bat \
+
 
