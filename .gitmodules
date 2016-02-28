@@ -4,3 +4,6 @@
 [submodule "src/FKUtility"]
 	path = src/FKUtility
 	url = https://github.com/FajraKatviro/FKUtility.git
+[submodule "ImagesetManager"]
+	path = ImagesetManager
+	url = https://github.com/FajraKatviro/ImagesetManager.git
