@@ -1,0 +1,17 @@
+{
+    "images": [
+        {
+            "crop": true,
+            "path": "main_bg.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
+        }
+    ],
+    "sizes": [
+        "2048x1536"
+    ]
+}

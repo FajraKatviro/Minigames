@@ -16,5 +16,6 @@
         <file>PuzzleBlock.qml</file>
         <file>Reflector.qml</file>
         <file>MinigamesAds.qml</file>
+        <file>MainMenuButton.qml</file>
     </qresource>
 </RCC>

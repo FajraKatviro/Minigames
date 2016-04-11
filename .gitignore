@@ -36,3 +36,4 @@ build-*
 *.qmlproject.user.*
 
 /bin
+/resourceBuild

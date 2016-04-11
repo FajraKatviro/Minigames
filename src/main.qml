@@ -28,36 +28,31 @@ Window {
         return Math.random() * (upTo - from) + from
     }
 
-    Rectangle{
+    Item{
         anchors.fill: parent
-        color: "black"
-        //color: "darkgreen"
-//        gradient: Gradient {
-//            GradientStop { position: 0.0; color: Qt.rgba(0.2,0.21,0.21,1) }
-//            GradientStop { position: 1.0; color: Qt.rgba(0.8,0.81,0.81,1) }
-//        }
+        Image {
+            id: bg
+            anchors.fill: parent
+            source: "images/main_bg.png"
+            fillMode: Image.PreserveAspectCrop
+        }
 
         MinigamesTouchArea{
             id:mainControl
             anchors.fill: parent
         }
 
-        Rectangle{
+        Item{
             id: activeArea
             anchors.centerIn: parent
             width: 600*sizeSet
             height: 400*sizeSet
             scale: Math.min(rootWindow.width/width,rootWindow.height/height)
-            border.width: 1
 
-            Rectangle{
+            Item{
                 id: mainMenu
                 enabled: !loaderArea.visible
                 anchors.fill: parent
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: "grey" }
-                    GradientStop { position: 1.0; color: Qt.rgba(1,1,0.9,1) }
-                }
 
                 Text{
                     id:headerText
@@ -153,78 +148,76 @@ Window {
                 GridLayout{
                     anchors{
                         top:header.bottom
-                        left:parent.left
-                        right:parent.right
-                        bottom:footer.top
+                        horizontalCenter:parent.horizontalCenter
                         rightMargin: 20 * sizeSet
                         leftMargin: 20 * sizeSet
                     }
-                    columns: 2
-                    columnSpacing: 20 * sizeSet
-                    MinigamesButton{
-                        Layout.fillWidth: true
+                    columns: 3
+                    columnSpacing: 4 * sizeSet
+                    rowSpacing: 4 * sizeSet
+                    MainMenuButton{
+                        Layout.rowSpan: 2
                         color: "green"
                         text: "Caterpillar"
                         onClicked: rootLoader.source = "Caterpillar.qml"
                     }
-                    MinigamesButton{
-                        Layout.fillWidth: true
+                    MainMenuButton{
+                        Layout.rowSpan: 2
                         color: "red"
                         text: "Numbers"
                         onClicked: rootLoader.source = "Numbers.qml"
                     }
-                    MinigamesButton{
-                        Layout.fillWidth: true
+                    MainMenuButton{
+                        Layout.rowSpan: 2
                         color: "yellow"
                         text: "Block puzzle"
                         onClicked: rootLoader.source = "BlockPuzzle.qml"
                     }
-                    MinigamesButton{
-                        Layout.fillWidth: true
+                    MainMenuButton{
+                        Layout.rowSpan: 2
                         color: "blue"
                         text: "Reflection"
                         onClicked: rootLoader.source = "Reflector.qml"
                     }
-                    MinigamesButton{
-                        Layout.fillWidth: true
+                    MainMenuButton{
+                        Layout.rowSpan: 2
                         color: "pink"
                         text: "Color lines"
                         onClicked: rootLoader.source = "ColorLines.qml"
                     }
-                    MinigamesButton{
-                        Layout.fillWidth: true
+                    MainMenuButton{
+                        Layout.rowSpan: 2
                         color: "indigo"
                         text: "Flappy quad"
                         onClicked: rootLoader.source = "Flappy.qml"
                     }
-                    MinigamesButton{
-                        Layout.fillWidth: true
+                    MainMenuButton{
+                        Layout.rowSpan: 2
                         color: "orange"
                         text: "Path finder"
                         onClicked: rootLoader.source = "Labirinth.qml"
                     }
-                    MinigamesButton{
-                        Layout.fillWidth: true
+                    MainMenuButton{
+                        Layout.rowSpan: 2
                         color: "brown"
                         text: "Tap defence"
                         onClicked: rootLoader.source = "Defence.qml"
                     }
-                    MinigamesButton{
+                    Rectangle{
+                        id:startAdBanner
+                        Layout.preferredHeight: quitBtn.height
+                        Layout.preferredWidth: quitBtn.width
+                        color:"yellow"
+                        Text{
+                            anchors.fill: parent
+                            text:"Banner here"
+                        }
+                    }
+                    MainMenuButton{
                         id:quitBtn
-                        Layout.fillWidth: true
-                        //Layout.columnSpan: 2
+                        buttonHeight: 48
                         text: "Quit"
                         onClicked: Qt.quit()
-                    }
-                    Item{
-                        id:startAdBanner
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: quitBtn.height
-//                        color:"yellow"
-//                        Text{
-//                            anchors.fill: parent
-//                            text:"Banner here"
-//                        }
                     }
                     enabled: rootLoader.status === Loader.Null
                 }
