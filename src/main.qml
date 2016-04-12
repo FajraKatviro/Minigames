@@ -129,7 +129,7 @@ Window {
                         loops: Animation.Infinite
                     }
                 }
-                Text{
+                Item{
                     id:footer
                     anchors{
                         bottom:parent.bottom
@@ -137,12 +137,29 @@ Window {
                         left:parent.left
                         right:parent.right
                     }
-                    color:Qt.rgba(0.3,0.3,0.3,1)
-                    text:"by Fajra Katviro"
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignHCenter
-                    font.italic: true
-                    font.pointSize: 10 * sizeSet
+                    height:footerContent.implicitHeight
+                    Column{
+                        id:footerContent
+                        anchors.centerIn: parent
+                        Text{
+                            color:Qt.rgba(0.2,0.2,0.2,1)
+                            text:"by Fajra Katviro"
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.italic: true
+                            font.pointSize: 10 * sizeSet
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+                        Text{
+                            color:Qt.rgba(0.2,0.2,0.2,1)
+                            text:"special thanks to Svyetlana Lyakhina"
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.italic: true
+                            font.pointSize: 6 * sizeSet
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+                    }
                 }
 
                 GridLayout{
