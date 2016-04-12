@@ -42,7 +42,5 @@ android {
         mobile/android/gradlew.bat \
 }
 
-ART_FOLDER = $$PWD/../art
-ART_BUILD_FOLDER = $$PWD/../resourceBuild
 include(../ImagesetManager/ImagesetTool.pri)
 
