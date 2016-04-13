@@ -9,6 +9,51 @@
             "usedSizes": [
                 ""
             ]
+        },
+        {
+            "path": "menu_block.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
+        },
+        {
+            "path": "menu_caterpillar.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
+        },
+        {
+            "path": "menu_lines.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
+        },
+        {
+            "path": "menu_numbers.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
+        },
+        {
+            "path": "menu_quad.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
         }
     ],
     "sizes": [

@@ -152,7 +152,7 @@ Window {
                         }
                         Text{
                             color:Qt.rgba(0.2,0.2,0.2,1)
-                            text:"special thanks to Svyetlana Lyakhina"
+                            text:"special thanks to Artist inkognita"
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
                             font.italic: true
@@ -175,19 +175,22 @@ Window {
                     MainMenuButton{
                         Layout.rowSpan: 2
                         color: "green"
-                        text: "Caterpillar"
+                        //text: "Caterpillar"
+                        image: "images/menu_caterpillar.png"
                         onClicked: rootLoader.source = "Caterpillar.qml"
                     }
                     MainMenuButton{
                         Layout.rowSpan: 2
                         color: "red"
-                        text: "Numbers"
+                        //text: "Numbers"
+                        image: "images/menu_numbers.png"
                         onClicked: rootLoader.source = "Numbers.qml"
                     }
                     MainMenuButton{
                         Layout.rowSpan: 2
                         color: "yellow"
-                        text: "Block puzzle"
+                        //text: "Block puzzle"
+                        image: "images/menu_block.png"
                         onClicked: rootLoader.source = "BlockPuzzle.qml"
                     }
                     MainMenuButton{
@@ -199,13 +202,15 @@ Window {
                     MainMenuButton{
                         Layout.rowSpan: 2
                         color: "pink"
-                        text: "Color lines"
+                        //text: "Color lines"
+                        image: "images/menu_lines.png"
                         onClicked: rootLoader.source = "ColorLines.qml"
                     }
                     MainMenuButton{
                         Layout.rowSpan: 2
                         color: "indigo"
-                        text: "Flappy quad"
+                        //text: "Flappy quad"
+                        image: "images/menu_quad.png"
                         onClicked: rootLoader.source = "Flappy.qml"
                     }
                     MainMenuButton{
