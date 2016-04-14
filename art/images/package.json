@@ -54,6 +54,24 @@
             "usedSizes": [
                 ""
             ]
+        },
+        {
+            "path": "main_bg_happy.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
+        },
+        {
+            "path": "menu_theme.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
         }
     ],
     "sizes": [

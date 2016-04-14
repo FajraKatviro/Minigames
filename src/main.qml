@@ -12,6 +12,7 @@ Window {
     width: 600
     height: 400
     property real sizeSet: 2
+    property bool happyMode:false
 
     AdCtlLayer{
         startAdId:"566c750ca114525a008b4569"
@@ -33,7 +34,7 @@ Window {
         Image {
             id: bg
             anchors.fill: parent
-            source: "images/main_bg.png"
+            source: happyMode ? "images/main_bg_happy.png" : "images/main_bg.png"
             fillMode: Image.PreserveAspectCrop
         }
 
@@ -162,86 +163,113 @@ Window {
                     }
                 }
 
-                GridLayout{
+                Row{
                     anchors{
                         top:header.bottom
                         horizontalCenter:parent.horizontalCenter
-                        rightMargin: 20 * sizeSet
-                        leftMargin: 20 * sizeSet
                     }
-                    columns: 3
-                    columnSpacing: 4 * sizeSet
-                    rowSpacing: 4 * sizeSet
+                    spacing: 20 * sizeSet
                     MainMenuButton{
-                        Layout.rowSpan: 2
-                        color: "green"
-                        //text: "Caterpillar"
-                        image: "images/menu_caterpillar.png"
-                        onClicked: rootLoader.source = "Caterpillar.qml"
+                        color:"white"
+                        image: "images/menu_theme.png"
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: "Ashes"
+                        onClicked: happyMode = false
+                        buttonHeight: 75
+                        buttonWidth: 75
                     }
-                    MainMenuButton{
-                        Layout.rowSpan: 2
-                        color: "red"
-                        //text: "Numbers"
-                        image: "images/menu_numbers.png"
-                        onClicked: rootLoader.source = "Numbers.qml"
-                    }
-                    MainMenuButton{
-                        Layout.rowSpan: 2
-                        color: "yellow"
-                        //text: "Block puzzle"
-                        image: "images/menu_block.png"
-                        onClicked: rootLoader.source = "BlockPuzzle.qml"
-                    }
-                    MainMenuButton{
-                        Layout.rowSpan: 2
-                        color: "blue"
-                        text: "Reflection"
-                        onClicked: rootLoader.source = "Reflector.qml"
-                    }
-                    MainMenuButton{
-                        Layout.rowSpan: 2
-                        color: "pink"
-                        //text: "Color lines"
-                        image: "images/menu_lines.png"
-                        onClicked: rootLoader.source = "ColorLines.qml"
-                    }
-                    MainMenuButton{
-                        Layout.rowSpan: 2
-                        color: "indigo"
-                        //text: "Flappy quad"
-                        image: "images/menu_quad.png"
-                        onClicked: rootLoader.source = "Flappy.qml"
-                    }
-                    MainMenuButton{
-                        Layout.rowSpan: 2
-                        color: "orange"
-                        text: "Path finder"
-                        onClicked: rootLoader.source = "Labirinth.qml"
-                    }
-                    MainMenuButton{
-                        Layout.rowSpan: 2
-                        color: "brown"
-                        text: "Tap defence"
-                        onClicked: rootLoader.source = "Defence.qml"
-                    }
-                    Rectangle{
-                        id:startAdBanner
-                        Layout.preferredHeight: quitBtn.height
-                        Layout.preferredWidth: quitBtn.width
-                        color:"yellow"
-                        Text{
-                            anchors.fill: parent
-                            text:"Banner here"
+
+                    GridLayout{
+                        //anchors{
+                            //top:header.bottom
+                            //horizontalCenter:parent.horizontalCenter
+                            //rightMargin: 20 * sizeSet
+                            //leftMargin: 20 * sizeSet
+                        //}
+                        Layout.fillWidth: true
+                        columns: 3
+                        columnSpacing: 4 * sizeSet
+                        rowSpacing: 4 * sizeSet
+                        MainMenuButton{
+                            Layout.rowSpan: 2
+                            color: "green"
+                            //text: "Caterpillar"
+                            image: "images/menu_caterpillar.png"
+                            onClicked: rootLoader.source = "Caterpillar.qml"
                         }
+                        MainMenuButton{
+                            Layout.rowSpan: 2
+                            color: "red"
+                            //text: "Numbers"
+                            image: "images/menu_numbers.png"
+                            onClicked: rootLoader.source = "Numbers.qml"
+                        }
+                        MainMenuButton{
+                            Layout.rowSpan: 2
+                            color: "yellow"
+                            //text: "Block puzzle"
+                            image: "images/menu_block.png"
+                            onClicked: rootLoader.source = "BlockPuzzle.qml"
+                        }
+                        MainMenuButton{
+                            Layout.rowSpan: 2
+                            color: "blue"
+                            text: "Reflection"
+                            onClicked: rootLoader.source = "Reflector.qml"
+                        }
+                        MainMenuButton{
+                            Layout.rowSpan: 2
+                            color: "pink"
+                            //text: "Color lines"
+                            image: "images/menu_lines.png"
+                            onClicked: rootLoader.source = "ColorLines.qml"
+                        }
+                        MainMenuButton{
+                            Layout.rowSpan: 2
+                            color: "indigo"
+                            //text: "Flappy quad"
+                            image: "images/menu_quad.png"
+                            onClicked: rootLoader.source = "Flappy.qml"
+                        }
+                        MainMenuButton{
+                            Layout.rowSpan: 2
+                            color: "orange"
+                            text: "Path finder"
+                            onClicked: rootLoader.source = "Labirinth.qml"
+                        }
+                        MainMenuButton{
+                            Layout.rowSpan: 2
+                            color: "brown"
+                            text: "Tap defence"
+                            onClicked: rootLoader.source = "Defence.qml"
+                        }
+                        Rectangle{
+                            id:startAdBanner
+                            Layout.preferredHeight: quitBtn.height
+                            Layout.preferredWidth: quitBtn.width
+                            color:"yellow"
+                            Text{
+                                anchors.fill: parent
+                                text:"Banner here"
+                            }
+                        }
+                        MainMenuButton{
+                            id:quitBtn
+                            buttonHeight: 48
+                            text: "Quit"
+                            onClicked: Qt.quit()
+                        }
+                        enabled: rootLoader.status === Loader.Null
                     }
                     MainMenuButton{
-                        id:quitBtn
-                        buttonHeight: 48
-                        text: "Quit"
-                        onClicked: Qt.quit()
+                        color:"orange"
+                        image: "images/menu_theme.png"
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: "Happy"
+                        onClicked: happyMode = true
+                        buttonHeight: 75
+                        buttonWidth: 75
                     }
-                    enabled: rootLoader.status === Loader.Null
                 }
             }
 

@@ -9,7 +9,13 @@ Button{
     property int buttonHeight: 100
     property int buttonWidth: 100
     property string image
+
+
     style: ButtonStyle{
+        id:style
+        readonly property color greyscaled: "transparent"
+        readonly property color colored: Qt.rgba(btn.color.r,btn.color.g,btn.color.b,0.65)
+
         label: Text{
             text: control.text
             verticalAlignment: Text.AlignBottom
@@ -26,7 +32,7 @@ Button{
                     State{
                         name: "pressed"
                         when: control.checked || control.pressed
-                        PropertyChanges { target: effect; color: Qt.rgba(btn.color.r,btn.color.g,btn.color.b,0.65) }
+                        PropertyChanges { target: effect; color: happyMode ? style.greyscaled : style.colored }
                     }
                 ]
                 transitions:[
@@ -46,7 +52,7 @@ Button{
                     id: effect
                     anchors.fill: parent
                     source: img
-                    color: "transparent"
+                    color: happyMode ? style.colored : style.greyscaled
                 }
             }
         }
