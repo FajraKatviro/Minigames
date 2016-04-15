@@ -9,9 +9,9 @@ Window {
     id:rootWindow
     visible: true
    // flags: Qt.Window | Qt.WindowTitleHint | Qt.CustomizeWindowHint | Qt.WindowCloseButtonHint
-    width: 600
-    height: 400
-    property real sizeSet: 2
+    width: baseWidth
+    height: baseHeight
+    //property real sizeSet: 2
     property bool happyMode:false
 
     AdCtlLayer{
@@ -46,8 +46,8 @@ Window {
         Item{
             id: activeArea
             anchors.centerIn: parent
-            width: 600*sizeSet
-            height: 400*sizeSet
+            width: baseWidth*sizeSet
+            height: baseHeight*sizeSet
             scale: Math.min(rootWindow.width/width,rootWindow.height/height)
 
             Item{
