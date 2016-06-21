@@ -9,12 +9,13 @@ Window {
     id:rootWindow
     visible: true
    // flags: Qt.Window | Qt.WindowTitleHint | Qt.CustomizeWindowHint | Qt.WindowCloseButtonHint
-    width: 600
-    height: 400
+    width: 800
+    height: 600
     property real sizeSet: 2
 
     AdCtlLayer{
-        startAdId:"566c750ca114525a008b4569"
+        startAdIOSId:"56d36d4a744b8a59008b456b"
+        startAdAndroidId:"566c750ca114525a008b4569"
         startAdBanner:AdCtlBanner{
             item:startAdBanner
         }
@@ -29,6 +30,7 @@ Window {
     }
 
     Rectangle{
+        id:rootRect
         anchors.fill: parent
         color: "black"
         //color: "darkgreen"

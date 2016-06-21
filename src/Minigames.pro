@@ -41,6 +41,10 @@ android {
         mobile/android/gradle/wrapper/gradle-wrapper.properties \
         mobile/android/gradlew.bat \
 }
+ios{
+    #ICON =
+    QMAKE_INFO_PLIST = mobile/ios/Info.plist
+}
 
 
 
