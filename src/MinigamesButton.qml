@@ -16,8 +16,8 @@ Button{
             font.pointSize: 14 * sizeSet
         }
         background: Item{
-            implicitWidth: 175*sizeSet
-            implicitHeight: 50*sizeSet
+            implicitWidth: 75*sizeSet
+            implicitHeight: 75*sizeSet
             Rectangle{
                 id: bg
                 height:parent.width

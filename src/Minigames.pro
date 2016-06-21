@@ -1,7 +1,7 @@
 TEMPLATE = app
 
 QT += qml quick
-CONFIG += c++11
+CONFIG += c++14
 
 SOURCES += main.cpp
 
@@ -46,5 +46,5 @@ ios{
     QMAKE_INFO_PLIST = mobile/ios/Info.plist
 }
 
-
+include(../ImagesetManager/ImagesetTool.pri)
 
