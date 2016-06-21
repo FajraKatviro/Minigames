@@ -23,7 +23,7 @@ Rectangle{
         property alias highScore:gameArea.highScore
     }
     property bool strictMode: true
-    property bool paused: pauseBtn.checked
+    property bool paused: menuLine.paused
 
     signal quitRequested
     signal requestCollect
@@ -225,7 +225,22 @@ Rectangle{
 
     }
 
-    Item{
+    IngameMenu{
+        id:menuLine
+        showExtraButton: true
+        showPauseButton: true
+
+        score: gameArea.score
+        highScore: gameArea.highScore
+        hint:"Tip: use swipe to turn"
+
+        onMenuButtonPressed: gameArea.quitRequested()
+       //onPauseButtonPressed: paused=!paused
+        onRestartButtonPressed: newGame(true)
+        onOptionButtonPressed: newGame(false)
+    }
+
+/*    Item{
         id: menuLine
         width: 200 * sizeSet
         anchors{
@@ -277,7 +292,7 @@ Rectangle{
             }
         }
     }
-
+*/
     Component.onCompleted: {
         newGame(true)
     }

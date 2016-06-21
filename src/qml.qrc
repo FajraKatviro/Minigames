@@ -17,5 +17,6 @@
         <file>Reflector.qml</file>
         <file>MinigamesAds.qml</file>
         <file>MainMenuButton.qml</file>
+        <file>IngameMenu.qml</file>
     </qresource>
 </RCC>
