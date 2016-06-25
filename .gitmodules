@@ -7,3 +7,6 @@
 [submodule "ImagesetManager"]
 	path = ImagesetManager
 	url = https://github.com/FajraKatviro/ImagesetManager.git
+[submodule "FKDeploy"]
+	path = FKDeploy
+	url = https://github.com/FajraKatviro/FKDeploy.git

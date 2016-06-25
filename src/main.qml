@@ -1,5 +1,5 @@
 import QtQuick 2.5
-import QtQuick.Window 2.2
+import QtQuick.Window 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
@@ -275,7 +275,8 @@ Window {
 
             Rectangle{
                 id:loaderArea
-                visible: rootLoader.status === Loader.Ready
+                property bool loaded:false
+                visible: loaderArea.loaded
                 anchors.fill: parent
                 border.width: 1
                 Loader{
@@ -284,11 +285,26 @@ Window {
                     anchors.margins: 2
                     focus: true
                     asynchronous: true
-                    onLoaded: item.completeLoading()
+                    onLoaded: {
+                        tt.start()
+                    }
+                }
+                Timer{
+                    id:tt
+                    repeat: false
+                    interval: 100
+                    triggeredOnStart: false
+                    onTriggered: {
+                        loaderArea.loaded = true
+                        rootLoader.item.completeLoading()
+                    }
                 }
                 Connections{
                     target: rootLoader.item
-                    onQuitRequested: rootLoader.source = ""
+                    onQuitRequested: {
+                        loaderArea.loaded = false
+                        rootLoader.source = ""
+                    }
                 }
             }
             Text{

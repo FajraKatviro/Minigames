@@ -42,5 +42,13 @@ android {
         mobile/android/gradlew.bat \
 }
 
+VERSION = 1.0.0
+ICON = $$PWD/../icons/icon.png
+PRODUCT = Colors
+ORGANIZATION = 'Fajra Katviro'
+LICENSE = $$PWD/../LICENSE
+DEPLOY_BUILD_FOLDER = $$PWD/../packageBuild
+
 include(../ImagesetManager/ImagesetTool.pri)
+include(../FKDeploy/FKDeploy.pri)
 

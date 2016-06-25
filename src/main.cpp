@@ -4,6 +4,7 @@
 
 #include <QScreen>
 #include "FKUtility/loadImageset.h"
+#include <QQmlContext>
 
 #include "thirdparty/adctl/adctl.h"
 
@@ -17,6 +18,7 @@
 
 int main(int argc, char *argv[])
 {
+    QGuiApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
     QGuiApplication app(argc, argv);
 
     app.setOrganizationName("Fajra Katviro");
