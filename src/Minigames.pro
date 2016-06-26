@@ -48,6 +48,7 @@ PRODUCT = Colors
 ORGANIZATION = 'Fajra Katviro'
 LICENSE = $$PWD/../LICENSE
 DEPLOY_BUILD_FOLDER = $$PWD/../packageBuild
+UPGRADE_CODE = "b539003b-ccca-4096-8cc8-b031846e4f59"
 
 include(../ImagesetManager/ImagesetTool.pri)
 include(../FKDeploy/FKDeploy.pri)
