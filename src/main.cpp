@@ -18,7 +18,7 @@
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
+    QGuiApplication::setAttribute(Qt::AA_UseOpenGLES);
     QGuiApplication app(argc, argv);
 
     app.setOrganizationName("Fajra Katviro");
