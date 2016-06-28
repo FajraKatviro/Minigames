@@ -43,7 +43,7 @@ android {
 }
 
 VERSION = 1.0.0
-ICON = $$PWD/../icons/icon.png
+INSTALL_ICON = $$PWD/../icons/icon.ico
 PRODUCT = Colors
 ORGANIZATION = 'Fajra Katviro'
 LICENSE = $$PWD/../LICENSE
