@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
 {
     QGuiApplication::setAttribute(Qt::AA_UseOpenGLES);
     QGuiApplication app(argc, argv);
+    QDir::setCurrent(QCoreApplication::applicationDirPath());
 
     FKProjectHelper::ReplicateApplicationInfoFromProject();
 

@@ -42,12 +42,11 @@ android {
         mobile/android/gradlew.bat \
 }
 ios{
-    #ICON =
     QMAKE_INFO_PLIST = mobile/ios/Info.plist
 }
 
 VERSION = 1.0.0
-ICON = $$PWD/../icons/icon.ico
+ICON = $$PWD/../icons/icon.icns
 RC_ICONS = $$PWD/../icons/icon.ico
 QMAKE_TARGET_PRODUCT = Colors
 QMAKE_TARGET_COMPANY = 'Fajra Katviro'
