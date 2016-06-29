@@ -89,6 +89,7 @@ Rectangle{
             property var quadSource:preservedQuads
         }
         Repeater{
+            y:5
             id:activeCircles
             delegate: LinesCircle{}
             model:activeModel
@@ -102,7 +103,18 @@ Rectangle{
         model.append({"mRow":row,"mCol":column,"mColor":color,"quadSource":model.quadSource})
     }
 
-    Item{
+    IngameMenu{
+        id:menuLine
+
+        score:linesGame.score
+        highScore: linesGame.highScore
+        hint: "Tip: use tap and tap to select and move"
+
+        onMenuButtonPressed: quitRequested()
+        onRestartButtonPressed: newGame()
+    }
+
+/*    Item{
         id: menuLine
         width: 200 * sizeSet
         anchors{
@@ -144,7 +156,7 @@ Rectangle{
             }
         }
     }
-
+*/
     function nextTurn(){
         if(tryMatch())
             return

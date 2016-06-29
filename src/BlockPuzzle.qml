@@ -24,7 +24,7 @@ Rectangle{
     property int currentSource: 0
     property var blockTemplates: [line,tBlock,leftLBlock,rightLBlock,rightSBlock,leftSBlock,block]
 
-    property bool paused: pauseBtn.checked
+    property bool paused: menu.paused
 
     function completeLoading(){
     }
@@ -40,13 +40,29 @@ Rectangle{
         value:16
     }
 
-    Item{
+    IngameMenu{
+        id:menu
+
+        score: game.score
+        highScore: game.highScore
+        hint: "Tip: use tap to rotate block"
+
+        showPauseButton: true
+
+        onMenuButtonPressed: quitRequested()
+        onRestartButtonPressed: newGame()
+
+    }
+
+/*    Item{
         anchors{
             top:parent.top
             left:parent.left
             bottom:parent.bottom
             right:mainArea.left
         }
+
+
         Column{
             anchors.centerIn: parent
             spacing: 40 * sizeSet
@@ -103,6 +119,8 @@ Rectangle{
             }
         }
     }
+*/
+
     Rectangle{
         anchors{
             bottom:parent.bottom

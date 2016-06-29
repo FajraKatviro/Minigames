@@ -7,17 +7,20 @@ Button{
     property color color: "#999"
     //width: 175
     //height: 50
+    width: 75*sizeSet
+    height: 75*sizeSet
     style: ButtonStyle{
         label: Text{
             anchors.fill: parent
             text: control.text
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font.pointSize: 14 * sizeSet
+            font.pointSize: 12 * sizeSet
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
         background: Item{
-            implicitWidth: 75*sizeSet
-            implicitHeight: 75*sizeSet
+            //implicitWidth: 75*sizeSet
+            //implicitHeight: 75*sizeSet
             Rectangle{
                 id: bg
                 height:parent.width
