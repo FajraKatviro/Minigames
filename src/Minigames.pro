@@ -43,9 +43,10 @@ android {
 }
 
 VERSION = 1.0.0
-INSTALL_ICON = $$PWD/../icons/icon.ico
-PRODUCT = Colors
-ORGANIZATION = 'Fajra Katviro'
+ICON = $$PWD/../icons/icon.ico
+RC_ICONS = $$PWD/../icons/icon.ico
+QMAKE_TARGET_PRODUCT = Colors
+QMAKE_TARGET_COMPANY = 'Fajra Katviro'
 LICENSE = $$PWD/../LICENSE
 DEPLOY_BUILD_FOLDER = $$PWD/../packageBuild
 UPGRADE_CODE = "b539003b-ccca-4096-8cc8-b031846e4f59"
