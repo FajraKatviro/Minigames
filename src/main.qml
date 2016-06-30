@@ -245,15 +245,11 @@ Window {
                             text: "Tap defence"
                             onClicked: rootLoader.source = "Defence.qml"
                         }
-                        Rectangle{
+                        Item{
                             id:startAdBanner
                             Layout.preferredHeight: quitBtn.height
                             Layout.preferredWidth: quitBtn.width
-                            color:"yellow"
-                            Text{
-                                anchors.fill: parent
-                                text:"Banner here"
-                            }
+                            visible: !loaderArea.loaded
                         }
                         MainMenuButton{
                             id:quitBtn
@@ -344,6 +340,6 @@ Window {
             }
         }
     }
-    Component.onCompleted: showFullScreen()
+    Component.onCompleted: show()//showFullScreen()
 }
 
