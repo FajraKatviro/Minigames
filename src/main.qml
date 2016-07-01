@@ -132,6 +132,114 @@ Window {
                         loops: Animation.Infinite
                     }
                 }
+
+                Row{
+                    id: moodSwitcher
+                    anchors{
+                        top:header.bottom
+                        topMargin: 10 * sizeSet
+                        horizontalCenter:parent.horizontalCenter
+                    }
+                    //spacing: 20 * sizeSet
+                    /*MainMenuButton{
+                        color:"white"
+                        image: "images/menu_theme.png"
+                        anchors.verticalCenter: parent.verticalCenter
+                        //text: "Ashes"
+                        onClicked: happyMode = false
+                        buttonHeight: 30
+                        buttonWidth: 80
+                    }*/
+                    MainMenuButton{
+                        color:"orange"
+                        image: "images/menu_theme.png"
+                        anchors.verticalCenter: parent.verticalCenter
+                        //text: "Happy"
+                        onClicked: happyMode = !happyMode
+                        buttonHeight: 30
+                        buttonWidth: 80
+                    }
+                }
+
+                Item{
+                    anchors{
+                        top:moodSwitcher.bottom
+                        left:parent.left
+                        right: parent.right
+                        //rightMargin: 10 * sizeSet
+                        //leftMargin: 10 * sizeSet
+                        bottom:footer.top
+                    }
+                    GridLayout{
+                        anchors.centerIn: parent
+                        columns: 4
+                        columnSpacing: 4 * sizeSet
+                        rowSpacing: 4 * sizeSet
+                        MainMenuButton{
+                            color: "green"
+                            //text: "Caterpillar"
+                            image: "images/menu_caterpillar.png"
+                            onClicked: rootLoader.source = "Caterpillar.qml"
+                        }
+                        MainMenuButton{
+                            color: "red"
+                            //text: "Numbers"
+                            image: "images/menu_numbers.png"
+                            onClicked: rootLoader.source = "Numbers.qml"
+                        }
+                        MainMenuButton{
+                            color: "yellow"
+                            //text: "Block puzzle"
+                            image: "images/menu_block.png"
+                            onClicked: rootLoader.source = "BlockPuzzle.qml"
+                        }
+                        MainMenuButton{
+                            color: "blue"
+                            text: "Reflection"
+                            image: "images/menu_quad.png"
+                            onClicked: rootLoader.source = "Reflector.qml"
+                        }
+                        MainMenuButton{
+                            color: "pink"
+                            //text: "Color lines"
+                            image: "images/menu_lines.png"
+                            onClicked: rootLoader.source = "ColorLines.qml"
+                        }
+                        MainMenuButton{
+                            color: "indigo"
+                            //text: "Flappy quad"
+                            image: "images/menu_quad.png"
+                            onClicked: rootLoader.source = "Flappy.qml"
+                        }
+                        MainMenuButton{
+                            color: "orange"
+                            text: "Path finder"
+                            image: "images/menu_quad.png"
+                            onClicked: rootLoader.source = "Labirinth.qml"
+                        }
+                        MainMenuButton{
+                            color: "brown"
+                            text: "Tap defence"
+                            image: "images/menu_quad.png"
+                            onClicked: rootLoader.source = "Defence.qml"
+                        }
+                        Rectangle{
+                            id:startAdBanner
+                            Layout.columnSpan: 4
+                            Layout.preferredHeight: 50 * sizeSet// quitBtn.height
+                            Layout.preferredWidth: 400 * sizeSet + 4 * sizeSet * 3 //quitBtn.width
+                            visible: !loaderArea.loaded
+                        }
+                        /*MainMenuButton{
+                            id:quitBtn
+                            buttonHeight: 48
+                            text: "Quit"
+                            onClicked: Qt.quit()
+                        }*/
+                        enabled: rootLoader.status === Loader.Null
+                    }
+                }
+
                 Item{
                     id:footer
                     anchors{
@@ -145,131 +253,30 @@ Window {
                         id:footerContent
                         anchors.centerIn: parent
                         Text{
-                            color:Qt.rgba(0.2,0.2,0.2,1)
+                            color:Qt.rgba(1.0,1.0,0.8,1)
                             text:"by Fajra Katviro"
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.italic: true
+                            font.pointSize: 14 * sizeSet
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+                        Text{
+                            color:Qt.rgba(1.0,1.0,0.8,1)
+                            text:"special thanks to Artist inkognita"
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
                             font.italic: true
                             font.pointSize: 10 * sizeSet
                             anchors.horizontalCenter: parent.horizontalCenter
                         }
-                        Text{
-                            color:Qt.rgba(0.2,0.2,0.2,1)
-                            text:"special thanks to Artist inkognita"
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignHCenter
-                            font.italic: true
-                            font.pointSize: 6 * sizeSet
-                            anchors.horizontalCenter: parent.horizontalCenter
-                        }
                     }
                 }
 
-                Row{
-                    anchors{
-                        top:header.bottom
-                        horizontalCenter:parent.horizontalCenter
-                    }
-                    spacing: 20 * sizeSet
-                    MainMenuButton{
-                        color:"white"
-                        image: "images/menu_theme.png"
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: "Ashes"
-                        onClicked: happyMode = false
-                        buttonHeight: 75
-                        buttonWidth: 75
-                    }
 
-                    GridLayout{
-                        //anchors{
-                            //top:header.bottom
-                            //horizontalCenter:parent.horizontalCenter
-                            //rightMargin: 20 * sizeSet
-                            //leftMargin: 20 * sizeSet
-                        //}
-                        Layout.fillWidth: true
-                        columns: 3
-                        columnSpacing: 4 * sizeSet
-                        rowSpacing: 4 * sizeSet
-                        MainMenuButton{
-                            Layout.rowSpan: 2
-                            color: "green"
-                            //text: "Caterpillar"
-                            image: "images/menu_caterpillar.png"
-                            onClicked: rootLoader.source = "Caterpillar.qml"
-                        }
-                        MainMenuButton{
-                            Layout.rowSpan: 2
-                            color: "red"
-                            //text: "Numbers"
-                            image: "images/menu_numbers.png"
-                            onClicked: rootLoader.source = "Numbers.qml"
-                        }
-                        MainMenuButton{
-                            Layout.rowSpan: 2
-                            color: "yellow"
-                            //text: "Block puzzle"
-                            image: "images/menu_block.png"
-                            onClicked: rootLoader.source = "BlockPuzzle.qml"
-                        }
-                        MainMenuButton{
-                            Layout.rowSpan: 2
-                            color: "blue"
-                            text: "Reflection"
-                            onClicked: rootLoader.source = "Reflector.qml"
-                        }
-                        MainMenuButton{
-                            Layout.rowSpan: 2
-                            color: "pink"
-                            //text: "Color lines"
-                            image: "images/menu_lines.png"
-                            onClicked: rootLoader.source = "ColorLines.qml"
-                        }
-                        MainMenuButton{
-                            Layout.rowSpan: 2
-                            color: "indigo"
-                            //text: "Flappy quad"
-                            image: "images/menu_quad.png"
-                            onClicked: rootLoader.source = "Flappy.qml"
-                        }
-                        MainMenuButton{
-                            Layout.rowSpan: 2
-                            color: "orange"
-                            text: "Path finder"
-                            onClicked: rootLoader.source = "Labirinth.qml"
-                        }
-                        MainMenuButton{
-                            Layout.rowSpan: 2
-                            color: "brown"
-                            text: "Tap defence"
-                            onClicked: rootLoader.source = "Defence.qml"
-                        }
-                        Item{
-                            id:startAdBanner
-                            Layout.preferredHeight: quitBtn.height
-                            Layout.preferredWidth: quitBtn.width
-                            visible: !loaderArea.loaded
-                        }
-                        MainMenuButton{
-                            id:quitBtn
-                            buttonHeight: 48
-                            text: "Quit"
-                            onClicked: Qt.quit()
-                        }
-                        enabled: rootLoader.status === Loader.Null
-                    }
-                    MainMenuButton{
-                        color:"orange"
-                        image: "images/menu_theme.png"
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: "Happy"
-                        onClicked: happyMode = true
-                        buttonHeight: 75
-                        buttonWidth: 75
-                    }
-                }
             }
+
+
 
             Rectangle{
                 id:loaderArea
