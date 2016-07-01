@@ -34,48 +34,18 @@ Rectangle{
         isGameOver=true
     }
 
-    Item{
-        anchors{
-            left:parent.left
-            top:parent.top
-            bottom: parent.bottom
-            right: game.left
-        }
-        Column{
-            anchors.centerIn: parent
-            spacing: 20*sizeSet
-            MinigamesButton{
-                color:"red"
-                text: "Menu"
-                onClicked: quitRequested()
-            }
-            MinigamesButton{
-                id:restartBtn
-                color:"red"
-                text: "Restart"
-                onClicked: newGame()
-            }
-            Text{
-                color:"darkgrey"
-                font.pointSize: 16 * sizeSet
-                text: "Highscore:" + highScore
-            }
-            Text{
-                color:"darkgrey"
-                text:"Score:" + score
-                verticalAlignment: Text.AlignVCenter
-                //horizontalAlignment: Text.AlignHCenter
-                font.pointSize: 16 * sizeSet
-            }
-            Text{
-                color:Qt.hsla(0.0,0.0,0.4,1.0)
-                font.pointSize: 14 * sizeSet
-                text: "Tip: use swipe to move quads"
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                horizontalAlignment: Text.AlignHCenter
-                width:restartBtn.width
-            }
-        }
+    IngameMenu{
+        id:menuLine
+
+        score: gameArea.score
+        highScore: gameArea.highScore
+        hint: "Tip: use swipe to move quads"
+
+        showPauseButton: false
+
+        onMenuButtonPressed: quitRequested()
+        onRestartButtonPressed: newGame()
+
     }
 
     Item{

@@ -20,7 +20,7 @@ Rectangle{
         category: "FlappyQuad"
         property alias highScore:gameArea.highScore
     }
-    property bool paused: pauseBtn.checked
+    property bool paused: menuLine.paused
     property bool started: false
     onPausedChanged: if(paused)activeQuad.targetY=activeQuad.y
 
@@ -352,52 +352,18 @@ Rectangle{
         }
     }
 
-    Item{
-        id: menuLine
-        width: 200 * sizeSet
-        anchors{
-            left:parent.left
-            top:parent.top
-            bottom:parent.bottom
-        }
-        Column{
-            anchors.centerIn: parent
-            spacing: 15 * sizeSet
-            Text{
-                color:"darkgrey"
-                font.pointSize: 16 * sizeSet
-                text: "Highscore:" + highScore
-            }
-            Text{
-                color:"darkgrey"
-                font.pointSize: 16 * sizeSet
-                text: "Score:" + score
-            }
-            MinigamesButton{
-                color:"indigo"
-                text: "Menu"
-                onClicked: gameArea.quitRequested()
-            }
-            MinigamesButton{
-                id:pauseBtn
-                color:"indigo"
-                text: "Pause"
-                checkable: true
-            }
-            MinigamesButton{
-                color:"indigo"
-                text: "Restart"
-                onClicked: newGame()
-            }
-            Text{
-                color:Qt.hsla(0.0,0.0,0.4,1.0)
-                font.pointSize: 14 * sizeSet
-                text: "Tip: use tap to move up"
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                horizontalAlignment: Text.AlignHCenter
-                width:pauseBtn.width
-            }
-        }
+    IngameMenu{
+        id:menuLine
+
+        score: gameArea.score
+        highScore: gameArea.highScore
+        hint: "Tip: use tap to move up"
+
+        showPauseButton: true
+
+        onMenuButtonPressed: gameArea.quitRequested()
+        onRestartButtonPressed: newGame()
+
     }
 
     Component.onCompleted: {

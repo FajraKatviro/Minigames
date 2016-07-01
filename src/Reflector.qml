@@ -16,7 +16,7 @@ Rectangle{
         category: "Reflector"
         property alias highScore:gameArea.highScore
     }
-    property bool paused: pauseBtn.checked
+    property bool paused: menuLine.paused
     property bool running: true
     property real lastTime: Date.now()
 
@@ -212,7 +212,8 @@ Rectangle{
 
 
             function move(direction){
-                xPos=Math.min(Math.max(xPos+10*2*direction,0),activeArea.width-width)
+                if(!paused)
+                    xPos=Math.min(Math.max(xPos+10*2*direction,0),activeArea.width-width)
             }
 
             function collided(){
@@ -278,53 +279,19 @@ Rectangle{
                               "mColor":colorsPool[getRandomNumber(0,colorsPool.length-1)]})
     }
 
-    Item{
-        id: menuLine
-        width: 200 * sizeSet
-        anchors{
-            left:parent.left
-            top:parent.top
-            bottom:parent.bottom
-        }
-        Column{
-            anchors.centerIn: parent
-            spacing: 10 * sizeSet
-            Text{
-                color:"darkgrey"
-                font.pointSize: 16 * sizeSet
-                text: "Highscore:" + highScore
-            }
-            Text{
-                color:"darkgrey"
-                font.pointSize: 16 * sizeSet
-                text: "Score:" + score
-            }
-            MinigamesButton{
-                color:"blue"
-                text: "Menu"
-                onClicked: gameArea.quitRequested()
-            }
-            MinigamesButton{
-                id:pauseBtn
-                color:"blue"
-                text: "Pause"
-                checkable: true
-                onClicked: {lastTime=Date.now()}
-            }
-            MinigamesButton{
-                color:"blue"
-                text: "Restart"
-                onClicked: newGame()
-            }
-            Text{
-                color:Qt.hsla(0.0,0.0,0.4,1.0)
-                font.pointSize: 14 * sizeSet
-                text: "Tip: use swipe to move platform"
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                horizontalAlignment: Text.AlignHCenter
-                width:pauseBtn.width
-            }
-        }
+    IngameMenu{
+        id:menuLine
+
+        score: gameArea.score
+        highScore: gameArea.highScore
+        hint: "Tip: use swipe to move platform"
+
+        showPauseButton: true
+
+        onMenuButtonPressed: quitRequested()
+        onRestartButtonPressed: newGame()
+
+        onPausedChanged: lastTime=Date.now()
     }
 
     Component.onCompleted: {
