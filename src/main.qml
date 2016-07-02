@@ -229,7 +229,7 @@ Window {
                             image: "images/menu_quad.png"
                             onClicked: rootLoader.source = "Defence.qml"
                         }
-                        Rectangle{
+                        Item{
                             id:startAdBanner
                             Layout.columnSpan: 4
                             Layout.preferredHeight: 50 * sizeSet// quitBtn.height

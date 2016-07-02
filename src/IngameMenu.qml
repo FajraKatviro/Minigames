@@ -29,44 +29,64 @@ Item{
         spacing: 10 * sizeSet
         Item{
             width:menuLine.width
-            height: highscoreText.implicitHeight + scoreText.implicitHeight + 5*sizeSet
-            Text{
-                id:highscoreText
-                anchors{
-                    left:parent.left
-                    right:parent.right
-                    top:parent.top
-                    leftMargin: 20*sizeSet
+            height: scoreColumn.implicitHeight
+            Column{
+                id:scoreColumn
+                anchors.centerIn: parent
+                spacing: 10 * sizeSet
+                Rectangle{
+                    color: Qt.rgba(0.9,0.9,0.9,1)
+                    width:buttonsGrid.width
+                    height: highscoreText.implicitHeight
+                    Text{
+                        id:highscoreText
+                        anchors.fill: parent
+                        color:menuLine.color
+                        style: Text.Outline
+                        styleColor: "black"
+                        font.pointSize: 14 * sizeSet
+                        text: "Highscore \n" + highScore
+                        lineHeight: 1.2
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                    }
                 }
-                color:"darkgrey"
-                font.pointSize: 14 * sizeSet
-                text: "Highscore:" + highScore
-            }
-            Text{
-                id:scoreText
-                anchors{
-                    left:parent.left
-                    right:parent.right
-                    top:highscoreText.bottom
-                    leftMargin: 20*sizeSet
+                Rectangle{
+                    color: Qt.rgba(0.9,0.9,0.9,1)
+                    width:buttonsGrid.width
+                    height: scoreText.implicitHeight
+                    Text{
+                        id:scoreText
+                        anchors.fill: parent
+                        color:menuLine.color
+                        style: Text.Outline
+                        styleColor: "black"
+                        font.pointSize: 14 * sizeSet
+                        text: "Score \n" + score
+                        lineHeight: 1.2
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                    }
                 }
-                color:"darkgrey"
-                font.pointSize: 14 * sizeSet
-                text: "Score:" + score
             }
         }
         Text{
             width:menuLine.width
+            height: 40 * sizeSet
             color:Qt.hsla(0.0,0.0,0.4,1.0)
             font.pointSize: 14 * sizeSet
             text: hint
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
         }
         Item{
             width:menuLine.width
-            height: width
+            height: buttonsGrid.height
             Grid{
+                id:buttonsGrid
                 anchors.centerIn: parent
                 columns: 2
                 spacing: 5*sizeSet
