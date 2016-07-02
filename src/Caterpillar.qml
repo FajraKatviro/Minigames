@@ -230,6 +230,8 @@ Rectangle{
         showExtraButton: true
         showPauseButton: true
 
+        color: "green"
+
         score: gameArea.score
         highScore: gameArea.highScore
         hint:"Tip: use swipe to turn"

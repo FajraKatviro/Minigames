@@ -12,7 +12,7 @@ Window {
     width: baseWidth
     height: baseHeight
     //property real sizeSet: 2
-    property bool happyMode:false
+    property bool happyMode:happyBtn.checked
 
     AdCtlLayer{
         startAdIOSId:"56d36d4a744b8a59008b456b"
@@ -114,30 +114,30 @@ Window {
                     id:headerGlow
                     anchors.fill: header
                     source: header
-                    //desaturation: 1.0
                     samples: 2 * radius
                     radius: 4
                     color: "black"
                     visible: false
                 }
                 Desaturate {
+                    //visible: !happyMode
                     anchors.fill: headerGlow
                     source: headerGlow
-                    desaturation: 1.0
+                    desaturation: happyMode ? 0.7 : 0.9
                     transform: Scale { origin.x:header.width*0.5 ; origin.y: 0; xScale: 4}
-                    SequentialAnimation on desaturation {
-                        NumberAnimation{from:-0.2;to:2.2;duration:5000}
-                        NumberAnimation{from:2.2;to:-0.2;duration:5000}
-                        running: true
-                        loops: Animation.Infinite
-                    }
+                    //SequentialAnimation on desaturation {
+                    //    NumberAnimation{from:0.8;to:1.2;duration:5000}
+                    //    NumberAnimation{from:1.2;to:0.8;duration:5000}
+                    //    running: true
+                    //    loops: Animation.Infinite
+                    //}
                 }
 
                 Row{
                     id: moodSwitcher
                     anchors{
                         top:header.bottom
-                        topMargin: 10 * sizeSet
+                        topMargin: 5 * sizeSet
                         horizontalCenter:parent.horizontalCenter
                     }
                     //spacing: 20 * sizeSet
@@ -150,20 +150,26 @@ Window {
                         buttonHeight: 30
                         buttonWidth: 80
                     }*/
+
                     MainMenuButton{
-                        color:"orange"
-                        image: "images/menu_theme.png"
+                        id:happyBtn
+                        color:"yellow"
+                        image: happyMode ? "images/switcher_happy.png" : "images/switcher_ashes.png"
                         anchors.verticalCenter: parent.verticalCenter
                         //text: "Happy"
-                        onClicked: happyMode = !happyMode
-                        buttonHeight: 30
+                        //onClicked: happyMode = !happyMode
+                        buttonHeight: 40
                         buttonWidth: 80
+                        checkable: true
+                        ignoreMoodSwap: true
+                        checked: true
                     }
                 }
 
                 Item{
                     anchors{
                         top:moodSwitcher.bottom
+                        topMargin: 5 * sizeSet
                         left:parent.left
                         right: parent.right
                         //rightMargin: 10 * sizeSet
@@ -253,15 +259,15 @@ Window {
                         id:footerContent
                         anchors.centerIn: parent
                         Text{
-                            color:Qt.rgba(1.0,1.0,0.8,1)
+                            color:happyMode ? "black" : Qt.rgba(1.0,1.0,0.8,1)
                             text:"by Fajra Katviro"
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
                             font.italic: true
-                            font.pointSize: 14 * sizeSet
+                            font.pointSize: 12 * sizeSet
                             anchors.horizontalCenter: parent.horizontalCenter
                         }
-                        Text{
+                        /*Text{
                             color:Qt.rgba(1.0,1.0,0.8,1)
                             text:"special thanks to Artist inkognita"
                             verticalAlignment: Text.AlignVCenter
@@ -269,7 +275,7 @@ Window {
                             font.italic: true
                             font.pointSize: 10 * sizeSet
                             anchors.horizontalCenter: parent.horizontalCenter
-                        }
+                        }*/
                     }
                 }
 

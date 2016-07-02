@@ -355,6 +355,8 @@ Rectangle{
     IngameMenu{
         id:menuLine
 
+        color: "indigo"
+
         score: gameArea.score
         highScore: gameArea.highScore
         hint: "Tip: use tap to move up"

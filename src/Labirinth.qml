@@ -433,6 +433,8 @@ Rectangle{
     IngameMenu{
         id:menuLine
 
+        color: "orange"
+
         score: gameArea.score
         highScore: gameArea.highScore
         hint: "Tip: go to East. Use swipe to turn and tap to stop"

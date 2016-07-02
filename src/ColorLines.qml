@@ -106,6 +106,8 @@ Rectangle{
     IngameMenu{
         id:menuLine
 
+        color: "pink"
+
         score:linesGame.score
         highScore: linesGame.highScore
         hint: "Tip: use tap and tap to select and move"

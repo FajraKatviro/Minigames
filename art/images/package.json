@@ -65,7 +65,16 @@
             ]
         },
         {
-            "path": "menu_theme.png",
+            "path": "switcher_ashes.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
+        },
+        {
+            "path": "switcher_happy.png",
             "sourceSizes": [
                 "2048x1536"
             ],
