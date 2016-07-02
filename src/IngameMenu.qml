@@ -5,6 +5,7 @@ Item{
 
     property bool showPauseButton:false
     property bool showExtraButton:false
+    property color color
 
     signal menuButtonPressed
     //signal pauseButtonPressed
@@ -71,26 +72,26 @@ Item{
                 spacing: 5*sizeSet
                 MinigamesButton{
                     id: menuButton
-                    color:"green"
+                    color:menuLine.color
                     text: "Menu"
                     onClicked: menuButtonPressed()
                 }
                 MinigamesButton{
                     id: pauseButton
-                    color:"green"
+                    color:menuLine.color
                     enabled: showPauseButton
                     text: showPauseButton ? "Pause" : ""
                     checkable: true
                 }
                 MinigamesButton{
                     id: restartButton
-                    color:"green"
+                    color:menuLine.color
                     text: "Restart"
                     onClicked: restartButtonPressed()
                 }
                 MinigamesButton{
                     id: optionButton
-                    color:"green"
+                    color:menuLine.color
                     enabled: showExtraButton
                     text: showExtraButton ? "Another restart" : ""
                     onClicked: optionButtonPressed()

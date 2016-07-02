@@ -9,7 +9,7 @@ Button{
     property int buttonHeight: 100
     property int buttonWidth: 100
     property string image
-
+    property bool ignoreMoodSwap: false
 
     style: ButtonStyle{
         id:style
@@ -32,7 +32,7 @@ Button{
                     State{
                         name: "pressed"
                         when: control.checked || control.pressed
-                        PropertyChanges { target: effect; color: happyMode ? style.greyscaled : style.colored }
+                        PropertyChanges { target: effect; color: (happyMode && !ignoreMoodSwap) ? style.greyscaled : style.colored }
                     }
                 ]
                 transitions:[
@@ -52,7 +52,7 @@ Button{
                     id: effect
                     anchors.fill: parent
                     source: img
-                    color: happyMode ? style.colored : style.greyscaled
+                    color: (happyMode && !ignoreMoodSwap) ? style.colored : style.greyscaled
                 }
             }
         }

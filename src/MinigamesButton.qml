@@ -27,12 +27,12 @@ Button{
                 width:parent.height
                 anchors.centerIn: parent
                 rotation:270
-                color: "grey"
+                color: happyMode ? btn.color : "grey"
                 states: [
                     State{
                         name: "pressed"
                         when: control.checked || control.pressed
-                        PropertyChanges{ target:bg; color: btn.color }
+                        PropertyChanges{ target:bg; color: happyMode ? "grey" : btn.color }
                     }
                 ]
                 transitions:[

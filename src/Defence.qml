@@ -338,6 +338,8 @@ Rectangle{
     IngameMenu{
         id:menuLine
 
+        color: "brown"
+
         score: gameArea.score
         highScore: gameArea.highScore
         hint: "Tip: tap out falling blocks"

@@ -43,6 +43,8 @@ Rectangle{
     IngameMenu{
         id:menu
 
+        color: "yellow"
+
         score: game.score
         highScore: game.highScore
         hint: "Tip: use tap to rotate block"

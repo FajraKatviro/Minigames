@@ -37,6 +37,8 @@ Rectangle{
     IngameMenu{
         id:menuLine
 
+        color: "red"
+
         score: gameArea.score
         highScore: gameArea.highScore
         hint: "Tip: use swipe to move quads"
