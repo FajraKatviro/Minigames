@@ -43,8 +43,12 @@ android {
 }
 ios{
     QMAKE_INFO_PLIST = mobile/ios/Info.plist
-    ios_icon.files = $$files($$PWD/../icons/iOS/icon*.png)
+
+    ios_icon.files = $$files($$PWD/../icons/iOS/icon@*.png)
     QMAKE_BUNDLE_DATA += ios_icon
+
+    app_launch_images.files = $$files($$PWD/../icons/iOS/LaunchImage*.png)
+    QMAKE_BUNDLE_DATA += app_launch_images
 }
 
 VERSION = 1.0.0
