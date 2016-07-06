@@ -2,8 +2,6 @@ import QtQuick 2.5
 
 Item{
     id:circle
-    property real xPos:quad.xPos
-    property real yPos:quad.yPos
     property int quadColor:mColor
     property int oldColor
     property Item quad:quadSource.itemAt(row*quadCount+col)
@@ -52,8 +50,9 @@ Item{
         gameOverAnimation.start()
     }
 
-    x:xPos
-    y:yPos
+    x:quad.x
+    y:quad.y
+
     width:quadSize
     height:quadSize
     MouseArea{

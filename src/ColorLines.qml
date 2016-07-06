@@ -23,11 +23,9 @@ Rectangle{
     }
 
     signal quitRequested
-    signal refreshPositions
     property bool isGameOver:false
 
     function completeLoading(){
-        refreshPositions()
         createPreserved()
         newGame()
     }
@@ -58,6 +56,18 @@ Rectangle{
                         delegate: LinesQuad{}
                     }
                 }
+                Item{
+                    anchors.fill: preservedRow
+                    Repeater{
+                        id:preservedCircles
+                        delegate: LinesCircle{enabled: false}
+                        model:preserveModel
+                    }
+                    ListModel{
+                        id:preserveModel
+                        property var quadSource:preservedQuads
+                    }
+                }
             }
             Item{
                 height:mainGrid.implicitHeight
@@ -77,26 +87,20 @@ Rectangle{
                         }
                     }
                 }
+                Item{
+                    anchors.fill: mainGrid
+                    Repeater{
+                        y:5
+                        id:activeCircles
+                        delegate: LinesCircle{}
+                        model:activeModel
+                    }
+                    ListModel{
+                        id:activeModel
+                        property var quadSource:quads
+                    }
+                }
             }
-        }
-        Repeater{
-            id:preservedCircles
-            delegate: LinesCircle{enabled: false}
-            model:preserveModel
-        }
-        ListModel{
-            id:preserveModel
-            property var quadSource:preservedQuads
-        }
-        Repeater{
-            y:5
-            id:activeCircles
-            delegate: LinesCircle{}
-            model:activeModel
-        }
-        ListModel{
-            id:activeModel
-            property var quadSource:quads
         }
     }
     function addCircle(model,row,column,color){

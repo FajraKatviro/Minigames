@@ -297,15 +297,6 @@ Window {
                     focus: true
                     asynchronous: true
                     onLoaded: {
-                        tt.start()
-                    }
-                }
-                Timer{
-                    id:tt
-                    repeat: false
-                    interval: 100
-                    triggeredOnStart: false
-                    onTriggered: {
                         loaderArea.loaded = true
                         rootLoader.item.completeLoading()
                     }
