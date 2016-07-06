@@ -353,6 +353,6 @@ Window {
             }
         }
     }
-    Component.onCompleted: showFullScreen()
+    //Component.onCompleted: showFullScreen()
 }
 

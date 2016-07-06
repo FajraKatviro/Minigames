@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("baseHeight",baseSize.height());
     engine.rootContext()->setContextProperty("baseWidth",baseSize.width());
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    QMetaObject::invokeMethod(engine.rootObjects().first(), "showFullScreen");
     //engine.load(QStringLiteral("main.qml"));
     //engine.rootContext()->setContextProperty("engine",&engine);
     return app.exec();

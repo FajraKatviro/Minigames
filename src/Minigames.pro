@@ -59,7 +59,7 @@ UPGRADE_CODE = "b539003b-ccca-4096-8cc8-b031846e4f59"
 include(../FKDeploy/FKDeploy.pri)
 
 #iOS icon & splash screen
-QMAKE_INFO_PLIST = mobile/ios/Info.plist
+FK_IOS_PLIST = mobile/ios/Info.plist
 FK_IOS_ICONS = $$PWD/../icons/iOS
 FK_IOS_SPLASH_SCREENS = $$PWD/../FKDeploy/iOS/splashScreen
 include(../FKDeploy/iOS/FKDeploy_iOS.pri)
