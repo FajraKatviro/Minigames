@@ -41,16 +41,13 @@ android {
         mobile/android/gradle/wrapper/gradle-wrapper.properties \
         mobile/android/gradlew.bat \
 }
-ios{
-    QMAKE_INFO_PLIST = mobile/ios/Info.plist
 
-    ios_icon.files = $$files($$PWD/../icons/iOS/icon@*.png)
-    QMAKE_BUNDLE_DATA += ios_icon
+#make imageset
+ART_FOLDER = $$PWD/../art
+ART_BUILD_FOLDER = $$PWD/../resourceBuild
+include(../ImagesetManager/ImagesetTool.pri)
 
-    app_launch_images.files = $$files($$PWD/../icons/iOS/LaunchImage*.png)
-    QMAKE_BUNDLE_DATA += app_launch_images
-}
-
+#make deploy
 VERSION = 1.0.0
 ICON = $$PWD/../icons/icon.icns
 RC_ICONS = $$PWD/../icons/icon.ico
@@ -59,7 +56,13 @@ QMAKE_TARGET_COMPANY = 'Fajra Katviro'
 LICENSE = $$PWD/../LICENSE
 DEPLOY_BUILD_FOLDER = $$PWD/../packageBuild
 UPGRADE_CODE = "b539003b-ccca-4096-8cc8-b031846e4f59"
-
-include(../ImagesetManager/ImagesetTool.pri)
 include(../FKDeploy/FKDeploy.pri)
+
+#iOS icon & splash screen
+QMAKE_INFO_PLIST = mobile/ios/Info.plist
+FK_IOS_ICONS = $$PWD/../icons/iOS
+FK_IOS_SPLASH_SCREENS = $$PWD/../FKDeploy/iOS/splashScreen
+include(../FKDeploy/iOS/FKDeploy_iOS.pri)
+
+
 
