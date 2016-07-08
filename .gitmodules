@@ -1,12 +1,3 @@
 [submodule "src/thirdparty/adctl"]
 	path = src/thirdparty/adctl
 	url = https://github.com/FajraKatviro/adctl.git
-[submodule "src/FKUtility"]
-	path = src/FKUtility
-	url = https://github.com/FajraKatviro/FKUtility.git
-[submodule "ImagesetManager"]
-	path = ImagesetManager
-	url = https://github.com/FajraKatviro/ImagesetManager.git
-[submodule "FKDeploy"]
-	path = FKDeploy
-	url = https://github.com/FajraKatviro/FKDeploy.git
