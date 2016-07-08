@@ -1,3 +1,6 @@
 [submodule "src/thirdparty/adctl"]
 	path = src/thirdparty/adctl
 	url = https://github.com/FajraKatviro/adctl.git
+[submodule "FKUtils"]
+	path = FKUtils
+	url = https://github.com/fajrakatviro/FKUtils.git
