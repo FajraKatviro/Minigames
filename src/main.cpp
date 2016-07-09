@@ -3,10 +3,10 @@
 //#include <QQmlContext>
 
 #include <QScreen>
-#include "FKUtility/loadImageset.h"
+#include "loadImageset.h"
 #include <QQmlContext>
 
-#include "../FKDeploy/FKProjectHelper.h"
+#include "projecthelper.h"
 
 #include "thirdparty/adctl/adctl.h"
 

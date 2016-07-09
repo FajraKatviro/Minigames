@@ -42,10 +42,12 @@ android {
         mobile/android/gradlew.bat \
 }
 
+INCLUDEPATH += $$PWD/../FKUtils/sharedHeaders
+
 #make imageset
 ART_FOLDER = $$PWD/../art
 ART_BUILD_FOLDER = $$PWD/../resourceBuild
-include(../ImagesetManager/ImagesetTool.pri)
+include(../FKUtils/fktools/fkimageset.pri)
 
 #make deploy
 VERSION = 1.0.0
@@ -56,13 +58,13 @@ QMAKE_TARGET_COMPANY = 'Fajra Katviro'
 LICENSE = $$PWD/../LICENSE
 DEPLOY_BUILD_FOLDER = $$PWD/../packageBuild
 UPGRADE_CODE = "b539003b-ccca-4096-8cc8-b031846e4f59"
-include(../FKDeploy/FKDeploy.pri)
+include(../FKUtils/deployTool/fkdeploy.pri)
 
 #iOS icon & splash screen
 FK_IOS_PLIST = mobile/ios/Info.plist
 FK_IOS_ICONS = $$PWD/../icons/iOS
 FK_IOS_SPLASH_SCREENS = $$PWD/../FKDeploy/iOS/splashScreen
-include(../FKDeploy/iOS/FKDeploy_iOS.pri)
+include(../FKUtils/iOSHelpers/fkdeploy_iOS.pri)
 
 
 
