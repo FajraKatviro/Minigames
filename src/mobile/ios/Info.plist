@@ -125,7 +125,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleExecutable</key>
-	<string>Minigames</string>
+        <string>Colors</string>
 	<key>CFBundleIdentifier</key>
 	<string>FK.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleDisplayName</key>

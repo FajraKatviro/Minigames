@@ -1,4 +1,5 @@
 TEMPLATE = app
+TARGET = Colors
 
 QT += qml quick
 CONFIG += c++14
@@ -63,7 +64,7 @@ include(../FKUtils/deployTool/fkdeploy.pri)
 #iOS icon & splash screen
 FK_IOS_PLIST = mobile/ios/Info.plist
 FK_IOS_ICONS = $$PWD/../icons/iOS
-FK_IOS_SPLASH_SCREENS = $$PWD/../FKDeploy/iOS/splashScreen
+FK_IOS_SPLASH_SCREENS = $$PWD/../FKUtils/iOSHelpers/splashScreen
 include(../FKUtils/iOSHelpers/fkdeploy_iOS.pri)
 
 
