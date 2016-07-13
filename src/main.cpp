@@ -6,7 +6,7 @@
 #include "loadImageset.h"
 #include <QQmlContext>
 
-#include "projecthelper.h"
+#include "projectHelper.h"
 
 #include "thirdparty/adctl/adctl.h"
 
