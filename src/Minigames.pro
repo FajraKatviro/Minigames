@@ -52,7 +52,7 @@ VERSION = 1.0.0
 mac{
     ICON = $$PWD/../icons/icon.icns
 }else{
-    ICON = $$PWD/../icons/icon.png
+    ICON = $$PWD/../icons/icon_128x128.png
 }
 RC_ICONS = $$PWD/../icons/icon.ico
 QMAKE_TARGET_PRODUCT = Colors
