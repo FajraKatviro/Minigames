@@ -25,9 +25,6 @@ INCLUDEPATH += tmp/moc/release_shared
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 
-# Default rules for deployment.
-include(deployment.pri)
-
 # Adctl
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/mobile/android
 include(thirdparty/adctl/AdCtl.pri)
@@ -52,13 +49,19 @@ include(../FKUtils/fktools/fkimageset.pri)
 
 #make deploy
 VERSION = 1.0.0
-ICON = $$PWD/../icons/icon.icns
+mac{
+    ICON = $$PWD/../icons/icon.icns
+}else{
+    ICON = $$PWD/../icons/icon.png
+}
 RC_ICONS = $$PWD/../icons/icon.ico
 QMAKE_TARGET_PRODUCT = Colors
 QMAKE_TARGET_COMPANY = 'Fajra Katviro'
 LICENSE = $$PWD/../LICENSE
 DEPLOY_BUILD_FOLDER = $$PWD/../packageBuild
 UPGRADE_CODE = "b539003b-ccca-4096-8cc8-b031846e4f59"
+SHORT_DESCRIPTION="Set of minigames"
+LONG_DESCRIPTION=$$PWD/../description.txt
 include(../FKUtils/deployTool/fkdeploy.pri)
 
 #iOS icon & splash screen

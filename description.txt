@@ -1,0 +1,9 @@
+Set of simple minigames, include
+caterpillar
+numbers
+block puzzle
+reflector
+path finder
+color lines
+flappy quad
+tap defence
