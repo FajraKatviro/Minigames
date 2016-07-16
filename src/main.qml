@@ -7,7 +7,7 @@ import "adctl/qml"
 
 Window {
     id:rootWindow
-    visible: true
+    visible: false
    // flags: Qt.Window | Qt.WindowTitleHint | Qt.CustomizeWindowHint | Qt.WindowCloseButtonHint
     width: baseWidth
     height: baseHeight
