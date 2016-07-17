@@ -18,6 +18,9 @@ apply plugin: 'com.android.application'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.google.android.gms:play-services-ads:+'
+    compile 'com.google.android.gms:play-services-games:+'
+    compile 'com.google.android.gms:play-services-plus:+'
 }
 
 android {
