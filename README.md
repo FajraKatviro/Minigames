@@ -1,4 +1,5 @@
 Set of minigames.
+
 Tested targets:
   - iOS (OK)
   - Android arm7 (issue with ads module)
