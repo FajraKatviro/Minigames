@@ -266,12 +266,12 @@ Rectangle{
             }
             Text{
                 color:"darkgrey"
-                font.pointSize: 14 * sizeSet
+                font.pixelSize: 14 * sizeSet
                 text: "Highscore:" + highScore
             }
             Text{
                 color:"darkgrey"
-                font.pointSize: 14 * sizeSet
+                font.pixelSize: 14 * sizeSet
                 text: "Score:" + score
             }
             MinigamesButton{
@@ -286,7 +286,7 @@ Rectangle{
             }
             Text{
                 color:Qt.hsla(0.0,0.0,0.4,1.0)
-                font.pointSize: 14 * sizeSet
+                font.pixelSize: 14 * sizeSet
                 text: "Tip: use swipe to turn"
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter

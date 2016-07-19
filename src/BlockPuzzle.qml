@@ -86,7 +86,7 @@ Rectangle{
             }
             Text{
                 color:Qt.hsla(0.0,0.0,0.4,1.0)
-                font.pointSize: 14 * sizeSet
+                font.pixelSize: 14 * sizeSet
                 text: "Tip: use tap to rotate block"
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
@@ -110,14 +110,14 @@ Rectangle{
                 text:"Highscore: " + highScore
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
-                font.pointSize: 16 * sizeSet
+                font.pixelSize: 16 * sizeSet
             }
             Text{
                 color:"darkgrey"
                 text:"Score: " + score
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
-                font.pointSize: 16 * sizeSet
+                font.pixelSize: 16 * sizeSet
             }
         }
     }

@@ -20,7 +20,7 @@ Button{
             text: control.text
             verticalAlignment: Text.AlignBottom
             horizontalAlignment: Text.AlignHCenter
-            font.pointSize: 10 * sizeSet
+            font.pixelSize: 10 * sizeSet
         }
         background: Item{
             implicitWidth: buttonWidth*sizeSet

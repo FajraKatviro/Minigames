@@ -55,7 +55,7 @@ Item{
             Text{
                 id:headerText
                 text:"Colors"
-                font.pointSize: 28 * sizeSet
+                font.pixelSize: 28 * sizeSet
                 //font.letterSpacing: 8*sizeSet
                 horizontalAlignment: Text.AlignHCenter
                 visible:false
@@ -259,7 +259,7 @@ Item{
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         font.italic: true
-                        font.pointSize: 12 * sizeSet
+                        font.pixelSize: 12 * sizeSet
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                     /*Text{
@@ -268,7 +268,7 @@ Item{
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         font.italic: true
-                        font.pointSize: 10 * sizeSet
+                        font.pixelSize: 10 * sizeSet
                         anchors.horizontalCenter: parent.horizontalCenter
                     }*/
                 }
@@ -313,7 +313,7 @@ Item{
             color:"darkgrey"
             style: Text.Outline
             font.italic: true
-            font.pointSize: 40 * sizeSet
+            font.pixelSize: 40 * sizeSet
         }
         Text{
             id:gameOverLabel
@@ -325,7 +325,7 @@ Item{
             color:"darkgrey"
             style: Text.Outline
             font.italic: true
-            font.pointSize: 40 * sizeSet
+            font.pixelSize: 40 * sizeSet
             opacity: 0
             states:State{
                 name: "active"

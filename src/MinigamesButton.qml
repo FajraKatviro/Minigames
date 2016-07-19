@@ -15,7 +15,7 @@ Button{
             text: control.text
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font.pointSize: 12 * sizeSet
+            font.pixelSize: 12 * sizeSet
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
         background: Item{

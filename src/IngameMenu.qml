@@ -44,7 +44,7 @@ Item{
                         color:menuLine.color
                         style: Text.Outline
                         styleColor: "black"
-                        font.pointSize: 14 * sizeSet
+                        font.pixelSize: 14 * sizeSet
                         text: "Highscore \n" + highScore
                         lineHeight: 1.2
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -62,7 +62,7 @@ Item{
                         color:menuLine.color
                         style: Text.Outline
                         styleColor: "black"
-                        font.pointSize: 14 * sizeSet
+                        font.pixelSize: 14 * sizeSet
                         text: "Score \n" + score
                         lineHeight: 1.2
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -76,7 +76,7 @@ Item{
             width:menuLine.width
             height: 40 * sizeSet
             color:Qt.hsla(0.0,0.0,0.4,1.0)
-            font.pointSize: 14 * sizeSet
+            font.pixelSize: 14 * sizeSet
             text: hint
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             horizontalAlignment: Text.AlignHCenter
