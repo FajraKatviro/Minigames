@@ -38,3 +38,9 @@ build-*
 /bin
 /resourceBuild
 /packageBuild
+
+/src/mobile/android/gradle.properties
+/src/mobile/android/gradle.properties~
+/src/mobile/android/gradle/
+/src/mobile/android/local.properties
+/src/mobile/android/local.properties~

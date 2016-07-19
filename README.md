@@ -1,7 +1,7 @@
 Set of minigames.
 Tested targets:
   - iOS (OK)
-  - Android arm7 (issue with ads module)
+  - Android arm7 (OK)
   - Mac (OK)
   - Windows 7 (rare issue with window activation)
   - Ubuntu (issue with deb package)
