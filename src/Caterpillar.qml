@@ -90,7 +90,7 @@ Rectangle{
             repeat: true
             running: true
             onTriggered: {
-                if(!gameArea.paused){
+                if(!gameArea.paused && gameArea.started){
                     objects.itemAt(tailIndex).recalculate()
                     gameArea.requestCollect()
                 }
@@ -223,6 +223,10 @@ Rectangle{
             }
         }
 
+        StartPoint{
+            id:tapToStartText
+            onStartRequested: goPlay()
+        }
     }
 
     IngameMenu{
@@ -230,6 +234,7 @@ Rectangle{
         showExtraButton: true
         showPauseButton: true
 
+        caption: "Caterpillar"
         color: "green"
 
         score: gameArea.score
@@ -237,9 +242,10 @@ Rectangle{
         hint:"Tip: use swipe to turn"
 
         onMenuButtonPressed: gameArea.quitRequested()
-       //onPauseButtonPressed: paused=!paused
-        onRestartButtonPressed: newGame(true)
-        onOptionButtonPressed: newGame(false)
+        //onPauseButtonPressed: paused=!paused
+        onRestartButtonPressed: newGame(Math.random() > 0.5)
+        //onOptionButtonPressed: newGame(false)
+
     }
 
 /*    Item{
@@ -295,7 +301,17 @@ Rectangle{
         }
     }
 */
-    Component.onCompleted: {
-        newGame(true)
+//    Component.onCompleted: {
+//        newGame(true)
+//    }
+
+    //enabled: false
+    property bool started:false
+    function goPlay(){
+        tapToStartText.visible=false
+        //enabled=true
+        menuLine.started=true
+        started=true
+        newGame(Math.random()>0.5)
     }
 }

@@ -81,6 +81,69 @@
             "usedSizes": [
                 ""
             ]
+        },
+        {
+            "path": "bang.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
+        },
+        {
+            "path": "happy.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
+        },
+        {
+            "path": "home.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
+        },
+        {
+            "path": "pause.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
+        },
+        {
+            "path": "play.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
+        },
+        {
+            "path": "restart.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
+        },
+        {
+            "path": "sad.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
         }
     ],
     "sizes": [

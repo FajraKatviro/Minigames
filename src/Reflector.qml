@@ -17,7 +17,7 @@ Rectangle{
         property alias highScore:gameArea.highScore
     }
     property bool paused: menuLine.paused
-    property bool running: true
+    property bool running: false
     property real lastTime: Date.now()
 
     property real initialBallX: ballSize * 10
@@ -270,6 +270,11 @@ Rectangle{
         ListModel{
             id:garbageSource
         }
+
+        StartPoint{
+            id:tapToStartText
+            onStartRequested: goPlay()
+        }
     }
 
     function addRandom(){
@@ -282,6 +287,7 @@ Rectangle{
     IngameMenu{
         id:menuLine
 
+        caption: "Reflector"
         color: "blue"
 
         score: gameArea.score
@@ -297,6 +303,14 @@ Rectangle{
     }
 
     Component.onCompleted: {
+        //newGame()
+    }
+
+    //enabled: false
+    function goPlay(){
+        tapToStartText.visible=false
+        //enabled=true
+        menuLine.started=true
         newGame()
     }
 }

@@ -21,6 +21,7 @@ Rectangle{
     property int initialTimeCapacity: 120
     property int timeLapsed: 0
     property bool gameStarted:true
+    property bool paused:menuLine.paused
 
     property var colorPool:["orange",Qt.rgba(0,0,0,0),"black","green"]
 
@@ -28,7 +29,7 @@ Rectangle{
     property bool isGameOver:false
 
     function completeLoading(){
-        newGame()
+        //newGame()
     }
 
     Binding{
@@ -197,6 +198,9 @@ Rectangle{
         interval: 1000
         repeat: true
         onTriggered:{
+            if(gameArea.paused)
+                return
+
             if(timeLapsed<timeCapacity){
                 timeLapsed+=1
             }else{
@@ -328,7 +332,7 @@ Rectangle{
                             direction={"x":dx,"y":dy}
                         }
                         function move(){
-                            if(!gameStarted)
+                            if(!gameStarted || paused)
                                 return
                             if(labirinthSource.getQuadInfo(row,col).objStatus===3){
                                 nextLevel()
@@ -428,18 +432,24 @@ Rectangle{
                 }
             }
         }
+
+        StartPoint{
+            id:tapToStartText
+            onStartRequested: goPlay()
+        }
     }
 
     IngameMenu{
         id:menuLine
 
+        caption: "Path finder"
         color: "orange"
 
         score: gameArea.score
         highScore: gameArea.highScore
         hint: "Tip: go to East. Use swipe to turn and tap to stop"
 
-        showPauseButton: false
+        showPauseButton: true
 
         onMenuButtonPressed: gameArea.quitRequested()
         onRestartButtonPressed: newGame()
@@ -449,5 +459,13 @@ Rectangle{
     Component.onCompleted: {
         buildEmptyModel()
         //newGame()
+    }
+
+    //enabled: false
+    function goPlay(){
+        tapToStartText.visible=false
+        //enabled=true
+        menuLine.started=true
+        newGame()
     }
 }

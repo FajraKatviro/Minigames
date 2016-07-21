@@ -10,7 +10,7 @@ Rectangle{
     property int areaSize: 5
     property real blackHolePos: obstacleHeight*3
     property int frameDuration: Math.max(200,initialFrameDuration-framePenalty*50)
-    property int initialFrameDuration: 1500
+    property int initialFrameDuration: 1000
     property int framePenalty: score/50
     property int score: 0
     onScoreChanged: if(score>highScore)highScore=score
@@ -63,7 +63,7 @@ Rectangle{
     }
 
     function completeLoading(){
-        newGame()
+        //newGame()
     }
 
     function useHint(col,hintType){
@@ -333,11 +333,16 @@ Rectangle{
                 }
             }
         }
+        StartPoint{
+            id:tapToStartText
+            onStartRequested: goPlay()
+        }
     }
 
     IngameMenu{
         id:menuLine
 
+        caption: "Tap defence"
         color: "brown"
 
         score: gameArea.score
@@ -353,5 +358,13 @@ Rectangle{
 
     Component.onCompleted: {
         //newGame()
+    }
+
+    //enabled: false
+    function goPlay(){
+        tapToStartText.visible=false
+        //enabled=true
+        menuLine.started=true
+        newGame()
     }
 }

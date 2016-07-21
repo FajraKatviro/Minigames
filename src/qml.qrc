@@ -18,5 +18,6 @@
         <file>MinigamesAds.qml</file>
         <file>MainMenuButton.qml</file>
         <file>IngameMenu.qml</file>
+        <file>StartPoint.qml</file>
     </qresource>
 </RCC>

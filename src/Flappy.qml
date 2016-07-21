@@ -30,7 +30,7 @@ Rectangle{
     property bool isGameOver:false
 
     function completeLoading(){
-        newGame()
+        //newGame()
     }
 
     function newGame(){
@@ -350,11 +350,17 @@ Rectangle{
             anchors.fill: parent
             visible:false
         }
+
+        StartPoint{
+            id:tapToStartText
+            onStartRequested: goPlay()
+        }
     }
 
     IngameMenu{
         id:menuLine
 
+        caption: "Flappy quad"
         color: "indigo"
 
         score: gameArea.score
@@ -370,5 +376,13 @@ Rectangle{
 
     Component.onCompleted: {
         //newGame()
+    }
+
+    //enabled: false
+    function goPlay(){
+        tapToStartText.visible=false
+        //enabled=true
+        menuLine.started=true
+        newGame()
     }
 }

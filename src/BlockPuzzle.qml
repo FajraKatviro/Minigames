@@ -43,6 +43,7 @@ Rectangle{
     IngameMenu{
         id:menu
 
+        caption: "Blockfall"
         color: "yellow"
 
         score: game.score
@@ -131,24 +132,25 @@ Rectangle{
             right:parent.right
             margins:25 * sizeSet
         }
-        gradient: Gradient {
+        /*gradient: Gradient {
             GradientStop { position: 0.0; color: "grey" }
             GradientStop { position: 1.0; color: Qt.rgba(1,1,1,1) }
-        }
+        }*/
         Loader{
             id:blockLoader
             anchors.centerIn: parent
             sourceComponent: blockTemplates[nextSource]
+            visible: started
         }
     }
 
     Rectangle{
         id: mainArea
         //color: "lightgrey"
-        gradient: Gradient {
+        /*gradient: Gradient {
             GradientStop { position: 0.0; color: "grey" }
             GradientStop { position: 1.0; color: Qt.rgba(1,1,1,1) }
-        }
+        }*/
         property rect mainRect: Qt.rect(0,0,width,height)
         width: blockSize*10
         height: width*2
@@ -162,11 +164,16 @@ Rectangle{
             id: detail
             x: blockSize*4
             sourceComponent: blockTemplates[currentSource]
+            visible: started
         }
         Repeater{
             id: durtyArea
             delegate: filledDot
             model: filledDots
+        }
+        StartPoint{
+            id:tapToStartText
+            onStartRequested: goPlay()
         }
     }
 
@@ -266,12 +273,12 @@ Rectangle{
         id:gameTimer
         interval: frameDuration
         repeat: true
-        running: true
+        //running: true
         onTriggered: dropDetail()
     }
 
     function rightShift(){
-        if(paused || isGameOver)
+        if(paused || isGameOver || !started)
             return
         move(blockSize,0)
         if(detail.item.intersects()){
@@ -280,7 +287,7 @@ Rectangle{
     }
 
     function leftShift(){
-        if(paused || isGameOver)
+        if(paused || isGameOver || !started)
             return
         move(-blockSize,0)
         if(detail.item.intersects()){
@@ -289,7 +296,7 @@ Rectangle{
     }
 
     function rotateDetail(){
-        if(paused || isGameOver)
+        if(paused || isGameOver || !started)
             return
         detail.item.rotate(1)
         if(detail.item.intersects())
@@ -297,7 +304,7 @@ Rectangle{
     }
 
     function dropDetail(){
-        if(paused || isGameOver)
+        if(paused || isGameOver || !started)
             return
         move(0,blockSize)
     }
@@ -605,5 +612,14 @@ Rectangle{
         }
     }
 
-    Component.onCompleted: newGame()
+    //Component.onCompleted: newGame()
+    //enabled: false
+    property bool started:false
+    function goPlay(){
+        tapToStartText.visible=false
+        started=true
+        menu.started=true
+        //enabled=true
+        newGame()
+    }
 }

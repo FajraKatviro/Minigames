@@ -27,7 +27,7 @@ Rectangle{
     }
 
     function completeLoading(){
-        newGame()
+        //newGame()
     }
 
     function gameOver(){
@@ -37,6 +37,7 @@ Rectangle{
     IngameMenu{
         id:menuLine
 
+        caption: "Numbers"
         color: "red"
 
         score: gameArea.score
@@ -47,7 +48,7 @@ Rectangle{
 
         onMenuButtonPressed: quitRequested()
         onRestartButtonPressed: newGame()
-
+        onHintButtonPressed: game.hintRequested()
     }
 
     Item{
@@ -61,6 +62,8 @@ Rectangle{
         property bool active: true
         property bool needSummarize: false
         property bool turnSuccess: false
+
+        signal hintRequested
 
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
@@ -280,6 +283,9 @@ Rectangle{
                             }
                             ++game.quadsCalculated
                         }
+                        onHintRequested:{
+                            activeQuad.animateColors()
+                        }
                     }
 
                     x: placeQuad.x
@@ -327,6 +333,11 @@ Rectangle{
                 }
             }
         }
+
+        StartPoint{
+            id:tapToStartText
+            onStartRequested: goPlay()
+        }
     }
 
     function setDirection(v,h){
@@ -358,5 +369,13 @@ Rectangle{
 
     Component.onCompleted:{
         //newGame()
+    }
+
+    //enabled: false
+    function goPlay(){
+        tapToStartText.visible=false
+        //enabled=true
+        menuLine.started=true
+        newGame()
     }
 }

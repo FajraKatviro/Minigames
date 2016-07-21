@@ -25,7 +25,7 @@ Button{
         background: Item{
             implicitWidth: buttonWidth*sizeSet
             implicitHeight: buttonHeight*sizeSet
-            Item{
+            Rectangle{
                 id: bg
                 anchors.fill: parent
                 states: [
@@ -45,7 +45,7 @@ Button{
                     id: img
                     source: btn.image
                     anchors.fill: parent
-                    fillMode: Image.PreserveAspectCrop
+                    fillMode: Image.PreserveAspectFit
                     visible: false
                 }
                 ColorOverlay {

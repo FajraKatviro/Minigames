@@ -20,6 +20,9 @@ Item{
         }
     }
 
+    function swapHappyMode(){
+        happyBtn.checked=!happyBtn.checked
+    }
     function getRandomNumber(from,upTo){
         var result = from + Math.floor(Math.random() * (upTo - from + 1) )
         return result>upTo ? upTo : result<from ? from : result

@@ -24,10 +24,10 @@ Rectangle{
 
     signal quitRequested
     property bool isGameOver:false
+    property bool showTip: true
 
     function completeLoading(){
-        createPreserved()
-        newGame()
+        //newGame()
     }
 
     Item{
@@ -57,6 +57,7 @@ Rectangle{
                     }
                 }
                 Item{
+                    visible: showTip && started
                     anchors.fill: preservedRow
                     Repeater{
                         id:preservedCircles
@@ -102,6 +103,10 @@ Rectangle{
                 }
             }
         }
+        StartPoint{
+            id:tapToStartText
+            onStartRequested: goPlay()
+        }
     }
     function addCircle(model,row,column,color){
         model.append({"mRow":row,"mCol":column,"mColor":color,"quadSource":model.quadSource})
@@ -110,6 +115,7 @@ Rectangle{
     IngameMenu{
         id:menuLine
 
+        caption: "Color lines"
         color: "magenta"
 
         score:linesGame.score
@@ -117,52 +123,13 @@ Rectangle{
         hint: "Tip: use tap and tap to select and move"
 
         onMenuButtonPressed: quitRequested()
-        onRestartButtonPressed: newGame()
+        onRestartButtonPressed: {
+            preserveSpawn()
+            newGame()
+        }
+        onHintButtonPressed: showTip=!showTip
     }
 
-/*    Item{
-        id: menuLine
-        width: 200 * sizeSet
-        anchors{
-            left:parent.left
-            top:parent.top
-            bottom:parent.bottom
-        }
-        Column{
-            anchors.centerIn: parent
-            spacing: 15 * sizeSet
-            Text{
-                color:"darkgrey"
-                font.pixelSize: 16 * sizeSet
-                text: "Highscore:" + highScore
-            }
-            Text{
-                color:"darkgrey"
-                font.pixelSize: 16 * sizeSet
-                text: "Score:" + score
-            }
-            MinigamesButton{
-                color:"pink"
-                text:"Menu"
-                onClicked: quitRequested()
-            }
-            MinigamesButton{
-                id:restartBtn
-                color:"pink"
-                text:"Restart"
-                onClicked: newGame()
-            }
-            Text{
-                color:Qt.hsla(0.0,0.0,0.4,1.0)
-                font.pixelSize: 14 * sizeSet
-                text: "Tip: use tap and tap to select and move"
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                horizontalAlignment: Text.AlignHCenter
-                width:restartBtn.width
-            }
-        }
-    }
-*/
     function nextTurn(){
         if(tryMatch())
             return
@@ -219,7 +186,7 @@ Rectangle{
 
     function createPreserved(){
         for(var i=0;i<spawnCount;++i){
-            addCircle(preserveModel,0,i,0)
+            addCircle(preserveModel,0,i,getRandomNumber(0,colorPool.length-1))
         }
     }
 
@@ -354,7 +321,6 @@ Rectangle{
         isGameOver=false
         score=0
         activeModel.clear()
-        preserveSpawn()
         spawnRandom()
     }
 
@@ -369,6 +335,17 @@ Rectangle{
     }
 
     Component.onCompleted: {
+    }
+
+    //enabled: false
+    property bool started:false
+    function goPlay(){
+        tapToStartText.visible=false
+        started=true
+        //enabled=true
+        menuLine.started=true
+        createPreserved()
+        newGame()
     }
 }
 
