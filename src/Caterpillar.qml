@@ -9,7 +9,7 @@ Rectangle{
     property int baseOffset: 5 * sizeSet
     property int frameDuration: initialFrameDuration
     property int initialFrameDuration: 400
-    property var pointColors: ["yellow","green","grey"]
+    property var pointColors: ["green","black","grey"]
     property int directionX
     property int directionY
     property int speed: pointSize

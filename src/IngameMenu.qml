@@ -124,7 +124,7 @@ Item{
                     color:menuLine.color
                     enabled: !showPauseButton && started
                     visible: !showPauseButton
-                    image: "images/bang.png"
+                    image: "images/hint.png"
                     onClicked: hintButtonPressed()
                 }
                 MainMenuButton{

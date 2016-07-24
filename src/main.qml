@@ -1,5 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
 import "adctl/qml"
@@ -34,8 +35,19 @@ Item{
     Image {
         id: bg
         anchors.fill: parent
-        source: happyMode ? "images/main_bg_happy.png" : "images/main_bg.png"
+        source: "images/main_bg_happy.png" //happyMode ? "images/main_bg_happy.png" : "images/main_bg.png"
         fillMode: Image.PreserveAspectCrop
+    }
+
+    Image {
+        id: bg2
+        anchors.fill: parent
+        source: "images/main_bg.png"
+        fillMode: Image.PreserveAspectCrop
+        opacity: happyMode ? 0.0 : 1.0
+        Behavior on opacity {
+            NumberAnimation{ duration: 1000 }
+        }
     }
 
     MinigamesTouchArea{
@@ -58,7 +70,7 @@ Item{
             Text{
                 id:headerText
                 text:"Colors"
-                font.pixelSize: 28 * sizeSet
+                font.pixelSize: 36 * sizeSet
                 //font.letterSpacing: 8*sizeSet
                 horizontalAlignment: Text.AlignHCenter
                 visible:false
@@ -68,7 +80,7 @@ Item{
                 id:header
                 anchors{
                     top:parent.top
-                    topMargin: 5*sizeSet
+                    topMargin: 15*sizeSet
                     horizontalCenter: parent.horizontalCenter
                 }
                 height: headerText.implicitHeight
@@ -121,8 +133,8 @@ Item{
                 //visible: !happyMode
                 anchors.fill: headerGlow
                 source: headerGlow
-                desaturation: happyMode ? 0.4 : 0.9
-                transform: Scale { origin.x:header.width*0.5 ; origin.y: 0; xScale: 4}
+                desaturation: 0.4// happyMode ? 0.4 : 0.9
+                transform: Scale { origin.x:header.width*0.5 ; origin.y: 0; xScale: 3}
                 //SequentialAnimation on desaturation {
                 //    NumberAnimation{from:0.8;to:1.2;duration:5000}
                 //    NumberAnimation{from:1.2;to:0.8;duration:5000}
@@ -131,25 +143,51 @@ Item{
                 //}
             }
 
-            Row{
+            Rectangle{
                 id: moodSwitcher
                 anchors{
                     top:header.bottom
-                    topMargin: 10 * sizeSet
+                    topMargin: 25 * sizeSet
                     horizontalCenter:parent.horizontalCenter
                 }
-                //spacing: 20 * sizeSet
-                /*MainMenuButton{
-                    color:"white"
-                    image: "images/menu_theme.png"
-                    anchors.verticalCenter: parent.verticalCenter
-                    //text: "Ashes"
-                    onClicked: happyMode = false
-                    buttonHeight: 30
-                    buttonWidth: 80
-                }*/
+                Switch{
+                    id:happyBtn
+                    checked:true
+                    anchors.centerIn: parent
+                    style:SwitchStyle{
+                        groove: Rectangle {
+                                color:"darkgrey"
+                                implicitWidth: 160*sizeSet
+                                implicitHeight: 30*sizeSet
+                                radius: 1*sizeSet
+                                border.color: "grey"
+                                border.width: 1
+                        }
+                        handle: Item{
+                            width: 76*sizeSet
+                            Item{
+                                anchors{
+                                    fill: parent
+                                    margins: 1*sizeSet
+                                }
+                                Image{
+                                    id:moodImg
+                                    anchors.fill: parent
+                                    fillMode: Image.PreserveAspectFit
+                                    visible:false
+                                    source: happyMode ? "images/switcher_happy.png" : "images/switcher_ashes.png"
+                                }
+                                ColorOverlay {
+                                    anchors.fill: parent
+                                    source: moodImg
+                                    color: happyMode ? Qt.rgba(1.0,1.0,0.0,0.65) : Qt.rgba(0.2,0.2,0.2,0.65)
+                                }
+                            }
+                        }
+                    }
+                }
 
-                MainMenuButton{
+                /*MainMenuButton{
                     id:happyBtn
                     color:"yellow"
                     image: happyMode ? "images/switcher_happy.png" : "images/switcher_ashes.png"
@@ -161,7 +199,7 @@ Item{
                     checkable: true
                     ignoreMoodSwap: true
                     checked: true
-                }
+                }*/
             }
 
             Item{
@@ -172,56 +210,65 @@ Item{
                     right: parent.right
                     //rightMargin: 10 * sizeSet
                     //leftMargin: 10 * sizeSet
-                    bottom:footer.top
+                    bottom:parent.bottom//footer.top
                 }
                 GridLayout{
                     anchors.centerIn: parent
                     columns: 4
+                    rows:5
                     columnSpacing: 4 * sizeSet
                     rowSpacing: 4 * sizeSet
                     MainMenuButton{
+                        Layout.rowSpan: 2
                         color: "green"
                         //text: "Caterpillar"
                         image: "images/menu_caterpillar.png"
                         onClicked: rootLoader.source = "Caterpillar.qml"
                     }
                     MainMenuButton{
+                        Layout.rowSpan: 2
                         color: "red"
                         //text: "Numbers"
                         image: "images/menu_numbers.png"
                         onClicked: rootLoader.source = "Numbers.qml"
                     }
                     MainMenuButton{
+                        Layout.rowSpan: 2
                         color: "yellow"
                         //text: "Block puzzle"
                         image: "images/menu_block.png"
                         onClicked: rootLoader.source = "BlockPuzzle.qml"
                     }
                     MainMenuButton{
+                        Layout.rowSpan: 2
                         color: "blue"
                         text: "Reflection"
                         image: "images/menu_quad.png"
                         onClicked: rootLoader.source = "Reflector.qml"
                     }
                     MainMenuButton{
+                        Layout.rowSpan: 2
                         color: "magenta"
                         //text: "Color lines"
                         image: "images/menu_lines.png"
                         onClicked: rootLoader.source = "ColorLines.qml"
                     }
                     MainMenuButton{
+                        Layout.rowSpan: 2
                         color: "indigo"
                         //text: "Flappy quad"
                         image: "images/menu_quad.png"
                         onClicked: rootLoader.source = "Flappy.qml"
                     }
                     MainMenuButton{
+                        Layout.rowSpan: 2
                         color: "orange"
                         text: "Path finder"
                         image: "images/menu_quad.png"
                         onClicked: rootLoader.source = "Labirinth.qml"
                     }
                     MainMenuButton{
+                        Layout.rowSpan: 2
                         color: "brown"
                         text: "Tap defence"
                         image: "images/menu_quad.png"
@@ -244,38 +291,38 @@ Item{
                 }
             }
 
-            Item{
-                id:footer
-                anchors{
-                    bottom:parent.bottom
-                    bottomMargin: 5*sizeSet
-                    left:parent.left
-                    right:parent.right
-                }
-                height:footerContent.implicitHeight
-                Column{
-                    id:footerContent
-                    anchors.centerIn: parent
-                    Text{
-                        color:happyMode ? "white" : Qt.rgba(1.0,1.0,0.8,1)
-                        text: " "// "by Fajra Katviro"
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.italic: true
-                        font.pixelSize: 12 * sizeSet
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-                    /*Text{
-                        color:Qt.rgba(1.0,1.0,0.8,1)
-                        text:"special thanks to Artist inkognita"
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.italic: true
-                        font.pixelSize: 10 * sizeSet
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }*/
-                }
-            }
+//            Item{
+//                id:footer
+//                anchors{
+//                    bottom:parent.bottom
+//                    bottomMargin: 5*sizeSet
+//                    left:parent.left
+//                    right:parent.right
+//                }
+//                height:footerContent.implicitHeight
+//                Column{
+//                    id:footerContent
+//                    anchors.centerIn: parent
+//                    Text{
+//                        color:happyMode ? "white" : Qt.rgba(1.0,1.0,0.8,1)
+//                        text: "by Fajra Katviro"
+//                        verticalAlignment: Text.AlignVCenter
+//                        horizontalAlignment: Text.AlignHCenter
+//                        font.italic: true
+//                        font.pixelSize: 12 * sizeSet
+//                        anchors.horizontalCenter: parent.horizontalCenter
+//                    }
+//                    /*Text{
+//                        color:Qt.rgba(1.0,1.0,0.8,1)
+//                        text:"special thanks to Artist inkognita"
+//                        verticalAlignment: Text.AlignVCenter
+//                        horizontalAlignment: Text.AlignHCenter
+//                        font.italic: true
+//                        font.pixelSize: 10 * sizeSet
+//                        anchors.horizontalCenter: parent.horizontalCenter
+//                    }*/
+//                }
+//            }
 
 
         }
@@ -317,28 +364,6 @@ Item{
             style: Text.Outline
             font.italic: true
             font.pixelSize: 40 * sizeSet
-        }
-        Text{
-            id:gameOverLabel
-            anchors.fill: parent
-            visible:false
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            text: "Game over"
-            color:"darkgrey"
-            style: Text.Outline
-            font.italic: true
-            font.pixelSize: 40 * sizeSet
-            opacity: 0
-            states:State{
-                name: "active"
-                when:rootLoader.status===Loader.Ready && rootLoader.item.isGameOver
-                PropertyChanges {target:gameOverLabel; visible:true; opacity:1}
-            }
-            transitions:Transition{
-                to:"active"
-                NumberAnimation{property:"opacity";duration:2000}
-            }
         }
     }
 }

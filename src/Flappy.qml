@@ -21,7 +21,7 @@ Rectangle{
         property alias highScore:gameArea.highScore
     }
     property bool paused: menuLine.paused
-    property bool started: false
+    property bool gameStarted: false
     onPausedChanged: if(paused)activeQuad.targetY=activeQuad.y
 
     property var colorPool:["red","blue","yellow","green","magenta"]
@@ -41,21 +41,21 @@ Rectangle{
         objects.model=obstacleSource
         score=0 //reset here once more due to reset position animation gives +3 points
         gameOverPlaceholder.visible=false
-        started=true
+        gameStarted=true
     }
 
     function gameOver(){
-        if(!started)
+        if(!gameStarted)
             return
         isGameOver=true
-        started=false
+        gameStarted=false
         gameOverPlaceholder.source=""
         activeArea.grabToImage(function(result){gameOverPlaceholder.source=result.url;})
         gameOverPlaceholder.visible=true
     }
 
     function moveUp(){
-        if(paused || !started)
+        if(paused || !gameStarted)
             return
         activeQuad.targetY=activeQuad.y-moveBoost
     }
@@ -73,7 +73,7 @@ Rectangle{
         interval: subFrameDuration
         onTriggered: moveDown()
         repeat: true
-        running: !gameArea.paused && gameArea.started
+        running: !gameArea.paused && gameArea.gameStarted
     }
 
     Rectangle{
@@ -198,7 +198,7 @@ Rectangle{
                 duration: frameDuration*3
                 running: true
                 loops: Animation.Infinite
-                paused: gameArea.paused || !gameArea.started
+                paused: gameArea.paused || !gameArea.gameStarted
             }
         }
 
@@ -226,7 +226,7 @@ Rectangle{
                     to: 360;
                     duration: frameDuration*0.1
                     loops: Animation.Infinite
-                    paused: gameArea.paused || !gameArea.started
+                    paused: gameArea.paused || !gameArea.gameStarted
                 }
                 Behavior on y{id:moveBahavior;NumberAnimation{duration: frameDuration*0.15}}
             }
@@ -292,7 +292,7 @@ Rectangle{
                     SequentialAnimation on x{
                         id:moveAnimation
                         running: true
-                        paused: gameArea.paused || !gameArea.started
+                        paused: gameArea.paused || !gameArea.gameStarted
                         PauseAnimation{duration:frameDuration*(0.15+objectX)}
                         SequentialAnimation{
                             loops: Animation.Infinite
@@ -379,9 +379,11 @@ Rectangle{
     }
 
     //enabled: false
+    property bool started: false
     function goPlay(){
         tapToStartText.visible=false
         //enabled=true
+        started=true
         menuLine.started=true
         newGame()
     }

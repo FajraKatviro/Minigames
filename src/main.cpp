@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
     window.rootContext()->setContextProperty("baseWidth",baseSize.width());
     window.setResizeMode(QQuickView::SizeRootObjectToView);
     window.setSource(QUrl(QStringLiteral("qrc:/main.qml")));
+    //window.setFlags(window.flags() | Qt::FramelessWindowHint);
     window.show();
     window.setVisibility(QWindow::FullScreen);
     return app.exec();

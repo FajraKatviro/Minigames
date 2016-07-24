@@ -83,15 +83,6 @@
             ]
         },
         {
-            "path": "bang.png",
-            "sourceSizes": [
-                "2048x1536"
-            ],
-            "usedSizes": [
-                ""
-            ]
-        },
-        {
             "path": "happy.png",
             "sourceSizes": [
                 "2048x1536"
@@ -138,6 +129,15 @@
         },
         {
             "path": "sad.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
+        },
+        {
+            "path": "hint.png",
             "sourceSizes": [
                 "2048x1536"
             ],

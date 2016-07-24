@@ -21,8 +21,8 @@ Rectangle{
         property alias highScore:gameArea.highScore
     }
     property bool paused: menuLine.paused
-    property bool started: false
-    property bool inProgress: started && !paused
+    property bool gameStarted: false
+    property bool inProgress: gameStarted && !paused
 
     property var crippersPool:[
         {objectColor:0.0,     objectSpeed:200,    objectDurability:1,   boostChance:0.5},
@@ -40,14 +40,14 @@ Rectangle{
         cripperSource.clear()
         for(var i=0;i<areaSize;++i)
             wallSource.itemAt(i).reset()
-        started=true
+        gameStarted=true
     }
 
     function gameOver(){
-        if(!started)
+        if(!gameStarted)
             return
         isGameOver=true
-        started=false
+        gameStarted=false
     }
 
     function createCripper(){
@@ -361,9 +361,11 @@ Rectangle{
     }
 
     //enabled: false
+    property bool started:false
     function goPlay(){
         tapToStartText.visible=false
         //enabled=true
+        started=true
         menuLine.started=true
         newGame()
     }

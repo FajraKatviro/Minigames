@@ -462,9 +462,11 @@ Rectangle{
     }
 
     //enabled: false
+    property bool started: false
     function goPlay(){
         tapToStartText.visible=false
         //enabled=true
+        started=true
         menuLine.started=true
         newGame()
     }
