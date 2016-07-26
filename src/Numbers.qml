@@ -16,6 +16,7 @@ Rectangle{
                           2048:"magenta",4096:"cyan"}
 
     signal quitRequested
+    signal sanityse
     property bool isGameOver:false
 
     property int score
@@ -80,14 +81,38 @@ Rectangle{
                     free[j++]=i;
                 }
             }
-            if(free.length>0){
+            var capacity=free.length
+            if(capacity>0){
                 var ind=free[Math.floor(Math.random()*free.length)]
                 var r=Math.floor(ind / areaSize)
                 var c=ind % areaSize
                 activeModel.addQuad(r,c,2)
+                if(capacity===1 && !canMove()){
+                    gameOver()
+                }
             }else{
                 gameOver()
             }
+        }
+
+        function canMove(){
+            for(var a=0;a<areaSize;++a){
+                var hScore=areaQuads.getQuad(0,a).occupiedBy.score
+                var vScore=areaQuads.getQuad(a,0).occupiedBy.score
+                for(var b=1;b<areaSize;++b){
+                    var score=areaQuads.getQuad(b,a).occupiedBy.score
+                    if(score===hScore)
+                        return true
+                    hScore=score
+
+                    score=areaQuads.getQuad(a,b).occupiedBy.score
+                    if(score===vScore)
+                        return true
+                    vScore=score
+
+                }
+            }
+            return false
         }
 
         signal stateRefresh()
@@ -226,6 +251,7 @@ Rectangle{
                 }
 
                 delegate: Rectangle{
+                    id:quadDelegate
                     property Item occupiedBy: null
                     function isFree(){
                         return occupiedBy===null || occupiedBy.placeQuad!==this;
@@ -236,6 +262,10 @@ Rectangle{
                     color:"white"
                     radius: 2
                     border.width: 1
+                    Connections{
+                        target: gameArea
+                        onSanityse:quadDelegate.occupiedBy=null
+                    }
                 }
             }
         }
@@ -362,6 +392,7 @@ Rectangle{
         isGameOver=false
         score=0
         activeModel.clear()
+        sanityse()
         game.createRandom()
         game.createRandom()
         game.createRandom()
