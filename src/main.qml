@@ -35,7 +35,7 @@ Item{
     Image {
         id: bg
         anchors.fill: parent
-        source: "images/main_bg_happy.png" //happyMode ? "images/main_bg_happy.png" : "images/main_bg.png"
+        source: "images/main_bg_happy.png"
         fillMode: Image.PreserveAspectCrop
     }
 
@@ -133,7 +133,7 @@ Item{
                 //visible: !happyMode
                 anchors.fill: headerGlow
                 source: headerGlow
-                desaturation: 0.4// happyMode ? 0.4 : 0.9
+                desaturation: 0.23// happyMode ? 0.4 : 0.9
                 transform: Scale { origin.x:header.width*0.5 ; origin.y: 0; xScale: 3}
                 //SequentialAnimation on desaturation {
                 //    NumberAnimation{from:0.8;to:1.2;duration:5000}
@@ -174,13 +174,7 @@ Item{
                                     id:moodImg
                                     anchors.fill: parent
                                     fillMode: Image.PreserveAspectFit
-                                    visible:false
                                     source: happyMode ? "images/switcher_happy.png" : "images/switcher_ashes.png"
-                                }
-                                ColorOverlay {
-                                    anchors.fill: parent
-                                    source: moodImg
-                                    color: happyMode ? Qt.rgba(1.0,1.0,0.0,0.65) : Qt.rgba(0.2,0.2,0.2,0.65)
                                 }
                             }
                         }
@@ -220,17 +214,10 @@ Item{
                     rowSpacing: 4 * sizeSet
                     MainMenuButton{
                         Layout.rowSpan: 2
-                        color: "green"
-                        //text: "Caterpillar"
-                        image: "images/menu_caterpillar.png"
-                        onClicked: rootLoader.source = "Caterpillar.qml"
-                    }
-                    MainMenuButton{
-                        Layout.rowSpan: 2
-                        color: "red"
-                        //text: "Numbers"
-                        image: "images/menu_numbers.png"
-                        onClicked: rootLoader.source = "Numbers.qml"
+                        color: "blue"
+                        //text: "Reflection"
+                        image: "images/menu_reflector.png"
+                        onClicked: rootLoader.source = "Reflector.qml"
                     }
                     MainMenuButton{
                         Layout.rowSpan: 2
@@ -241,10 +228,17 @@ Item{
                     }
                     MainMenuButton{
                         Layout.rowSpan: 2
-                        color: "blue"
-                        text: "Reflection"
-                        image: "images/menu_quad.png"
-                        onClicked: rootLoader.source = "Reflector.qml"
+                        color: "red"
+                        //text: "Numbers"
+                        image: "images/menu_numbers.png"
+                        onClicked: rootLoader.source = "Numbers.qml"
+                    }
+                    MainMenuButton{
+                        Layout.rowSpan: 2
+                        color: "green"
+                        //text: "Caterpillar"
+                        image: "images/menu_caterpillar.png"
+                        onClicked: rootLoader.source = "Caterpillar.qml"
                     }
                     MainMenuButton{
                         Layout.rowSpan: 2
@@ -263,15 +257,15 @@ Item{
                     MainMenuButton{
                         Layout.rowSpan: 2
                         color: "orange"
-                        text: "Path finder"
-                        image: "images/menu_quad.png"
+                        //text: "Path finder"
+                        image: "images/menu_finder.png"
                         onClicked: rootLoader.source = "Labirinth.qml"
                     }
                     MainMenuButton{
                         Layout.rowSpan: 2
                         color: "brown"
-                        text: "Tap defence"
-                        image: "images/menu_quad.png"
+                        //text: "Tap defence"
+                        image: "images/menu_tapper.png"
                         onClicked: rootLoader.source = "Defence.qml"
                     }
                     Item{

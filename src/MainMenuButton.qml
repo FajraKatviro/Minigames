@@ -13,8 +13,9 @@ Button{
 
     style: ButtonStyle{
         id:style
-        readonly property color greyscaled: "transparent"
-        readonly property color colored: Qt.rgba(btn.color.r,btn.color.g,btn.color.b,0.65)
+        readonly property color greyscaled: Qt.rgba(0.35,0.35,0.35,0.9)
+        readonly property real colorFactor:0.87
+        readonly property color colored: Qt.rgba(btn.color.r*colorFactor,btn.color.g*colorFactor,btn.color.b*colorFactor,1.0)
 
         label: Text{
             text: control.text
@@ -28,17 +29,18 @@ Button{
             Rectangle{
                 id: bg
                 anchors.fill: parent
+                color: (happyMode && !ignoreMoodSwap) ? style.colored : style.greyscaled
                 states: [
                     State{
                         name: "pressed"
                         when: control.checked || control.pressed
-                        PropertyChanges { target: effect; color: (happyMode && !ignoreMoodSwap) ? style.greyscaled : style.colored }
+                        PropertyChanges { target: bg; color: (happyMode && !ignoreMoodSwap) ? style.greyscaled : style.colored }
                     }
                 ]
                 transitions:[
                     Transition {
                         from: "pressed"
-                        ColorAnimation{ target:effect; duration: 2000 }
+                        ColorAnimation{ target:bg; duration: 2000 }
                     }
                 ]
                 Image {
@@ -46,13 +48,6 @@ Button{
                     source: btn.image
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectFit
-                    visible: false
-                }
-                ColorOverlay {
-                    id: effect
-                    anchors.fill: parent
-                    source: img
-                    color: (happyMode && !ignoreMoodSwap) ? style.colored : style.greyscaled
                 }
             }
         }

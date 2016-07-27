@@ -144,6 +144,33 @@
             "usedSizes": [
                 ""
             ]
+        },
+        {
+            "path": "menu_finder.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
+        },
+        {
+            "path": "menu_reflector.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
+        },
+        {
+            "path": "menu_tapper.png",
+            "sourceSizes": [
+                "2048x1536"
+            ],
+            "usedSizes": [
+                ""
+            ]
         }
     ],
     "sizes": [
