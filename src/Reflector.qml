@@ -212,7 +212,7 @@ Rectangle{
 
 
             function move(direction){
-                if(!paused)
+                if(started && !paused)
                     xPos=Math.min(Math.max(xPos+10*2*direction,0),activeArea.width-width)
             }
 

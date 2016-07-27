@@ -13,7 +13,7 @@ Button{
 
     style: ButtonStyle{
         id:style
-        readonly property color greyscaled: Qt.rgba(0.35,0.35,0.35,0.9)
+        readonly property color greyscaled: Qt.rgba(0.3,0.3,0.3,1.0)
         readonly property real colorFactor:0.87
         readonly property color colored: Qt.rgba(btn.color.r*colorFactor,btn.color.g*colorFactor,btn.color.b*colorFactor,1.0)
 

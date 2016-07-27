@@ -156,11 +156,11 @@ Item{
                     anchors.centerIn: parent
                     style:SwitchStyle{
                         groove: Rectangle {
-                                color:"darkgrey"
+                                color:"#CCCCCC"
                                 implicitWidth: 160*sizeSet
                                 implicitHeight: 30*sizeSet
                                 radius: 1*sizeSet
-                                border.color: "grey"
+                                border.color: "#505050"
                                 border.width: 1
                         }
                         handle: Item{
