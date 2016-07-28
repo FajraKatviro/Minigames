@@ -64,11 +64,11 @@ SHORT_DESCRIPTION="Set of minigames"
 LONG_DESCRIPTION=$$PWD/../description.txt
 include(../FKUtils/deployTool/fkdeploy.pri)
 
-#iOS icon & splash screen
+#iOS/android icon & splash screen
 FK_IOS_PLIST = mobile/ios/Info.plist
-FK_IOS_ICONS = $$PWD/../icons/iOS
-FK_IOS_SPLASH_SCREENS = $$PWD/../FKUtils/iOSHelpers/splashScreen
-include(../FKUtils/iOSHelpers/fkdeploy_iOS.pri)
+ios:FK_MOBILE_ICONS = $$PWD/../icons/iOS
+android:FK_MOBILE_ICONS = $$PWD/../icons/android
+include(../FKUtils/mobileHelpers/fkdeploy_mobile.pri)
 
 
 
