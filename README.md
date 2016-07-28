@@ -4,7 +4,7 @@ Tested targets:
   - iOS (OK)
   - Android arm7 (OK)
   - Mac (OK)
-  - Windows 7 (rare issue with window activation)
+  - Windows 7 (issue with window re-activation)
   - Ubuntu (issue with deb package)
 
 Not tested targets:
