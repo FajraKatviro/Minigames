@@ -48,7 +48,7 @@ ART_BUILD_FOLDER = $$PWD/../resourceBuild
 include(../FKUtils/fktools/fkimageset.pri)
 
 #make deploy
-VERSION = 1.0.0
+VERSION = 1.0.1
 mac{
     ICON = $$PWD/../icons/icon.icns
 }else{
