@@ -1,3 +1,6 @@
 [submodule "src/thirdparty/adctl"]
 	path = src/thirdparty/adctl
 	url = https://github.com/FajraKatviro/adctl.git
+[submodule "fkframework"]
+	path = fkframework
+	url = https://github.com/fajrakatviro/fkdefaultpaths.git
