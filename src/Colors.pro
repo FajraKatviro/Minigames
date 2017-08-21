@@ -40,14 +40,13 @@ android {
         mobile/android/gradlew.bat \
 }
 
-INCLUDEPATH += $$PWD/../FKUtils/sharedHeaders
+FK += helpers
 
-#make imageset
+FK += imageset
 ART_FOLDER = $$PWD/../art
 ART_BUILD_FOLDER = $$PWD/../resourceBuild
-include(../FKUtils/fktools/fkimageset.pri)
 
-#make deploy
+FK += deploy
 VERSION = 1.0.1
 mac{
     ICON = $$PWD/../icons/icon.icns
@@ -62,13 +61,13 @@ DEPLOY_BUILD_FOLDER = $$PWD/../packageBuild
 UPGRADE_CODE = "b539003b-ccca-4096-8cc8-b031846e4f59"
 SHORT_DESCRIPTION="Set of minigames"
 LONG_DESCRIPTION=$$PWD/../description.txt
-include(../FKUtils/deployTool/fkdeploy.pri)
 
-#iOS/android icon & splash screen
+FK += mobile
 FK_IOS_PLIST = mobile/ios/Info.plist
 ios:FK_MOBILE_ICONS = $$PWD/../icons/iOS
 android:FK_MOBILE_ICONS = $$PWD/../icons/android
-include(../FKUtils/mobileHelpers/fkdeploy_mobile.pri)
+
+include(../fkframework/fkframework.pri)
 
 
 
